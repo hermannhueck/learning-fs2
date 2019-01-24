@@ -7,7 +7,8 @@ object App04BasicStreamOperations extends App {
 
   println("\n-----")
 
-  // Streams have a small but powerful set of operations, some of which we’ve seen already. The key operations are ++, map, flatMap, handleErrorWith, and bracket:
+  // Streams have a small but powerful set of operations, some of which we’ve seen already.
+  // The key operations are ++, map, flatMap, handleErrorWith, and bracket:
 
   val appendEx1 = Stream(1,2,3) ++ Stream.emit(42)
   // appendEx1: fs2.Stream[[x]fs2.Pure[x],Int] = Stream(..)

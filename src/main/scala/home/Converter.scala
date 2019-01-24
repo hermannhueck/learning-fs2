@@ -10,6 +10,8 @@ import scala.concurrent.ExecutionContext
 /*
   Step-by-step explanation at:
   https://github.com/functional-streams-for-scala/fs2/blob/series/1.0/docs/src/ReadmeExample.md
+  and at:
+  https://www.youtube.com/watch?v=cahvyadYfX8
  */
 object Converter extends IOApp {
 

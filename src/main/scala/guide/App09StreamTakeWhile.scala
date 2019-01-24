@@ -12,13 +12,13 @@ object App09StreamTakeWhile extends App {
 
     def go(s: Stream[F, O], p: O => Boolean): Pull[F, O, Unit] = {
       s.pull.uncons.flatMap {
+        case None => Pull.done
         case Some((head, tail)) =>
           val vec = head.toVector.takeWhile(p)
           head.size - vec.size match {
             case diff if diff > 0 => Pull.output(Chunk.vector(vec)) >> Pull.done
             case _ => Pull.output(head) >> go(tail, p)
           }
-        case None => Pull.done
       }
     }
 

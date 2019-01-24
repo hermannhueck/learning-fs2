@@ -1,6 +1,5 @@
 package guide
 
-import cats.effect.IO
 import fs2.{Chunk, Stream}
 
 object App03Chunks extends App {

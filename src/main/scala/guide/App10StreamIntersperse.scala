@@ -12,10 +12,10 @@ object App10StreamIntersperse extends App {
 
     def go(s: Stream[F, O], sep: O): Pull[F, O, Unit] = {
       s.pull.uncons.flatMap {
+        case None => Pull.done
         case Some((head, tail)) =>
           val vec = head.toVector.flatMap(elem => Vector(sep, elem))
           Pull.output(Chunk.vector(vec)) >> go(tail, sep)
-        case None => Pull.done
       }
     }
 
