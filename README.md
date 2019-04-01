@@ -10,6 +10,6 @@ and playing around with fs2
 - fs2 Guide<br/>
   https://fs2.io/guide.html
 - fs2 API Docs<br/>
-  https://oss.sonatype.org/service/local/repositories/releases/archive/co/fs2/fs2-core_2.12/1.0.1/fs2-core_2.12-1.0.1-javadoc.jar/!/fs2/index.html
+  https://oss.sonatype.org/service/local/repositories/releases/archive/co/fs2/fs2-core_2.12/1.0.4/fs2-core_2.12-1.0.4-javadoc.jar/!/fs2/index.html
 - fs2 on Github<br/>
   https://github.com/functional-streams-for-scala/fs2

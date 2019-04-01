@@ -4,7 +4,7 @@ version := "1.0.0"
 
 scalaVersion := "2.12.8"
 
-val fs2Version = "1.0.2"
+val fs2Version = "1.0.4"
 
 scalacOptions ++= Seq(
   "-encoding", "UTF-8",     // source files are in UTF-8
@@ -26,8 +26,9 @@ libraryDependencies ++= Seq(
   "io.monix" %% "monix-eval" % "3.0.0-RC2" withSources() withJavadoc(),
 )
 
+/*
 libraryDependencies += {
-  "com.lihaoyi" % "ammonite" % "1.6.2" % "test" cross CrossVersion.full
+  "com.lihaoyi" % "ammonite" % "1.6.3" % "test" cross CrossVersion.full
 }
 
 sourceGenerators in Test += Def.task {
@@ -48,6 +49,7 @@ sourceGenerators in Test += Def.task {
 }
 
 addCommandAlias("amm", s"test:runMain amm --predef ammonite-init.sc")
+*/
 
 // initialize REPL
 initialCommands := s"""
