@@ -10,7 +10,7 @@ object App03Chunks extends App {
    // s1c: fs2.Stream[[x]fs2.Pure[x],Double] = Stream(..)
 
   s1c.mapChunks { ds =>
-    val doubles = ds.toDoubles
+    val doubles: Chunk.Doubles = ds.toDoubles
     /* do things unboxed using doubles.{values,size} */
     doubles
   }

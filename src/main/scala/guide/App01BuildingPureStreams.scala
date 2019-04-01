@@ -50,7 +50,7 @@ object App01BuildingPureStreams extends App {
   Stream(1, 2, 3).flatMap(i => Stream(i, i)).toList
   // res8: List[Int] = List(1, 1, 2, 2, 3, 3)
 
-  // Stream(1,2,3).repeatN(2).toList
+  Stream(1,2,3).repeatN(2).toList
   // res10: List[Int] = List(1, 2, 3, 1, 2, 3)
 
   println("-----\n")

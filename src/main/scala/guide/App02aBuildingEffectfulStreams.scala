@@ -1,11 +1,9 @@
 package guide
 
 import cats.effect.{IO, Sync}
-import fs2.{Pipe, Stream}
+import fs2.Stream
 import monix.eval.Task
 import monix.execution.Scheduler
-
-import scala.language.higherKinds
 
 object App02aBuildingEffectfulStreams extends App {
 
@@ -61,8 +59,6 @@ object App02aBuildingEffectfulStreams extends App {
     //=> BEING RUN!!
     // res12: Vector[Int] = Vector(2)
   }
-
-  def mylines[F[_]]: Pipe[F, String, String] = { in => in.flatMap { s: String => fs2.Stream.emits(s.split('\n').toList) } }
 
   println("-----\n")
 }
