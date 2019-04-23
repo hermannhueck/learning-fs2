@@ -4,7 +4,7 @@ object Dependencies {
 
   object Versions {
 
-    val fs2Version = "1.0.4"
+    val fs2Version = "1.0.+"
     val monixVersion = "3.0.0-RC2"
   }
 
