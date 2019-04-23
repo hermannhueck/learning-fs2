@@ -1,11 +1,10 @@
 package guide.ch17concurrencyprimitives
 
-import cats.effect.{Concurrent, ExitCode, IO, IOApp, Timer}
 import cats.effect.concurrent.Semaphore
+import cats.effect._
 import cats.syntax.functor._
 import fs2.Stream
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 class PreciousResource[F[_]: Concurrent: Timer](name: String, s: Semaphore[F]) {
@@ -22,7 +21,7 @@ class PreciousResource[F[_]: Concurrent: Timer](name: String, s: Semaphore[F]) {
   }
 }
 
-object Resources extends IOApp {
+object App03Resources extends IOApp {
 
   override def run(args: List[String]): IO[ExitCode] = {
     val stream = for {

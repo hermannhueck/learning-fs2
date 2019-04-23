@@ -1,4 +1,4 @@
-package mycode.ch08converter_ioapp
+package guide.ch08converter_ioapp
 
 import java.nio.file.{Path, Paths}
 import java.util.concurrent.Executors

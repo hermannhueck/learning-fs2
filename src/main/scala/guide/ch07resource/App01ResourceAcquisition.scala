@@ -1,4 +1,4 @@
-package mycode.ch07resource
+package guide.ch07resource
 
 import cats.effect.IO
 import fs2.Stream

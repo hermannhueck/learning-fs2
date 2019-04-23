@@ -1,4 +1,4 @@
-package mycode.ch02purestreams
+package guide.ch02purestreams
 
 import fs2.{INothing, Pure, Stream}
 

@@ -1,4 +1,4 @@
-package mycode.ch07resource
+package guide.ch07resource
 
 import java.io.{BufferedInputStream, FileInputStream, InputStream}
 import java.util.concurrent.Executors

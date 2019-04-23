@@ -1,4 +1,4 @@
-package mycode.ch10statefultransformation
+package guide.ch10statefultransformation
 
 import fs2.{Chunk, Pipe, Stream}
 

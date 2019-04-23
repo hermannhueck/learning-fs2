@@ -1,4 +1,4 @@
-package mycode.ch12concurrency
+package guide.ch12concurrency
 
 import cats.effect.IO
 import fs2.Stream

@@ -54,7 +54,7 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
   }
 }
 
-object PubSub extends IOApp {
+object App02PubSub extends IOApp {
 
   val program = for {
     topic <- Stream.eval(Topic[IO, Event](Text("Initial Event")))

@@ -1,19 +1,19 @@
 package guide.ch01streamtypes
 
-import cats.effect.IO
 import fs2.Stream
+import myio.MyIO
 
-object App01IOStream extends App {
+object App02MyIOStream extends App {
 
   println("\n----- Stream of IO effects")
 
-  val stream: Stream[IO, Int] = Stream.eval(IO {
+  val stream: Stream[MyIO, Int] = Stream.eval(MyIO.eval {
     println("BEING RUN!!"); 1 + 1
   }).repeat.take(3)
 
-  val effect: IO[Vector[Int]] = stream.compile.toVector   // Up to this point nothing is run
+  val effect: MyIO[Vector[Int]] = stream.compile.toVector           // Up to this point nothing is run
 
-  val result: Vector[Int] = effect.unsafeRunSync()    // produces side effects (println) and returns the result
+  val result: Vector[Int] = effect.unsafeRunSync()   // produces side effects (println) and returns the result
 
   println(result)
 

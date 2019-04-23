@@ -1,4 +1,4 @@
-package mycode.ch03effectfulstreams
+package guide.ch03effectfulstreams
 
 import cats.effect.IO
 import fs2.Stream

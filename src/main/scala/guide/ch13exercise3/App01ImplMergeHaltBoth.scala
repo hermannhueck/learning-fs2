@@ -1,4 +1,4 @@
-package mycode.ch13exercise3
+package guide.ch13exercise3
 
 import cats.effect.{Concurrent, IO}
 import fs2.{Chunk, Pipe, Pipe2, Stream}

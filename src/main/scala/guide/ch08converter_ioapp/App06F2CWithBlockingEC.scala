@@ -1,4 +1,4 @@
-package mycode.ch08converter_ioapp
+package guide.ch08converter_ioapp
 
 import cats.effect.{ExitCode, IO, IOApp, Resource}
 import cats.implicits._

@@ -1,4 +1,4 @@
-package mycode.ch16streaminterruption
+package guide.ch16streaminterruption
 
 import cats.effect.{ContextShift, IO}
 import fs2.{INothing, Stream}

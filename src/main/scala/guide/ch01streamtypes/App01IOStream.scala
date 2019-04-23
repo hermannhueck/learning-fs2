@@ -1,4 +1,4 @@
-package mycode.ch01streamtypes
+package guide.ch01streamtypes
 
 import cats.effect.IO
 import fs2.Stream

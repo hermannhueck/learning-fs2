@@ -1,4 +1,4 @@
-package mycode.ch11exercise2pull
+package guide.ch11exercise2pull
 
 import fs2.{Chunk, INothing, Pipe, Pull, Stream}
 

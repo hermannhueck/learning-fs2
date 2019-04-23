@@ -1,4 +1,4 @@
-package mycode.ch05chunks
+package guide.ch05chunks
 
 import fs2.{Chunk, Stream}
 

@@ -1,4 +1,4 @@
-package mycode.ch14effects
+package guide.ch14effects
 
 import cats.effect.{ConcurrentEffect, ContextShift, IO}
 import fs2.Stream

@@ -15,13 +15,10 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App07F2CWithBlockingECResource extends IOApp {
+object App08F2CWithBlockingECBracket extends IOApp {
 
   def blockingExecutionContext: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
-
-  private val blockingECResource: Resource[IO, ExecutionContextExecutorService] =
-    Resource.make(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output = Paths.get("testdata/celsius.txt")
@@ -40,7 +37,7 @@ object App07F2CWithBlockingECResource extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, ec)) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
 
-  val converter: Stream[IO, Unit] = Stream.resource(blockingECResource)
+  val converter: Stream[IO, Unit] = Stream.bracket(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
     .flatMap { ec => convert(ec) }
 
   def run(args: List[String]): IO[ExitCode] =

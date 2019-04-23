@@ -3,6 +3,7 @@ package guide.ch08converter_ioapp
 import java.nio.file.Paths
 import java.util.concurrent.Executors
 
+import cats.syntax.functor._
 import cats.effect.{ExitCode, IO, IOApp, Resource}
 import fs2.{Stream, io, text}
 
@@ -14,7 +15,7 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object Converter extends IOApp {
+object ConverterFs2HomePage extends IOApp {
 
   private val blockingExecutionContext: Resource[IO, ExecutionContextExecutorService] =
     Resource

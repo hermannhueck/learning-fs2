@@ -1,4 +1,4 @@
-package mycode.ch09exercise1
+package guide.ch09exercise1
 
 import cats.effect.IO
 import fs2.{INothing, Stream}

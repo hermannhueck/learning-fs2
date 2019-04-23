@@ -1,4 +1,4 @@
-package mycode.ch04streamoperations
+package guide.ch04streamoperations
 
 import fs2.Stream
 

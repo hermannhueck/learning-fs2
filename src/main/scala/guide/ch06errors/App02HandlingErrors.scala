@@ -1,4 +1,4 @@
-package mycode.ch06errors
+package guide.ch06errors
 
 import cats.effect.IO
 import cats.syntax.applicativeError._

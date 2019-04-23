@@ -21,7 +21,7 @@ class Buffering[F[_]](q1: Queue[F, Int], q2: Queue[F, Int])(implicit F: Concurre
     ).parJoin(3)
 }
 
-object Fifo extends IOApp {
+object App01Fifo extends IOApp {
 
   override def run(args: List[String]): IO[ExitCode] = {
     val stream: Stream[IO, Unit] = for {

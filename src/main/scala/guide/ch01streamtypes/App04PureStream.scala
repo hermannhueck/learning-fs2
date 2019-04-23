@@ -3,7 +3,7 @@ package guide.ch01streamtypes
 import cats.Id
 import fs2.{Pure, Stream}
 
-object App03PureStream extends App {
+object App04PureStream extends App {
 
   println("\n----- Stream of Pure values without effects")
 

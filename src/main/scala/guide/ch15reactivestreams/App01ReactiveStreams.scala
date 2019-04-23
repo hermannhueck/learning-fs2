@@ -1,4 +1,4 @@
-package mycode.ch15reactivestreams
+package guide.ch15reactivestreams
 
 import cats.effect.{ContextShift, IO}
 import fs2.Stream

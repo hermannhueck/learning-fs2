@@ -8,6 +8,7 @@ import scala.language.reflectiveCalls
 
 trait Tools {
 
+
   final def sumOfRange(from: Int, to: Int): Int =
     (from until to).toList.sum
 
@@ -48,8 +49,8 @@ trait Tools {
       .map(_.filter(c => c.isLetter))
       .filter(_.length > 3)
       .groupBy(s => s)
-      .mapValues(_.length) // deprecated in 2.13
-      // .view.mapValues(_.length) // gives us a MapView[K, V] // Scala 2.13
+      //.mapValues(_.length) // deprecated in 2.13
+      .view.mapValues(_.length) // gives us a MapView[K, V] // Scala 2.13
       .toList
       .filter(_._2 > limit) // return only words with occurences > limit
       .sortWith(_._2 > _._2)
