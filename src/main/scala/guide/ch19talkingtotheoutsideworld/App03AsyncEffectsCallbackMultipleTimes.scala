@@ -1,4 +1,4 @@
-package guide.ch19effects
+package guide.ch19talkingtotheoutsideworld
 
 import cats.effect.{ConcurrentEffect, ContextShift, IO}
 import fs2.Stream

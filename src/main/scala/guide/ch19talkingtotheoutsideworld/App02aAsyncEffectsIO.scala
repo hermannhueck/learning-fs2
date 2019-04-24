@@ -1,11 +1,11 @@
-package guide.ch19effects
+package guide.ch19talkingtotheoutsideworld
 
-import cats.effect.{Async, IO}
+import cats.effect.IO
 import fs2.Stream
 
 import scala.language.higherKinds
 
-object App02bAsyncEffectsParametric extends App {
+object App02aAsyncEffectsIO extends App {
 
   println("\n-----")
 
@@ -26,12 +26,9 @@ object App02bAsyncEffectsParametric extends App {
     }
   }
 
-  def fBytes[F[_] : Async]: F[Array[Byte]] = Async[F].async[Array[Byte]] { (callback: Either[Throwable, Array[Byte]] => Unit) =>
+  val ioBytes: IO[Array[Byte]] = IO.async[Array[Byte]] { (callback: Either[Throwable, Array[Byte]] => Unit) =>
     connection.readBytesE(callback)
   }
-  // fBytes: [F[_]](implicit evidence$1: cats.effect.Async[F])F[Array[Byte]]
-
-  val ioBytes: IO[Array[Byte]] = fBytes[IO]
   // ioBytes: cats.effect.IO[Array[Byte]] = IO$425428304
 
   println("\n>>> Evaluate IO directly ...")
@@ -41,7 +38,7 @@ object App02bAsyncEffectsParametric extends App {
 
   println("\n>>> Evaluate IO in a Stream ...")
   val streamRes = Stream.eval(ioBytes).map(_.toList).compile.toVector.unsafeRunSync()
-  // streamRes: Vector[List[Byte]] = Vector(List(0, 1, 2))
+  // res: Vector[List[Byte]] = Vector(List(0, 1, 2))
   println(streamRes)
 
   println("-----\n")

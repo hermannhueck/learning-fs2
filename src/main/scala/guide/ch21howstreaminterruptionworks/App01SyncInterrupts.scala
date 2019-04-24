@@ -1,4 +1,4 @@
-package guide.ch21streaminterruption
+package guide.ch21howstreaminterruptionworks
 
 import cats.effect.IO
 import fs2.Stream

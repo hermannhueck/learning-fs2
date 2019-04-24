@@ -1,19 +1,21 @@
-package guide.ch19effects
+package guide.ch19talkingtotheoutsideworld
 
-import cats.effect.IO
+import cats.effect.{Async, IO}
 import fs2.Stream
 
 import scala.language.higherKinds
 
-object App02aAsyncEffectsIO extends App {
+object App02cAsyncEffectsParametric extends App {
 
   println("\n-----")
+
+  type Callback[A] = Either[Throwable, A] => Unit
 
   trait Connection {
 
     def readBytes(onSuccess: Array[Byte] => Unit, onFailure: Throwable => Unit): Unit
 
-    def readBytesE(onComplete: Either[Throwable, Array[Byte]] => Unit): Unit =
+    def readBytesE(onComplete: Callback[Array[Byte]]): Unit =
       readBytes(bs => onComplete(Right(bs)), e => onComplete(Left(e)))
 
     override def toString = "<connection>"
@@ -26,9 +28,10 @@ object App02aAsyncEffectsIO extends App {
     }
   }
 
-  val ioBytes: IO[Array[Byte]] = IO.async[Array[Byte]] { (callback: Either[Throwable, Array[Byte]] => Unit) =>
-    connection.readBytesE(callback)
-  }
+  def fBytes[F[_] : Async]: F[Array[Byte]] = Async[F].async[Array[Byte]](connection.readBytesE)
+  // fBytes: [F[_]](implicit evidence$1: cats.effect.Async[F])F[Array[Byte]]
+
+  val ioBytes: IO[Array[Byte]] = fBytes[IO]
   // ioBytes: cats.effect.IO[Array[Byte]] = IO$425428304
 
   println("\n>>> Evaluate IO directly ...")
@@ -38,7 +41,7 @@ object App02aAsyncEffectsIO extends App {
 
   println("\n>>> Evaluate IO in a Stream ...")
   val streamRes = Stream.eval(ioBytes).map(_.toList).compile.toVector.unsafeRunSync()
-  // res: Vector[List[Byte]] = Vector(List(0, 1, 2))
+  // streamRes: Vector[List[Byte]] = Vector(List(0, 1, 2))
   println(streamRes)
 
   println("-----\n")
