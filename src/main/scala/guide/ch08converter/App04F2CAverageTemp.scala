@@ -1,4 +1,4 @@
-package guide.ch08converter_ioapp
+package guide.ch08converter
 
 import java.nio.file.{Path, Paths}
 

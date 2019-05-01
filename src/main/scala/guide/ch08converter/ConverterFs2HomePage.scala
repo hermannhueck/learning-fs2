@@ -1,4 +1,4 @@
-package guide.ch08converter_ioapp
+package guide.ch08converter
 
 import java.nio.file.Paths
 import java.util.concurrent.Executors

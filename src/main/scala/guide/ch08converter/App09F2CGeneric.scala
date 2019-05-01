@@ -1,13 +1,14 @@
-package guide.ch08converter_ioapp
+package guide.ch08converter
 
 import java.nio.file.{Path, Paths}
 import java.util.concurrent.Executors
 
-import cats.effect.{ExitCode, IO, IOApp, Resource}
-import cats.implicits._
+import cats.effect._
+import cats.syntax.functor._
 import fs2.{Stream, io, text}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
+import scala.language.higherKinds
 
 /*
   Step-by-step explanation at:
@@ -15,22 +16,19 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App07F2CWithBlockingECResource extends IOApp {
+object App09F2CGeneric extends IOApp {
+
+  val input: Path = Paths.get("testdata/fahrenheit.txt")
+  val output: Path = Paths.get("testdata/celsius.txt")
 
   def blockingExecutionContext: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
 
-  private val blockingECResource: Resource[IO, ExecutionContextExecutorService] =
-    Resource.make(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
-
-  private val input: Path = Paths.get("testdata/fahrenheit.txt")
-  private val output = Paths.get("testdata/celsius.txt")
-
   def fahrenheitToCelsius(f: Double): Double =
     (f - 32.0) * (5.0 / 9.0)
 
-  def convert(ec: ExecutionContext): Stream[IO, Unit] =
-    io.file.readAll[IO](input, ec, 4096)
+  def convert[F[_]: Sync: ContextShift](ec: ExecutionContext): Stream[F, Unit] =
+    io.file.readAll(input, ec, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
@@ -40,11 +38,12 @@ object App07F2CWithBlockingECResource extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, ec)) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
 
-  val converter: Stream[IO, Unit] = Stream.resource(blockingECResource)
+  def converter[F[_]: Sync: ContextShift]: Stream[F, Unit] =
+    Stream.bracket(Sync[F].delay(blockingExecutionContext))(ec => Sync[F].delay(ec.shutdown()))
     .flatMap { ec => convert(ec) }
 
   def run(args: List[String]): IO[ExitCode] =
-    converter.compile.drain.as {
+    converter[IO].compile.drain.as {
       println(s"\nFahrenheit from $input converted to Celsius in $output\n")
       ExitCode.Success
     }

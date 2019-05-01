@@ -1,10 +1,11 @@
-package guide.ch08converter_ioapp
+package guide.ch08converter
+
+import java.nio.file.{Path, Paths}
+import java.util.concurrent.Executors
 
 import cats.effect.{ExitCode, IO, IOApp, Resource}
 import cats.implicits._
 import fs2.{Stream, io, text}
-import java.nio.file.{Path, Paths}
-import java.util.concurrent.Executors
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
@@ -14,7 +15,7 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App06F2CWithBlockingEC extends IOApp {
+object App08F2CWithBlockingECBracket extends IOApp {
 
   def blockingExecutionContext: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
@@ -36,12 +37,12 @@ object App06F2CWithBlockingEC extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, ec)) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
 
-  val converter: Stream[IO, Unit] = convert(blockingExecutionContext)
+  val converter: Stream[IO, Unit] = Stream.bracket(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
+    .flatMap { ec => convert(ec) }
 
-  def run(args: List[String]): IO[ExitCode] = {
-    converter.compile.drain
-    blockingExecutionContext.shutdown()
-    println(s"\nFahrenheit from $input converted to Celsius in $output\n")
-    IO(ExitCode.Success)
-  }
+  def run(args: List[String]): IO[ExitCode] =
+    converter.compile.drain.as {
+      println(s"\nFahrenheit from $input converted to Celsius in $output\n")
+      ExitCode.Success
+    }
 }

@@ -1,4 +1,4 @@
-package guide.ch08converter_ioapp
+package guide.ch08converter
 
 import java.nio.file.{Path, Paths}
 import java.util.concurrent.Executors
@@ -15,10 +15,13 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App08F2CWithBlockingECBracket extends IOApp {
+object App07F2CWithBlockingECResource extends IOApp {
 
   def blockingExecutionContext: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
+
+  private val blockingECResource: Resource[IO, ExecutionContextExecutorService] =
+    Resource.make(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output = Paths.get("testdata/celsius.txt")
@@ -37,7 +40,7 @@ object App08F2CWithBlockingECBracket extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, ec)) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
 
-  val converter: Stream[IO, Unit] = Stream.bracket(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
+  val converter: Stream[IO, Unit] = Stream.resource(blockingECResource)
     .flatMap { ec => convert(ec) }
 
   def run(args: List[String]): IO[ExitCode] =
