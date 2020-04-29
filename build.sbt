@@ -20,6 +20,7 @@ lazy val root = (project in file(".")).settings(
         Libraries.fs2Core,
         Libraries.fs2Io,
         Libraries.fs2ReactiveStreams,
+        Libraries.monixEval,
         compilerPlugin(Libraries.kindProjector)
       ),
       initialCommands := s"""
