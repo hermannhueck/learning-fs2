@@ -8,7 +8,6 @@ object App02StreamToCollection extends App {
 
   val stream: Stream[Pure, Int] = Stream(1, 2, 3)
 
-
   // Converting a pure stream to a List
   val list = stream.toList
   // list: List[Int] = List(1, 2, 3)

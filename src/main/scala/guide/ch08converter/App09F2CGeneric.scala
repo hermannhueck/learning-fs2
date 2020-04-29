@@ -5,7 +5,7 @@ import java.util.concurrent.Executors
 
 import cats.effect._
 import cats.syntax.functor._
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import scala.language.higherKinds
@@ -18,17 +18,19 @@ import scala.language.higherKinds
  */
 object App09F2CGeneric extends IOApp {
 
-  val input: Path = Paths.get("testdata/fahrenheit.txt")
+  val input: Path  = Paths.get("testdata/fahrenheit.txt")
   val output: Path = Paths.get("testdata/celsius.txt")
 
-  def blockingExecutionContext: ExecutionContextExecutorService =
-    ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
+  val blockingEC: ExecutionContextExecutorService =
+    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
+  // val blocker = Blocker.liftExecutionContext(blockingEC)
 
   def fahrenheitToCelsius(f: Double): Double =
     (f - 32.0) * (5.0 / 9.0)
 
-  def convert[F[_]: Sync: ContextShift](ec: ExecutionContext): Stream[F, Unit] =
-    io.file.readAll(input, ec, 4096)
+  def convert[F[_]: Sync: ContextShift](blocker: Blocker): Stream[F, Unit] =
+    io.file
+      .readAll(input, blocker, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
@@ -36,11 +38,14 @@ object App09F2CGeneric extends IOApp {
       // .map { line => println(line); line }
       .intersperse("\n")
       .through(text.utf8Encode)
-      .through(io.file.writeAll(output, ec)) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
+      .through(
+        io.file.writeAll(output, blocker)
+      ) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
 
   def converter[F[_]: Sync: ContextShift]: Stream[F, Unit] =
-    Stream.bracket(Sync[F].delay(blockingExecutionContext))(ec => Sync[F].delay(ec.shutdown()))
-    .flatMap { ec => convert(ec) }
+    Stream
+      .bracket(Sync[F].delay(blockingEC))(ec => Sync[F].delay(blockingEC.shutdown()))
+      .flatMap { blockingEC => convert(Blocker.liftExecutionContext(blockingEC)) }
 
   def run(args: List[String]): IO[ExitCode] =
     converter[IO].compile.drain.as {

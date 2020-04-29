@@ -3,16 +3,22 @@ package guide.ch08factorial
 import java.nio.file.{Paths, StandardOpenOption}
 
 import cats.effect.{ContextShift, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 import scala.concurrent.ExecutionContext
-
+import scala.concurrent.ExecutionContextExecutorService
+import java.util.concurrent.Executors
+import cats.effect.Blocker
 
 object Factorials3 extends App {
 
   println("\n=====")
 
-  val ec: ExecutionContext = ExecutionContext.global
+  val blockingEC: ExecutionContextExecutorService =
+    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
+  val blocker = Blocker.liftExecutionContext(blockingEC)
+
+  val ec: ExecutionContext          = ExecutionContext.global
   implicit val cs: ContextShift[IO] = IO.contextShift(ec)
 
   val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
@@ -24,14 +30,16 @@ object Factorials3 extends App {
       .zipWithIndex
       .map { case (num, index) => s"$index = $num\n" }
       .through(text.utf8Encode)
-      .through(io.file.writeAll(
-        Paths.get("output/factorials-fs2.txt"),
-        ec,
-        flags = List(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))
+      .through(
+        io.file
+          .writeAll(
+            Paths.get("output/factorials-fs2.txt"),
+            blocker,
+            flags = List(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+          )
       )
 
   stream.compile.drain.unsafeRunSync()
-
 
   println("=====\n")
 }

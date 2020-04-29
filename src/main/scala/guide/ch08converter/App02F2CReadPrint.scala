@@ -3,14 +3,20 @@ package guide.ch08converter
 import java.nio.file.{Path, Paths}
 
 import cats.effect.{ContextShift, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContextExecutorService
+import java.util.concurrent.Executors
+import cats.effect.Blocker
 
 object App02F2CReadPrint extends App {
+  val blockingEC: ExecutionContextExecutorService =
+    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
+  val blocker = Blocker.liftExecutionContext(blockingEC)
 
-  private val ec: ExecutionContext = ExecutionContext.global
-  private implicit val cs: ContextShift[IO] = IO.contextShift(ec)
+  private val ec: ExecutionContext          = ExecutionContext.global
+  implicit private val cs: ContextShift[IO] = IO.contextShift(ec)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
 
@@ -18,7 +24,8 @@ object App02F2CReadPrint extends App {
     (f - 32.0) * (5.0 / 9.0)
 
   val converter: Stream[IO, Unit] =
-    io.file.readAll[IO](input, ec, 4096)
+    io.file
+      .readAll[IO](input, blocker, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))

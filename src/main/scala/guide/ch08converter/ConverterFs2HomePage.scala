@@ -5,9 +5,10 @@ import java.util.concurrent.Executors
 
 import cats.syntax.functor._
 import cats.effect.{ExitCode, IO, IOApp, Resource}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
+import cats.effect.Blocker
 
 /*
   Step-by-step explanation at:
@@ -17,23 +18,19 @@ import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
  */
 object ConverterFs2HomePage extends IOApp {
 
-  private val blockingExecutionContext: Resource[IO, ExecutionContextExecutorService] =
-    Resource
-      .make(IO(ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))))(ec => IO(ec.shutdown()))
-
-  val converter: Stream[IO, Unit] = Stream.resource(blockingExecutionContext).flatMap { blockingEC =>
-
+  val converter: Stream[IO, Unit] = Stream.resource(Blocker[IO]).flatMap { blocker =>
     def fahrenheitToCelsius(f: Double): Double =
-      (f - 32.0) * (5.0/9.0)
+      (f - 32.0) * (5.0 / 9.0)
 
-    io.file.readAll[IO](Paths.get("testdata/fahrenheit.txt"), blockingEC, 4096)
+    io.file
+      .readAll[IO](Paths.get("testdata/fahrenheit.txt"), blocker, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
       .intersperse("\n")
       .through(text.utf8Encode)
-      .through(io.file.writeAll(Paths.get("testdata/celsius.txt"), blockingEC))
+      .through(io.file.writeAll(Paths.get("testdata/celsius.txt"), blocker))
   }
 
   def run(args: List[String]): IO[ExitCode] =
