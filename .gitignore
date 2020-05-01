@@ -1,5 +1,6 @@
 # directories
 target/
+output/
 
 # hidden directories
 .idea/
