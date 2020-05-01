@@ -33,3 +33,8 @@ lazy val root = (project in file(".")).settings(
     )
   )
 )
+
+// GraphBuddy support
+// resolvers += Resolver.bintrayRepo("virtuslab", "graphbuddy")
+// addCompilerPlugin("com.virtuslab.semanticgraphs" % "scalac-plugin" % "0.0.10" cross CrossVersion.full)
+// scalacOptions += "-Yrangepos"

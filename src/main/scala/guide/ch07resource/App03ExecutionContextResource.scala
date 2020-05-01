@@ -15,7 +15,7 @@ object App03ExecutionContextResource extends App {
 
   val allocateEC: IO[ExecutionContextExecutorService] = IO {
     println("========>>>>> allocating ExecutionContext ...")
-    ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
+    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
   }
 
   val shutdownEC: ExecutionContextExecutorService => IO[Unit] = ec =>

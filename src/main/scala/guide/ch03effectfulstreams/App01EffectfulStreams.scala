@@ -19,7 +19,7 @@ object App01EffectfulStreams extends App {
    */
 
   // The first .compile.toVector is one of several methods available to ‘compile’ the stream to a single effect:
-  
+
   val io1 = stream.compile.toVector // gather all output into a Vector
   // ra: cats.effect.IO[Vector[Int]] = <function1>
 
@@ -29,28 +29,30 @@ object App01EffectfulStreams extends App {
   val io3 = stream.compile.fold(0)(_ + _) // run and accumulate some result
   // rc: cats.effect.IO[Int] = <function1>
 
-
   val res1 = io1.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res1: Vector[Int] = Vector(2)
   println(res1)
 
+  println
   val res2: Unit = io2.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res2: Unit = ()
   println(res2)
 
+  println
   val res3a = io3.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res3a: Int = 2
   println(res3a)
 
+  println
   println("// No memoization!")
   println("// The 2nd run produces the side effect and the result again.")
   val res3b = io3.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res3b: Int = 2
   println(res3b)
-  
+
   println("-----\n")
 }

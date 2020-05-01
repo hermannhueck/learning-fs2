@@ -23,7 +23,6 @@ object App09F2CGeneric extends IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  // val blocker = Blocker.liftExecutionContext(blockingEC)
 
   def fahrenheitToCelsius(f: Double): Double =
     (f - 32.0) * (5.0 / 9.0)
@@ -35,12 +34,11 @@ object App09F2CGeneric extends IOApp {
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
-      // .map { line => println(line); line }
       .intersperse("\n")
       .through(text.utf8Encode)
       .through(
         io.file.writeAll(output, blocker)
-      ) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
+      )
 
   def converter[F[_]: Sync: ContextShift]: Stream[F, Unit] =
     Stream

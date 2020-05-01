@@ -16,8 +16,7 @@ object App01F2CReadToVector extends App {
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
   val blocker = Blocker.liftExecutionContext(blockingEC)
 
-  private val ec: ExecutionContext          = ExecutionContext.global
-  implicit private val cs: ContextShift[IO] = IO.contextShift(ec)
+  implicit private val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
 
@@ -34,4 +33,6 @@ object App01F2CReadToVector extends App {
 
   val ioVector: IO[Vector[String]] = converter.compile.toVector
   ioVector.unsafeRunSync() foreach println
+
+  blockingEC.shutdown
 }

@@ -18,18 +18,6 @@ import cats.effect.Blocker
  */
 object App07F2CWithBlockingECResource extends IOApp {
 
-  val blockingEC: ExecutionContextExecutorService =
-    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
-
-  // def blockingExecutionContext: ExecutionContextExecutorService =
-  //   ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
-
-  // private val blockingECResource: Resource[IO, ExecutionContextExecutorService] =
-  //   Resource.make(IO(blockingExecutionContext))(ec => IO(ec.shutdown()))
-
-  private val blockingECResource = Blocker[IO]
-
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output      = Paths.get("testdata/celsius.txt")
 
@@ -43,15 +31,14 @@ object App07F2CWithBlockingECResource extends IOApp {
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
-      // .map { line => println(line); line }
       .intersperse("\n")
       .through(text.utf8Encode)
       .through(
         io.file.writeAll(output, blocker)
-      ) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
+      )
 
   val converter: Stream[IO, Unit] = Stream
-    .resource(blockingECResource)
+    .resource(Blocker[IO])
     .flatMap { blocker => convert(blocker) }
 
   def run(args: List[String]): IO[ExitCode] =

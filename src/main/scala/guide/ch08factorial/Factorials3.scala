@@ -40,6 +40,7 @@ object Factorials3 extends App {
       )
 
   stream.compile.drain.unsafeRunSync()
+  blockingEC.shutdown
 
   println("=====\n")
 }

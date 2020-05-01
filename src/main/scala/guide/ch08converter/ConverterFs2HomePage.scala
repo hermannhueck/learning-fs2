@@ -1,14 +1,10 @@
 package guide.ch08converter
 
-import java.nio.file.Paths
-import java.util.concurrent.Executors
+import java.nio.file.{Path, Paths}
 
 import cats.syntax.functor._
-import cats.effect.{ExitCode, IO, IOApp, Resource}
+import cats.effect.{Blocker, ExitCode, IO, IOApp, Resource}
 import fs2.{io, text, Stream}
-
-import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
-import cats.effect.Blocker
 
 /*
   Step-by-step explanation at:
@@ -18,19 +14,22 @@ import cats.effect.Blocker
  */
 object ConverterFs2HomePage extends IOApp {
 
-  val converter: Stream[IO, Unit] = Stream.resource(Blocker[IO]).flatMap { blocker =>
-    def fahrenheitToCelsius(f: Double): Double =
-      (f - 32.0) * (5.0 / 9.0)
+  val input: Path  = Paths.get("testdata/fahrenheit.txt")
+  val output: Path = Paths.get("testdata/celsius.txt")
 
+  def fahrenheitToCelsius(f: Double): Double =
+    (f - 32.0) * (5.0 / 9.0)
+
+  val converter: Stream[IO, Unit] = Stream.resource(Blocker[IO]).flatMap { blocker =>
     io.file
-      .readAll[IO](Paths.get("testdata/fahrenheit.txt"), blocker, 4096)
+      .readAll[IO](input, blocker, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
       .intersperse("\n")
       .through(text.utf8Encode)
-      .through(io.file.writeAll(Paths.get("testdata/celsius.txt"), blocker))
+      .through(io.file.writeAll(output, blocker))
   }
 
   def run(args: List[String]): IO[ExitCode] =

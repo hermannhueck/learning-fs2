@@ -32,6 +32,7 @@ object App03F2CReadPrintIOApp extends IOApp {
 
   override def run(args: List[String]): IO[ExitCode] = {
     converter.compile.drain.unsafeRunSync()
+    blockingEC.shutdown
     IO(ExitCode.Success)
   }
 }

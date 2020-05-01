@@ -14,9 +14,9 @@ object App02FileResource extends App {
   println("\n-----")
 
   implicit val blockingEC: ExecutionContextExecutorService =
-    ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
+    ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
   val blocker                       = Blocker.liftExecutionContext(blockingEC)
-  implicit val cs: ContextShift[IO] = IO.contextShift(blockingEC)
+  implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   val acquire: IO[InputStream] = IO {
     println("========>>>>> opening file ...")

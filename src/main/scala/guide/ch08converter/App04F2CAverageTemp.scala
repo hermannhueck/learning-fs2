@@ -30,10 +30,10 @@ object App04F2CAverageTemp extends IOApp {
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble))
       .fold((0.0: Double, 0L: Long)) {
-        case ((accTemp, accCount), temp) => (accTemp + temp, accCount + 1)
+        case (accTemp -> accCount) -> temp => (accTemp + temp, accCount + 1)
       }
       .map {
-        case (temp, count) => if (count == 0L) None else Some(temp / count)
+        case temp -> count => if (count == 0L) None else Some(temp / count)
       }
 
   def run(args: List[String]): IO[ExitCode] = {
@@ -41,6 +41,7 @@ object App04F2CAverageTemp extends IOApp {
     val average: Option[Double]      = io.unsafeRunSync().head
     val text                         = average.map(_.toString).getOrElse("no temperatures provided")
     println(s"\nAverage Temperature (Celsius):  $text\n")
+    blockingEC.shutdown
     IO(ExitCode.Success)
   }
 }

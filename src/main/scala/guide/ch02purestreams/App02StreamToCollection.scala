@@ -1,6 +1,7 @@
 package guide.ch02purestreams
 
 import fs2.{Pure, Stream}
+import fs2.Stream.PureTo
 
 object App02StreamToCollection extends App {
 
@@ -19,7 +20,8 @@ object App02StreamToCollection extends App {
   println(vector)
 
   // Converting a pure stream to a fs2.Chunk
-  val chunk = stream.toChunk
+  // val chunk = stream.toChunk: deprecated
+  val chunk = (stream: PureTo[Int]).to(fs2.Chunk)
   // chunk: Chunk[Int] = Chunk(1, 2, 3)
   println(chunk)
 

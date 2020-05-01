@@ -20,7 +20,6 @@ object App08F2CWithBlockingECBracket extends IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  // val blocker = Blocker.liftExecutionContext(blockingEC)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output      = Paths.get("testdata/celsius.txt")
@@ -35,12 +34,11 @@ object App08F2CWithBlockingECBracket extends IOApp {
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
-      // .map { line => println(line); line }
       .intersperse("\n")
       .through(text.utf8Encode)
       .through(
         io.file.writeAll(output, blocker)
-      ) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
+      )
 
   val converter: Stream[IO, Unit] = Stream
     .bracket(IO(blockingEC))(ec => IO(ec.shutdown()))

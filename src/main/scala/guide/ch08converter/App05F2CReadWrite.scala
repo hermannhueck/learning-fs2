@@ -36,6 +36,9 @@ object App05F2CReadWrite extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, blocker))
 
-  def run(args: List[String]): IO[ExitCode] =
-    converter.compile.drain.as(ExitCode.Success)
+  def run(args: List[String]): IO[ExitCode] = {
+    converter.compile.drain
+    blockingEC.shutdown
+    IO(ExitCode.Success)
+  }
 }

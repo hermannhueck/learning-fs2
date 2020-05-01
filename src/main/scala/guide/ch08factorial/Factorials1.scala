@@ -3,7 +3,6 @@ package guide.ch08factorial
 import cats.effect.IO
 import fs2.Stream
 
-
 object Factorials1 extends App {
 
   println("\n=====")
@@ -18,7 +17,6 @@ object Factorials1 extends App {
       .lines(java.lang.System.out)
 
   stream.compile.drain.unsafeRunSync()
-
 
   println("=====\n")
 }

@@ -11,12 +11,12 @@ import java.util.concurrent.Executors
 import cats.effect.Blocker
 
 object App02F2CReadPrint extends App {
+
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
   val blocker = Blocker.liftExecutionContext(blockingEC)
 
-  private val ec: ExecutionContext          = ExecutionContext.global
-  implicit private val cs: ContextShift[IO] = IO.contextShift(ec)
+  implicit private val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
 
@@ -37,4 +37,6 @@ object App02F2CReadPrint extends App {
 
   val ioUnit: IO[Unit] = converter.compile.drain
   ioUnit.unsafeRunSync()
+
+  blockingEC.shutdown
 }

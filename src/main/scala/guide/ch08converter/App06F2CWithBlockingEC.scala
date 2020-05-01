@@ -27,26 +27,25 @@ object App06F2CWithBlockingEC extends IOApp {
   def fahrenheitToCelsius(f: Double): Double =
     (f - 32.0) * (5.0 / 9.0)
 
-  def convert(ec: ExecutionContext): Stream[IO, Unit] =
+  def convert(blocker: Blocker): Stream[IO, Unit] =
     io.file
       .readAll[IO](input, blocker, 4096)
       .through(text.utf8Decode)
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
-      // .map { line => println(line); line }
       .intersperse("\n")
       .through(text.utf8Encode)
       .through(
         io.file.writeAll(output, blocker)
-      ) // ++ Stream.eval[IO, Unit](IO { throw new IllegalStateException("illegal state")} )
+      )
 
-  val converter: Stream[IO, Unit] = convert(blockingEC)
+  val converter: Stream[IO, Unit] = convert(blocker)
 
   def run(args: List[String]): IO[ExitCode] = {
     converter.compile.drain
-    blockingEC.shutdown()
     println(s"\nFahrenheit from $input converted to Celsius in $output\n")
+    blockingEC.shutdown
     IO(ExitCode.Success)
   }
 }

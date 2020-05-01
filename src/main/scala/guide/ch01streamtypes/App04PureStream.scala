@@ -7,10 +7,11 @@ object App04PureStream extends App {
 
   println("\n----- Stream of Pure values without effects")
 
-  val stream: Stream[Pure, Int] = Stream.emit(1 + 1).repeat.take(3)
+  val stream: Stream[Pure, Int] =
+    Stream.emit(1 + 1).repeat.take(3)
 
   val result: Id[Vector[Int]] = stream.compile.toVector
-  val result2 = stream.toVector   // compile step can be omitted for pure streams
+  val result2                 = stream.toVector // compile step can be omitted for pure streams
 
   // pure stream needs not be run!
 

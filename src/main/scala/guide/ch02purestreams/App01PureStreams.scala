@@ -17,7 +17,9 @@ object App01PureStreams extends App {
   println(s1.toList)
 
   // creates a singleton Stream with exactly one pure value
-  val s1Bad: Stream[Pure, Int] = Stream.emit { println("Side effect in a pure Stream! ...   OH NO!!!   This is not referentially transparent!"); 1}
+  val s1Bad: Stream[Pure, Int] =
+    Stream
+      .emit { println("Side effect in a pure Stream! ...   OH NO!!!   This is not referentially transparent!"); 1 }
   // s1Bad: fs2.Stream[[x]fs2.Pure[x],Int] = Stream(..)
   Thread sleep 2000L
   println(s1Bad.toList)
