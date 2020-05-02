@@ -5,7 +5,7 @@ object Dependencies {
   object Versions {
 
     val fs2Version           = "2.3.0"
-    val monixVersion         = "3.2.0"
+    val monixVersion         = "3.2.1"
     val kindProjectorVersion = "0.11.0"
   }
 
