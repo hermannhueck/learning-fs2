@@ -1,4 +1,5 @@
 import Dependencies._
+import ScalacOptions._
 
 name := "learning-fs2"
 
@@ -8,13 +9,14 @@ lazy val root = (project in file("."))
       List(
         version := "1.0.0",
         scalaVersion := "2.13.2",
-        scalacOptions ++= ScalacOptions.defaultScalacOptions,
+        scalacOptions ++= defaultScalacOptions,
         libraryDependencies ++= Seq(
-          Libraries.fs2Core,
-          Libraries.fs2Io,
-          Libraries.fs2ReactiveStreams,
-          Libraries.monixEval,
-          compilerPlugin(Libraries.kindProjector)
+          fs2Core,
+          fs2Io,
+          fs2ReactiveStreams,
+          monixEval,
+          munit,
+          compilerPlugin(kindProjector)
         ),
         initialCommands :=
           s"""|
