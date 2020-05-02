@@ -8,7 +8,6 @@ import cats.syntax.functor._
 import fs2.{io, text, Stream}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
-import scala.language.higherKinds
 
 /*
   Step-by-step explanation at:
