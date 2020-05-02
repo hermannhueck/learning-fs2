@@ -3,9 +3,7 @@ package guide.ch08factorial
 import cats.effect.IO
 import fs2.Stream
 
-object Factorials1 extends App {
-
-  println("\n=====")
+object Factorials1 extends hutil.App {
 
   val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
@@ -17,6 +15,4 @@ object Factorials1 extends App {
       .lines(java.lang.System.out)
 
   stream.compile.drain.unsafeRunSync()
-
-  println("=====\n")
 }

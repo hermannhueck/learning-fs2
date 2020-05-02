@@ -10,9 +10,7 @@ import scala.concurrent.ExecutionContextExecutorService
 import java.util.concurrent.Executors
 import cats.effect.Blocker
 
-object Factorials3 extends App {
-
-  println("\n=====")
+object Factorials3 extends hutil.App {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -41,6 +39,4 @@ object Factorials3 extends App {
 
   stream.compile.drain.unsafeRunSync()
   blockingEC.shutdown
-
-  println("=====\n")
 }

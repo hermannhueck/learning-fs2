@@ -3,9 +3,9 @@ package guide.ch05chunks
 import cats.effect.IO
 import fs2.Stream
 
-object App01RevealingChunks extends App {
+object App01RevealingChunks extends hutil.App {
 
-  println("\n----- Revealing the Chunks of a Stream")
+  println("----- Revealing the Chunks of a Stream")
 
   def printAsList[A](s: Stream[IO, A]): Unit = println(s.compile.toList.unsafeRunSync())
 
@@ -22,6 +22,4 @@ object App01RevealingChunks extends App {
 
   println("\n// 4. stream.chunkLimit(4): Stream[IO, Chunk[Int]]")
   printAsList(stream.chunkLimit(4))
-
-  println("-----\n")
 }

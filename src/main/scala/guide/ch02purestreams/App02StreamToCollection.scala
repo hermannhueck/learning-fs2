@@ -3,9 +3,7 @@ package guide.ch02purestreams
 import fs2.{Pure, Stream}
 import fs2.Stream.PureTo
 
-object App02StreamToCollection extends App {
-
-  println("\n-----")
+object App02StreamToCollection extends hutil.App {
 
   val stream: Stream[Pure, Int] = Stream(1, 2, 3)
 
@@ -24,6 +22,4 @@ object App02StreamToCollection extends App {
   val chunk = (stream: PureTo[Int]).to(fs2.Chunk)
   // chunk: Chunk[Int] = Chunk(1, 2, 3)
   println(chunk)
-
-  println("-----\n")
 }

@@ -2,11 +2,9 @@ package guide.ch12exercise2pull
 
 import fs2.{Chunk, INothing, Pipe, Pull, Stream}
 
-import scala.language.higherKinds
+import munit.Assertions._
 
-object App03StreamScan extends App {
-
-  println("\n-----")
+object App03StreamScan extends hutil.App {
 
   implicit class exercise[+F[_], +O](stream: Stream[F, O]) {
     def myScan[O2](zero: O2)(f: (O2, O) => O2): Stream[F, O2] = stream.through(scan(zero)(f))
@@ -40,7 +38,5 @@ object App03StreamScan extends App {
   // res: List[Int] = List(0, 1, 3, 6, 10, 15, 21, 28, 36, 45)
   println(res)
 
-  assert(myRes == res)
-
-  println("-----\n")
+  assertEquals(myRes, res)
 }

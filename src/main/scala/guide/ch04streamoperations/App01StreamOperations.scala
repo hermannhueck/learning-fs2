@@ -2,9 +2,9 @@ package guide.ch04streamoperations
 
 import fs2.Stream
 
-object App01StreamOperations extends App {
+object App01StreamOperations extends hutil.App {
 
-  println("\n----- Stream operations")
+  println("----- Stream operations")
 
   println(">>> Stream#append")
   val res1 = Stream(1, 2, 3).append(Stream(4, 5)).toList
@@ -47,14 +47,12 @@ object App01StreamOperations extends App {
   println(res8)
 
   println(">>> Stream#repeat, Stream#take")
-  val res9 = Stream(1,2,3).repeat.take(10).toList
+  val res9 = Stream(1, 2, 3).repeat.take(10).toList
   // res9: List[Int] = List(1, 2, 3, 1, 2, 3, 1, 2, 3, 1)
   println(res9)
 
   println(">>> Stream#repeatN")
-  val res10 = Stream(1,2,3).repeatN(2).toList
+  val res10 = Stream(1, 2, 3).repeatN(2).toList
   // res10: List[Int] = List(1, 2, 3, 1, 2, 3)
   println(res10)
-
-  println("-----\n")
 }

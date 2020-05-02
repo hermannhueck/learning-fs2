@@ -3,9 +3,9 @@ package guide.ch01streamtypes
 import cats.effect.IO
 import fs2.Stream
 
-object App01IOStream extends App {
+object App01IOStream extends hutil.App {
 
-  println("\n----- Stream of IO effects")
+  println("----- Stream of IO effects")
 
   val stream: Stream[IO, Int] =
     Stream
@@ -20,6 +20,4 @@ object App01IOStream extends App {
   val result: Vector[Int] = effect.unsafeRunSync() // produces side effects (println) and returns the result
 
   println(result)
-
-  println("-----\n")
 }

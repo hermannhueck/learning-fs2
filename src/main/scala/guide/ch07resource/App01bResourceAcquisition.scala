@@ -7,9 +7,7 @@ import scala.util.control.NonFatal
 import cats.syntax.TryOps
 import cats.effect.Resource
 
-object App01bResourceAcquisition extends App {
-
-  println("\n-----")
+object App01bResourceAcquisition extends hutil.App {
 
   val err = Stream.raiseError[IO](new Exception("oh noes!"))
   // err: fs2.Stream[cats.effect.IO,fs2.INothing] = Stream(..)
@@ -42,6 +40,4 @@ object App01bResourceAcquisition extends App {
 
   count.get pipe println
   // res27: Long = 0
-
-  println("-----\n")
 }

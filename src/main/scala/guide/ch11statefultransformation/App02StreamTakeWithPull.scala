@@ -2,17 +2,13 @@ package guide.ch11statefultransformation
 
 import fs2.{Pipe, Pull, Stream}
 
-import scala.language.higherKinds
+import munit.Assertions._
 
-object App02StreamTakeWithPull extends App {
-
-  println("\n-----")
-
+object App02StreamTakeWithPull extends hutil.App {
 
   implicit class exercise[+F[_], +O](stream: Stream[F, O]) {
     def myTake(n: Long): Stream[F, O] = stream.through(take(n))
   }
-
 
   def take[F[_], O](n: Long): Pipe[F, O, O] = {
 
@@ -33,15 +29,13 @@ object App02StreamTakeWithPull extends App {
   }
   // take: [F[_], O](n: Long)fs2.Pipe[F,O,O]
 
-  val myRes = Stream(1,2,3,4).myTake(2).toList
+  val myRes = Stream(1, 2, 3, 4).myTake(2).toList
   // myRes: List[Int] = List(1, 2)
   println(myRes)
 
-  val res = Stream(1,2,3,4).take(2).toList
+  val res = Stream(1, 2, 3, 4).take(2).toList
   // res: List[Int] = List(1, 2)
   println(res)
 
-  assert(myRes == res)
-
-  println("-----\n")
+  assertEquals(myRes, res)
 }

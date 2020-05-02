@@ -3,9 +3,7 @@ package guide.ch03effectfulstreams
 import cats.effect.IO
 import fs2.Stream
 
-object App01EffectfulStreams extends App {
-
-  println("\n-----")
+object App01EffectfulStreams extends hutil.App {
 
   val stream: Stream[IO, Int] = Stream.eval(IO { println("TASK BEING RUN!!"); 1 + 1 })
 
@@ -53,6 +51,4 @@ object App01EffectfulStreams extends App {
   //=> TASK BEING RUN!!
   // res3b: Int = 2
   println(res3b)
-
-  println("-----\n")
 }

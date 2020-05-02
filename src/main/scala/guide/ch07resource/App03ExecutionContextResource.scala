@@ -9,9 +9,7 @@ import fs2.{text, Stream}
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import cats.effect.Blocker
 
-object App03ExecutionContextResource extends App {
-
-  println("\n-----")
+object App03ExecutionContextResource extends hutil.App {
 
   val allocateEC: IO[ExecutionContextExecutorService] = IO {
     println("========>>>>> allocating ExecutionContext ...")
@@ -52,9 +50,7 @@ object App03ExecutionContextResource extends App {
     }
   }
 
-  println("\n>>>>>>>>>>>>>> count lines:")
+  println("-------------- count lines:")
   val ioCount: IO[Int] = linesStream.compile.fold(0)((sum, _) => sum + 1)
   println(ioCount.unsafeRunSync())
-
-  println("-----\n")
 }

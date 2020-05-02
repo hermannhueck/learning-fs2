@@ -3,9 +3,9 @@ package guide.ch01streamtypes
 import cats.Id
 import fs2.{Pure, Stream}
 
-object App04PureStream extends App {
+object App04PureStream extends hutil.App {
 
-  println("\n----- Stream of Pure values without effects")
+  println("----- Stream of Pure values without effects")
 
   val stream: Stream[Pure, Int] =
     Stream.emit(1 + 1).repeat.take(3)
@@ -17,6 +17,4 @@ object App04PureStream extends App {
 
   println(result)
   println(result2)
-
-  println("-----\n")
 }

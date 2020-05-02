@@ -6,9 +6,7 @@ import cats.syntax.flatMap._
 import fs2.Stream
 import scala.util.chaining._
 
-object App02HandlingErrors extends App {
-
-  println("\n-----")
+object App02HandlingErrors extends hutil.App {
 
   val errStream: Stream[IO, Int] =
     Stream(0, 1, 2, 3) ++ Stream.raiseError[IO](new IllegalStateException("!@#$"))
@@ -75,6 +73,4 @@ object App02HandlingErrors extends App {
   println("\n>>> errStream.ensure")
   val ensured: Stream[IO, Int] = errStream.ensure(new IllegalStateException("odd value"))(_ % 2 != 0)
   ensured.attempt.compile.toList.unsafeRunSync() pipe println
-
-  println("-----\n")
 }

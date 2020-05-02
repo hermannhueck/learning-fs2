@@ -10,9 +10,7 @@ import scala.concurrent.ExecutionContextExecutorService
 import java.util.concurrent.Executors
 import cats.effect.Blocker
 
-object Factorials4 extends App {
-
-  println("\n=====")
+object Factorials4 extends hutil.App {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
@@ -37,6 +35,4 @@ object Factorials4 extends App {
     }
 
   stream.compile.drain.unsafeRunSync()
-
-  println("=====\n")
 }

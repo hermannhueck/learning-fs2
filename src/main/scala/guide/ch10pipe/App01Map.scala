@@ -2,11 +2,9 @@ package guide.ch10pipe
 
 import fs2.{Chunk, Pipe, Stream}
 
-import scala.language.higherKinds
+import munit.Assertions._
 
-object App01Map extends App {
-
-  println("\n-----")
+object App01Map extends hutil.App {
 
   // type Pipe[F[_], -I, +O] = Stream[F, I] => Stream[F, O]
 
@@ -26,7 +24,5 @@ object App01Map extends App {
   val squares = stream.myMap(x => x * x).compile.toList
   println(squares)
 
-  assert(mySquares == squares)
-
-  println("-----\n")
+  assertEquals(mySquares, squares)
 }

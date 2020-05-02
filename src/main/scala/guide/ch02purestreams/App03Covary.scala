@@ -6,9 +6,9 @@ import myio.MyIO
 import monix.eval.Task
 import monix.execution.Scheduler.Implicits.global
 
-object App03Covary extends App {
+object App03Covary extends hutil.App {
 
-  println("\n----- convert pure Stream to effectful Stream with Stream#covary")
+  println("----- convert pure Stream to effectful Stream with Stream#covary")
 
   val pureStream: Stream[Pure, Int] = Stream.range(0, 10)
 
@@ -30,6 +30,4 @@ object App03Covary extends App {
   println(effect[IO].unsafeRunSync())
   println(effect[MyIO].unsafeRunSync())
   println(effect[Task].runSyncUnsafe())
-
-  println("-----\n")
 }

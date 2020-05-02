@@ -2,9 +2,7 @@ package guide.ch02purestreams
 
 import fs2.{INothing, Pure, Stream}
 
-object App01PureStreams extends App {
-
-  println("\n-----")
+object App01PureStreams extends hutil.App {
 
   // creates an empty pure Stream
   val s0: Stream[Pure, INothing] = Stream.empty
@@ -48,6 +46,4 @@ object App01PureStreams extends App {
   val s5: Stream[Pure, Int] = Stream.iterate(0)(_ + 2)
   // s5: fs2.Stream[[x]fs2.Pure[x],Int] = Stream(..)
   println(s5.take(10).toList)
-
-  println("-----\n")
 }

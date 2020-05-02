@@ -2,11 +2,9 @@ package guide.ch12exercise2pull
 
 import fs2.{Chunk, INothing, Pipe, Pull, Stream}
 
-import scala.language.higherKinds
+import munit.Assertions._
 
-object App01StreamTakeWhileWithoutPull extends App {
-
-  println("\n-----")
+object App01StreamTakeWhileWithoutPull extends hutil.App {
 
   implicit class exercise[+F[_], +O](stream: Stream[F, O]) {
     def myTakeWhile(predicate: O => Boolean): Stream[F, O] = stream.through(takeWhile(predicate))
@@ -33,7 +31,5 @@ object App01StreamTakeWhileWithoutPull extends App {
   // res: List[Int] = List(0, 1, 2, 3, 4, 5, 6)
   println(res)
 
-  assert(myRes == res)
-
-  println("-----\n")
+  assertEquals(myRes, res)
 }

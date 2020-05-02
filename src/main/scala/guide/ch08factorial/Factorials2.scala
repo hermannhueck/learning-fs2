@@ -6,9 +6,7 @@ import fs2.Stream
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 
-object Factorials2 extends App {
-
-  println("\n=====")
+object Factorials2 extends hutil.App {
 
   implicit val timer: Timer[IO] = IO.timer(ExecutionContext.global)
 
@@ -24,6 +22,4 @@ object Factorials2 extends App {
       .lines(java.lang.System.out)
 
   stream.compile.drain.unsafeRunSync()
-
-  println("=====\n")
 }

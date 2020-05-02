@@ -6,9 +6,7 @@ import scala.util.chaining._
 import scala.util.control.NonFatal
 import cats.syntax.TryOps
 
-object App01aResourceAcquisition extends App {
-
-  println("\n-----")
+object App01aResourceAcquisition extends hutil.App {
 
   val err = Stream.raiseError[IO](new Exception("oh noes!"))
   // err: fs2.Stream[cats.effect.IO,fs2.INothing] = Stream(..)
@@ -41,6 +39,4 @@ object App01aResourceAcquisition extends App {
 
   count.get pipe println
   // res27: Long = 0
-
-  println("-----\n")
 }

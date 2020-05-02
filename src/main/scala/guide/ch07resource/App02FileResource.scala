@@ -9,9 +9,7 @@ import fs2.{text, Stream}
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import cats.effect.Blocker
 
-object App02FileResource extends App {
-
-  println("\n-----")
+object App02FileResource extends hutil.App {
 
   implicit val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -54,5 +52,4 @@ object App02FileResource extends App {
   // The inner stream fails, but notice the release action is still run:
 
   blockingEC.shutdown()
-  println("-----\n")
 }

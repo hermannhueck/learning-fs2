@@ -8,9 +8,9 @@ import myio.MyIO
 
 import scala.concurrent.duration._
 
-object App05FStream extends App {
+object App05FStream extends hutil.App {
 
-  println("\n----- Stream of generic effects")
+  println("----- Stream of generic effects")
 
   def stream[F[_]: Sync]: Stream[F, Int] =
     Stream
@@ -37,6 +37,4 @@ object App05FStream extends App {
   val taskResult
       : Vector[Int] = taskEffect.runSyncUnsafe(3.seconds) // produces side effects (println) and returns the result
   println(taskResult)
-
-  println("-----\n")
 }

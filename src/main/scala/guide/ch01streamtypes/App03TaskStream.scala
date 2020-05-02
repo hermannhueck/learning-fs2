@@ -7,9 +7,9 @@ import monix.execution.Scheduler.Implicits.global
 
 import scala.concurrent.duration._
 
-object App03TaskStream extends App {
+object App03TaskStream extends hutil.App {
 
-  println("\n----- Stream of Task effects")
+  println("----- Stream of Task effects")
 
   val stream: Stream[Task, Int] =
     Stream
@@ -24,6 +24,4 @@ object App03TaskStream extends App {
   val result: Vector[Int] = effect.runSyncUnsafe(3.seconds) // produces side effects (println) and returns the result
 
   println(result)
-
-  println("-----\n")
 }

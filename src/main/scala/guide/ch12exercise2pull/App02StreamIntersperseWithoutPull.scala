@@ -2,11 +2,9 @@ package guide.ch12exercise2pull
 
 import fs2.{Chunk, INothing, Pipe, Pull, Stream}
 
-import scala.language.higherKinds
+import munit.Assertions._
 
-object App02StreamIntersperseWithoutPull extends App {
-
-  println("\n-----")
+object App02StreamIntersperseWithoutPull extends hutil.App {
 
   implicit class exercise[+F[_], O](stream: Stream[F, O]) {
     def myIntersperse(separator: O): Stream[F, O] = stream.through(intersperse(separator))
@@ -60,7 +58,5 @@ object App02StreamIntersperseWithoutPull extends App {
   // res: List[String] = List(Alice, |, Bob, |, Carol)
   println(res)
 
-  assert(myRes == res)
-
-  println("-----\n")
+  assertEquals(myRes, res)
 }
