@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContextExecutorService
 import java.util.concurrent.Executors
 import cats.effect.Blocker
 
-object App03F2CReadPrintIOApp extends IOApp {
+object App03F2CReadPrintIOApp extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -30,7 +30,7 @@ object App03F2CReadPrintIOApp extends IOApp {
       .map(line => fahrenheitToCelsius(line.toDouble).toString)
       .lines(java.lang.System.out)
 
-  override def run(args: List[String]): IO[ExitCode] = {
+  override def ioRun(args: List[String]): IO[ExitCode] = {
     converter.compile.drain.unsafeRunSync()
     blockingEC.shutdown
     IO(ExitCode.Success)

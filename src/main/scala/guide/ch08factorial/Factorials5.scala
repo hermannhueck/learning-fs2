@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContextExecutorService
 import java.util.concurrent.Executors
 import cats.effect.Blocker
 
-object Factorials5 extends IOApp {
+object Factorials5 extends hutil.IOApp {
 
   val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
@@ -32,7 +32,7 @@ object Factorials5 extends IOApp {
         )
     }
 
-  def run(args: List[String]): IO[ExitCode] =
+  def ioRun(args: List[String]): IO[ExitCode] =
     for {
       _ <- IO(println("\n====="))
       _ <- stream.compile.drain

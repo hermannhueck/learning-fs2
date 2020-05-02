@@ -10,7 +10,7 @@ import fs2.{io, text, Stream}
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import cats.effect.Blocker
 
-object App05F2CReadWrite extends IOApp {
+object App05F2CReadWrite extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -34,7 +34,7 @@ object App05F2CReadWrite extends IOApp {
       .through(text.utf8Encode)
       .through(io.file.writeAll(output, blocker))
 
-  def run(args: List[String]): IO[ExitCode] = {
+  def ioRun(args: List[String]): IO[ExitCode] = {
     converter.compile.drain
     blockingEC.shutdown
     IO(ExitCode.Success)

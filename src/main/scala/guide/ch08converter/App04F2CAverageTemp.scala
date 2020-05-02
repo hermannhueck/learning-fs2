@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContextExecutorService
 import java.util.concurrent.Executors
 import cats.effect.Blocker
 
-object App04F2CAverageTemp extends IOApp {
+object App04F2CAverageTemp extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -35,11 +35,11 @@ object App04F2CAverageTemp extends IOApp {
         case temp -> count => if (count == 0L) None else Some(temp / count)
       }
 
-  def run(args: List[String]): IO[ExitCode] = {
+  def ioRun(args: List[String]): IO[ExitCode] = {
     val io: IO[List[Option[Double]]] = converter.compile.toList
     val average: Option[Double]      = io.unsafeRunSync().head
     val text                         = average.map(_.toString).getOrElse("no temperatures provided")
-    println(s"\nAverage Temperature (Celsius):  $text\n")
+    println(s"Average Temperature (Celsius):  $text")
     blockingEC.shutdown
     IO(ExitCode.Success)
   }

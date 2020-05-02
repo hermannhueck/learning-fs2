@@ -16,7 +16,7 @@ import cats.effect.Blocker
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App08F2CWithBlockingECBracket extends IOApp {
+object App08F2CWithBlockingECBracket extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
@@ -44,7 +44,7 @@ object App08F2CWithBlockingECBracket extends IOApp {
     .bracket(IO(blockingEC))(ec => IO(ec.shutdown()))
     .flatMap { blockingEC => convert(Blocker.liftExecutionContext(blockingEC)) }
 
-  def run(args: List[String]): IO[ExitCode] =
+  def ioRun(args: List[String]): IO[ExitCode] =
     converter.compile.drain.as {
       println(s"\nFahrenheit from $input converted to Celsius in $output\n")
       ExitCode.Success

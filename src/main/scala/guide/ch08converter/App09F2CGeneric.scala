@@ -16,7 +16,7 @@ import scala.language.higherKinds
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App09F2CGeneric extends IOApp {
+object App09F2CGeneric extends hutil.IOApp {
 
   val input: Path  = Paths.get("testdata/fahrenheit.txt")
   val output: Path = Paths.get("testdata/celsius.txt")
@@ -45,7 +45,7 @@ object App09F2CGeneric extends IOApp {
       .bracket(Sync[F].delay(blockingEC))(ec => Sync[F].delay(ec.shutdown()))
       .flatMap { blockingEC => convert(Blocker.liftExecutionContext(blockingEC)) }
 
-  def run(args: List[String]): IO[ExitCode] =
+  def ioRun(args: List[String]): IO[ExitCode] =
     converter[IO].compile.drain.as {
       println(s"\nFahrenheit from $input converted to Celsius in $output\n")
       ExitCode.Success

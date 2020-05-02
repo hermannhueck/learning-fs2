@@ -16,7 +16,7 @@ import cats.effect.Blocker
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object App07F2CWithBlockingECResource extends IOApp {
+object App07F2CWithBlockingECResource extends hutil.IOApp {
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output      = Paths.get("testdata/celsius.txt")
@@ -41,7 +41,7 @@ object App07F2CWithBlockingECResource extends IOApp {
     .resource(Blocker[IO])
     .flatMap { blocker => convert(blocker) }
 
-  def run(args: List[String]): IO[ExitCode] =
+  def ioRun(args: List[String]): IO[ExitCode] =
     converter.compile.drain.as {
       println(s"\nFahrenheit from $input converted to Celsius in $output\n")
       ExitCode.Success

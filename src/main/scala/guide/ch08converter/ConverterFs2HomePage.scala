@@ -12,7 +12,7 @@ import fs2.{io, text, Stream}
   and at:
   https://www.youtube.com/watch?v=cahvyadYfX8
  */
-object ConverterFs2HomePage extends IOApp {
+object ConverterFs2HomePage extends hutil.IOApp {
 
   val input: Path  = Paths.get("testdata/fahrenheit.txt")
   val output: Path = Paths.get("testdata/celsius.txt")
@@ -32,6 +32,6 @@ object ConverterFs2HomePage extends IOApp {
       .through(io.file.writeAll(output, blocker))
   }
 
-  def run(args: List[String]): IO[ExitCode] =
+  def ioRun(args: List[String]): IO[ExitCode] =
     converter.compile.drain.as(ExitCode.Success)
 }
