@@ -8,15 +8,7 @@ lazy val root = (project in file("."))
       List(
         version := "1.0.0",
         scalaVersion := "2.13.2",
-        scalacOptions ++= Seq(
-          "-encoding",
-          "UTF-8",        // source files are in UTF-8
-          "-deprecation", // warn about use of deprecated APIs
-          "-unchecked",   // warn about unchecked type parameters
-          "-feature"      // warn about misused language features
-          //"-Xlint",                 // enable handy linter warnings
-          //"-Xfatal-warnings",        // turn compiler warnings into errors
-        ),
+        scalacOptions ++= ScalacOptions.defaultScalacOptions,
         libraryDependencies ++= Seq(
           Libraries.fs2Core,
           Libraries.fs2Io,
