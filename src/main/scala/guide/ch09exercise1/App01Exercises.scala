@@ -21,7 +21,7 @@ object App01Exercises extends hutil.App {
   println(repeated)
   val exRepeated: List[Int] = Stream(1, 0).repeatIt().take(6).toList
   println(exRepeated)
-  assert(repeated == exRepeated)
+  assertEquals(repeated, exRepeated)
 
   println("\n>>> drain:")
   val drained: List[INothing] = Stream(1, 2, 3).drain.toList
