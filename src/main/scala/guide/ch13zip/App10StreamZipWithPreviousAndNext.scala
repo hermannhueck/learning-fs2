@@ -1,12 +1,12 @@
 package guide.ch13zip
 
+import munit.Assertions._
 import fs2.Stream
 
-object App10StreamZipWithPreviousAndNext extends App {
+object App10StreamZipWithPreviousAndNext extends hutil.App {
 
-  println("\n-----")
-
-  val zipped: List[(Option[String], String, Option[String])] = Stream("The", "quick", "brown", "fox").zipWithPreviousAndNext.toList
+  val zipped: List[(Option[String], String, Option[String])] =
+    Stream("The", "quick", "brown", "fox").zipWithPreviousAndNext.toList
   println(zipped)
 
   val expected: List[(Option[String], String, Option[String])] = List(
@@ -16,7 +16,5 @@ object App10StreamZipWithPreviousAndNext extends App {
     (Some("brown"), "fox", None)
   )
 
-  assert(zipped == expected)
-
-  println("-----\n")
+  assertEquals(zipped, expected)
 }
