@@ -38,7 +38,7 @@ object App02StreamIntersperseWithoutPull extends App {
     type State = Unit // we don't really need a state for intersperse
     in.scanChunks(()) { // scanChunks is sufficient, as we scan all Chunks
         val function: (State, Chunk[O]) => (State, Chunk[O]) =
-          (state, chunk) => ((), chunk.flatMap(o => Chunk(separator, o)))
+          (_, chunk) => ((), chunk.flatMap(o => Chunk(separator, o)))
         function
       }
       .tail // remove leading separator

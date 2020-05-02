@@ -17,7 +17,6 @@ object App04F2CAverageTemp extends IOApp {
   val blocker = Blocker.liftExecutionContext(blockingEC)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
-  private val output      = Paths.get("output/celsius-fs2.txt")
 
   def fahrenheitToCelsius(f: Double): Double =
     (f - 32.0) * (5.0 / 9.0)

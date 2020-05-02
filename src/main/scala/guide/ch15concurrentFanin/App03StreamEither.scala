@@ -16,7 +16,7 @@ object App03StreamEither extends App {
   implicit val ioContextShift: ContextShift[IO] = IO.contextShift(scala.concurrent.ExecutionContext.Implicits.global)
 
   val s1 = Stream(1, 2, 3).covary[IO]
-  val s2 = Stream.eval(IO {Thread.sleep(200); 4})
+  val s2 = Stream.eval(IO { Thread.sleep(200); 4 })
 
   val merged: Stream[IO, Either[Int, Int]] = s1 either s2
 
@@ -27,11 +27,10 @@ object App03StreamEither extends App {
   Thread sleep 200L
   println("-----")
 
-
   implicit val timer: Timer[IO] = IO.timer(scala.concurrent.ExecutionContext.Implicits.global)
 
-  val s3: Stream[IO, Int] = Stream.awakeEvery[IO](1000.millis).scan(0)((acc, i) => acc + 1)
-  val s4: Stream[IO, Int] = (Stream.sleep_[IO](500.millis) ++ s3) take 10
+  val s3: Stream[IO, Int]              = Stream.awakeEvery[IO](1000.millis).scan(0)((acc, _) => acc + 1)
+  val s4: Stream[IO, Int]              = (Stream.sleep_[IO](500.millis) ++ s3) take 10
   val s5: Stream[IO, Either[Int, Int]] = s3 either s4
 
   val res2: Vector[Either[Int, Int]] = s5.take(10).compile.toVector.unsafeRunSync

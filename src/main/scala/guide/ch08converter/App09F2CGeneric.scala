@@ -42,7 +42,7 @@ object App09F2CGeneric extends IOApp {
 
   def converter[F[_]: Sync: ContextShift]: Stream[F, Unit] =
     Stream
-      .bracket(Sync[F].delay(blockingEC))(ec => Sync[F].delay(blockingEC.shutdown()))
+      .bracket(Sync[F].delay(blockingEC))(ec => Sync[F].delay(ec.shutdown()))
       .flatMap { blockingEC => convert(Blocker.liftExecutionContext(blockingEC)) }
 
   def run(args: List[String]): IO[ExitCode] =

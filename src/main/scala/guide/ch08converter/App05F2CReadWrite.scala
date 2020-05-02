@@ -16,8 +16,6 @@ object App05F2CReadWrite extends IOApp {
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
   val blocker = Blocker.liftExecutionContext(blockingEC)
 
-  private val ec: ExecutionContext = ExecutionContext.global
-
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output      = Paths.get("testdata/celsius.txt")
 
