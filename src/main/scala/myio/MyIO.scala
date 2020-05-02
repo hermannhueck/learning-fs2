@@ -4,7 +4,6 @@ import cats.effect.{ExitCase, Sync}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.language.higherKinds
 import scala.util.Try
 
 sealed trait MyIO[+A] extends Product with Serializable {
@@ -54,7 +53,7 @@ sealed trait MyIO[+A] extends Product with Serializable {
   // any non-fatal exceptions thrown will be reported to the ExecutionContext.
   def foreach(f: A => Unit)(implicit ec: ExecutionContext): Unit =
     runAsync {
-      case Left(ex) => ec.reportFailure(ex)
+      case Left(ex)     => ec.reportFailure(ex)
       case Right(value) => f(value)
     }
 
@@ -64,12 +63,13 @@ sealed trait MyIO[+A] extends Product with Serializable {
   // in case the source fails, otherwise if the source succeeds the result will fail with a NoSuchElementException.
   def failed: MyIO[Throwable] = Failed(this)
 
-  def onErrorHandleWith[AA >: A](f: Throwable => MyIO[AA]): MyIO[AA] = MyIO {
-    this.runToEither match {
-      case Left(t) => f(t)
-      case Right(a) => MyIO.pure(a)
-    }
-  }.flatten
+  def onErrorHandleWith[AA >: A](f: Throwable => MyIO[AA]): MyIO[AA] =
+    MyIO {
+      this.runToEither match {
+        case Left(t)  => f(t)
+        case Right(a) => MyIO.pure(a)
+      }
+    }.flatten
 
   def onErrorHandle[AA >: A](f: Throwable => AA): MyIO[AA] =
     onErrorHandleWith(t => MyIO.pure(f(t)))
@@ -102,33 +102,35 @@ sealed trait MyIO[+A] extends Product with Serializable {
   def attempt[AA >: A]: MyIO[Either[Throwable, AA]] =
     this
       .map { t => Right(t): Either[Throwable, A] }
-      .onErrorHandleWith { e => MyIO.pure(Left(e))}
+      .onErrorHandleWith { e => MyIO.pure(Left(e)) }
 
   // Turns a successful value into an error if it does not satisfy a given predicate. See cats.MonadError
   def ensure(error: => Throwable)(predicate: A => Boolean): MyIO[A] =
     ensureOr(_ => error)(predicate)
 
   // Turns a successful value into an error specified by the `error` function if it does not satisfy a given predicate. See cats.MonadError
-  def ensureOr(error: A => Throwable)(predicate: A => Boolean): MyIO[A] = MyIO {
-    this.runToEither match {
-      case Left(throwable) => raiseError(throwable)
-      case Right(value) if predicate(value) => pure(value)
-      case Right(value) => raiseError(error(value))
-    }
-  }.flatten
-
-  def bracketCase[B](use: A => MyIO[B])(release: (A, ExitCase[Throwable]) => MyIO[Unit]): MyIO[B] = MyIO {
-    this flatMap { resource =>
-      try {
-        import cats.syntax.apply._
-        use(resource) <* release(resource, ExitCase.complete)
-      } catch {
-        case t: Throwable =>
-          release(resource, ExitCase.error(t))
-          throw t
+  def ensureOr(error: A => Throwable)(predicate: A => Boolean): MyIO[A] =
+    MyIO {
+      this.runToEither match {
+        case Left(throwable)                  => raiseError(throwable)
+        case Right(value) if predicate(value) => pure(value)
+        case Right(value)                     => raiseError(error(value))
       }
-    }
-  }.flatten
+    }.flatten
+
+  def bracketCase[B](use: A => MyIO[B])(release: (A, ExitCase[Throwable]) => MyIO[Unit]): MyIO[B] =
+    MyIO {
+      this flatMap { resource =>
+        try {
+          import cats.syntax.apply._
+          use(resource) <* release(resource, ExitCase.complete)
+        } catch {
+          case t: Throwable =>
+            release(resource, ExitCase.error(t))
+            throw t
+        }
+      }
+    }.flatten
 }
 
 object MyIO {
@@ -143,13 +145,14 @@ object MyIO {
     override def run(): A = throw exception
   }
   private case class Failed[A](io: MyIO[A]) extends MyIO[Throwable] {
-    override def run(): Throwable = try {
-      io.run()
-      throw new NoSuchElementException("failed")
-    } catch {
-      case nse: NoSuchElementException if nse.getMessage == "failed" => throw nse
-      case throwable: Throwable => throwable
-    }
+    override def run(): Throwable =
+      try {
+        io.run()
+        throw new NoSuchElementException("failed")
+      } catch {
+        case nse: NoSuchElementException if nse.getMessage == "failed" => throw nse
+        case throwable: Throwable                                      => throwable
+      }
   }
   private case class Suspend[A](thunk: () => MyIO[A]) extends MyIO[A] {
     override def run(): A = thunk().run()
@@ -163,16 +166,16 @@ object MyIO {
   }
 
   def pure[A](a: A): MyIO[A] = Pure { () => a }
-  def now[A](a: A): MyIO[A] = pure(a)
+  def now[A](a: A): MyIO[A]  = pure(a)
 
   def raiseError[A](t: Throwable): MyIO[A] = Error[A](t)
 
-  def eval[A](a: => A): MyIO[A] = Eval { () => a }
+  def eval[A](a: => A): MyIO[A]  = Eval { () => a }
   def delay[A](a: => A): MyIO[A] = eval(a)
   def apply[A](a: => A): MyIO[A] = eval(a)
 
   def suspend[A](ioa: => MyIO[A]): MyIO[A] = Suspend(() => ioa)
-  def defer[A](ioa: => MyIO[A]): MyIO[A] = suspend(ioa)
+  def defer[A](ioa: => MyIO[A]): MyIO[A]   = suspend(ioa)
 
   def fromTry[A](tryy: Try[A]): MyIO[A] =
     tryy.fold(MyIO.raiseError, MyIO.pure)
@@ -189,18 +192,20 @@ object MyIO {
   implicit def ioMonad: Sync[MyIO] = new Sync[MyIO] {
 
     // Monad
-    override def pure[A](value: A): MyIO[A] = MyIO.pure(value)
-    override def flatMap[A, B](fa: MyIO[A])(f: A => MyIO[B]): MyIO[B] = fa flatMap f
+    override def pure[A](value: A): MyIO[A]                                = MyIO.pure(value)
+    override def flatMap[A, B](fa: MyIO[A])(f: A => MyIO[B]): MyIO[B]      = fa flatMap f
     override def tailRecM[A, B](a: A)(f: A => MyIO[Either[A, B]]): MyIO[B] = ???
 
     // MonadError
-    override def raiseError[A](e: Throwable): MyIO[A] = raiseError(e)
+    override def raiseError[A](e: Throwable): MyIO[A]                              = raiseError(e)
     override def handleErrorWith[A](fa: MyIO[A])(f: Throwable => MyIO[A]): MyIO[A] = fa onErrorHandleWith f
 
     // Bracket
     override def bracket[A, B](acquire: MyIO[A])(use: A => MyIO[B])(release: A => MyIO[Unit]): MyIO[B] =
       acquire.bracket(use)(release)
-    override def bracketCase[A, B](acquire: MyIO[A])(use: A => MyIO[B])(release: (A, ExitCase[Throwable]) => MyIO[Unit]): MyIO[B] =
+    override def bracketCase[A, B](
+        acquire: MyIO[A]
+    )(use: A => MyIO[B])(release: (A, ExitCase[Throwable]) => MyIO[Unit]): MyIO[B] =
       acquire.bracketCase(use)(release)
 
     override def suspend[A](thunk: => MyIO[A]): MyIO[A] = MyIO.suspend(thunk)
@@ -208,13 +213,12 @@ object MyIO {
 
   implicit class syntax[A](ioa: MyIO[A]) { // provide corresponding methods of ApplicativeError/MonadError
 
-    def handleErrorWith(f: Throwable => MyIO[A]): MyIO[A] = ioa onErrorHandleWith f
-    def handleError(f: Throwable => A): MyIO[A] = ioa onErrorHandle f
+    def handleErrorWith(f: Throwable => MyIO[A]): MyIO[A]             = ioa onErrorHandleWith f
+    def handleError(f: Throwable => A): MyIO[A]                       = ioa onErrorHandle f
     def recoverWith(pf: PartialFunction[Throwable, MyIO[A]]): MyIO[A] = ioa onErrorRecoverWith pf
-    def recover(pf: PartialFunction[Throwable, A]): MyIO[A] = ioa onErrorRecover pf
+    def recover(pf: PartialFunction[Throwable, A]): MyIO[A]           = ioa onErrorRecover pf
 
     def bracket[B](use: A => MyIO[B])(release: A => MyIO[Unit]): MyIO[B] =
       ioa.bracketCase(use)((a, _) => release(a))
   }
 }
-
