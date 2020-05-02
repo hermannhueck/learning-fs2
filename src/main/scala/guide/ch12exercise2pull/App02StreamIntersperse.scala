@@ -8,11 +8,9 @@ object App02StreamIntersperse extends App {
 
   println("\n-----")
 
-
   implicit class exercise[+F[_], O](stream: Stream[F, O]) {
     def myIntersperse(separator: O): Stream[F, O] = stream.through(intersperse(separator))
   }
-
 
   def intersperse[F[_], O](separator: O): Pipe[F, O, O] = {
 
@@ -23,19 +21,19 @@ object App02StreamIntersperse extends App {
       pull.flatMap {
         case None => Pull.done
         case Some((headChunk, tailStream)) =>
-          val vec: Vector[O] = headChunk.toVector.flatMap(elem => Vector(sep, elem))
-          Pull.output(Chunk.vector(vec)) >> go(tailStream, sep)
+          val chunk: Chunk[O] = headChunk.flatMap(elem => Chunk(sep, elem))
+          Pull.output(chunk) >> go(tailStream, sep)
       }
     }
 
     in => go(in, separator).stream.tail
   }
 
-  val myRes = Stream("Alice","Bob","Carol").myIntersperse("|").toList
+  val myRes = Stream("Alice", "Bob", "Carol").myIntersperse("|").toList
   // myRes: List[String] = List(Alice, |, Bob, |, Carol)
   println(myRes)
 
-  val res = Stream("Alice","Bob","Carol").intersperse("|").toList
+  val res = Stream("Alice", "Bob", "Carol").intersperse("|").toList
   // res: List[String] = List(Alice, |, Bob, |, Carol)
   println(res)
 

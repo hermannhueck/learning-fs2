@@ -18,10 +18,9 @@ object App01Map extends App {
     def myMap[O](f: I => O): Stream[F, O] = stream.through(mapPipe(f))
   }
 
-
   val stream = Stream.range(1, 11)
 
-  val mySquares = stream.myMap(x => x * x).compile.toList
+  val mySquares = stream.map(x => x * x).compile.toList
   println(mySquares)
 
   val squares = stream.myMap(x => x * x).compile.toList

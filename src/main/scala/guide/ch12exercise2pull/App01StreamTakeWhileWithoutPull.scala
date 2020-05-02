@@ -8,25 +8,20 @@ object App01StreamTakeWhileWithoutPull extends App {
 
   println("\n-----")
 
-
   implicit class exercise[+F[_], +O](stream: Stream[F, O]) {
     def myTakeWhile(predicate: O => Boolean): Stream[F, O] = stream.through(takeWhile(predicate))
   }
 
-
-
   def takeWhile[F[_], O](predicate: O => Boolean): Pipe[F, O, O] = { in: Stream[F, O] =>
     type State = Boolean
-    in.scanChunksOpt(true) { takeMore: State =>
-      if (!takeMore)
-        None
-      else {
+    in.scanChunksOpt(true) {
+      case false => None
+      case true =>
         val function: Chunk[O] => (State, Chunk[O]) = chunk => {
           val newChunk: Chunk[O] = Chunk.vector(chunk.toVector.takeWhile(predicate))
           (newChunk.size == chunk.size, newChunk)
         }
         Some(function)
-      }
     }
   }
 
