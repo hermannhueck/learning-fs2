@@ -1,11 +1,13 @@
 package guide.ch14evalmap
 
+import scala.util.chaining._
+import hutil.stringformat._
+import munit.Assertions._
 import cats.effect.{ContextShift, IO}
 import fs2.Stream
+import scala.concurrent.ExecutionContext
 
-object App05StreamParEvalMapUnordered extends App {
-
-  println("\n----- parEvalMapUnordered (resulting order of elements is NOT guaranteed)")
+object App05StreamParEvalMapUnordered extends hutil.App {
 
   // ----- parEvalMapUnordered: Like Stream#parEvalMap, but the order of the original stream is NOT retained.
 
@@ -13,21 +15,35 @@ object App05StreamParEvalMapUnordered extends App {
 
   val s: Stream[IO, Int] = Stream(1, 2, 3, 4).covary[IO]
 
-  s.parEvalMapUnordered(maxConcurrent = 2)(i => IO(println(i))).compile.drain.unsafeRunSync
-  println("-----")
+  s"$dash10 parEvalMapUnordered (resulting order of elements is NOT guaranteed)".magenta.println
+  s.parEvalMapUnordered(maxConcurrent = 2)(i => IO(println(i)))
+    .compile
+    .drain
+    .unsafeRunSync
 
-  val list = s.parEvalMapUnordered(maxConcurrent = 2)(i => IO{println(i); i*i}).compile.toList.unsafeRunSync
-  println(list)
-
+  dash10.magenta.println
+  val list =
+    s.parEvalMapUnordered(maxConcurrent = 2)(i => IO { println(i); i * i })
+      .compile
+      .toList
+      .unsafeRunSync
+      .tap(println)
+      .tap(l => assertEquals(l.sorted, List(1, 4, 9, 16)))
 
   // ----- mapAsyncUnordered is an alias for parEvalMapUnordered
 
-  println("\n----- mapAsyncUnordered (resulting order of elements is NOT guaranteed)")
-  s.mapAsyncUnordered(maxConcurrent = 2)(i => IO(println(i))).compile.drain.unsafeRunSync
-  println("-----")
+  s"$dash10 mapAsyncUnordered (resulting order of elements is NOT guaranteed)".magenta.println
+  s.mapAsyncUnordered(maxConcurrent = 2)(i => IO(println(i)))
+    .compile
+    .drain
+    .unsafeRunSync
 
-  val list2 = s.mapAsyncUnordered(maxConcurrent = 2)(i => IO{println(i); i*i}).compile.toList.unsafeRunSync
-  println(list2)
-
-  println("-----\n")
+  dash10.magenta.println
+  val list2 =
+    s.mapAsyncUnordered(maxConcurrent = 2)(i => IO { println(i); i * i })
+      .compile
+      .toList
+      .unsafeRunSync
+      .tap(println)
+      .tap(l => assertEquals(l.sorted, List(1, 4, 9, 16)))
 }

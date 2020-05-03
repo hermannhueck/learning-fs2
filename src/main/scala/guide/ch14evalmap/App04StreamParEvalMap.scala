@@ -1,35 +1,51 @@
 package guide.ch14evalmap
 
+import scala.util.chaining._
+import hutil.stringformat._
+import munit.Assertions._
 import cats.effect.{ContextShift, IO}
 import fs2.Stream
+import scala.concurrent.ExecutionContext
 
-object App04StreamParEvalMap extends App {
-
-  println("\n----- parEvalMap")
+object App04StreamParEvalMap extends hutil.App {
 
   // ----- parEvalMap: Like Stream#evalMap, but will evaluate effects in parallel, emitting the results downstream
   // in the same order as the input stream. The number of concurrent effects is limited by the maxConcurrent parameter.
   // The order of the original stream is retained.
 
-  implicit val cs: ContextShift[IO] = IO.contextShift(scala.concurrent.ExecutionContext.Implicits.global)
+  implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   val s: Stream[IO, Int] = Stream(1, 2, 3, 4).covary[IO]
 
-  s.parEvalMap(maxConcurrent = 2)(i => IO(println(i))).compile.drain.unsafeRunSync
-  println("-----")
+  s"$dash10 parEvalMap".magenta.println
+  s.parEvalMap(maxConcurrent = 2)(i => IO(println(i)))
+    .compile
+    .drain
+    .unsafeRunSync
 
-  val list = s.parEvalMap(maxConcurrent = 2)(i => IO{println(i); i*i}).compile.toList.unsafeRunSync
-  println(list)
-
+  dash10.magenta.println
+  val list =
+    s.parEvalMap(maxConcurrent = 2)(i => IO { println(i); i * i })
+      .compile
+      .toList
+      .unsafeRunSync
+      .tap(println)
+      .tap(assertEquals(_, List(1, 4, 9, 16)))
 
   // ----- mapAsync is an alias for parEvalMap
 
-  println("\n----- mapAsync")
-  s.mapAsync(maxConcurrent = 2)(i => IO(println(i))).compile.drain.unsafeRunSync
-  println("-----")
+  s"$dash10 mapAsync".magenta.println
+  s.mapAsync(maxConcurrent = 2)(i => IO(println(i)))
+    .compile
+    .drain
+    .unsafeRunSync
 
-  val list2 = s.mapAsync(maxConcurrent = 2)(i => IO{println(i); i*i}).compile.toList.unsafeRunSync
-  println(list2)
-
-  println("-----\n")
+  dash10.magenta.println
+  val list2 =
+    s.mapAsync(maxConcurrent = 2)(i => IO { println(i); i * i })
+      .compile
+      .toList
+      .unsafeRunSync
+      .tap(println)
+      .tap(assertEquals(_, List(1, 4, 9, 16)))
 }
