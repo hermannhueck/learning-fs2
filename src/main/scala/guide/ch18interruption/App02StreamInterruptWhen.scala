@@ -1,4 +1,4 @@
-package guide.ch18interruptwhen
+package guide.ch18interruption
 
 import cats.effect.{ContextShift, IO, Timer}
 import cats.syntax.either._
@@ -8,9 +8,7 @@ import fs2.Stream
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-object App02StreamInterruptWhen extends App {
-
-  println("\n-----")
+object App02StreamInterruptWhen extends hutil.App {
 
   val ec: ExecutionContext          = ExecutionContext.global
   implicit val cs: ContextShift[IO] = IO.contextShift(ec)
@@ -22,15 +20,14 @@ object App02StreamInterruptWhen extends App {
       .zipLeft(Stream.awakeEvery[IO](250.milliseconds))
       .evalTap(i => IO(println(i)))
 
-  val interruptOnException: IO[Either[Throwable, Unit]] =
+  val interruptOnTermination: IO[Either[Throwable, Unit]] =
     IO.sleep(2600.milliseconds) >> IO(println("TIMEOUT")) >> IO { (new RuntimeException).asLeft[Unit] }
+  // IO.sleep(2600.milliseconds) >> IO(println("TIMEOUT")) >> IO(().asRight[Throwable])
 
   val interruptedStream: Stream[IO, Int] =
     stream
-      .interruptWhen(interruptOnException)
+      .interruptWhen(interruptOnTermination)
       .handleErrorWith { _ /*throwable*/ => Stream(-1000) } // prevents the exeption being thrown
 
-  interruptedStream.compile.drain.unsafeRunSync()
-
-  println("-----\n")
+  interruptedStream.compile.drain.unsafeRunSync
 }

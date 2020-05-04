@@ -1,4 +1,4 @@
-package guide.ch18interruptwhen
+package guide.ch18interruption
 
 import cats.effect.{ContextShift, IO, Timer}
 import fs2.Stream
@@ -6,16 +6,15 @@ import fs2.Stream
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-object App03StreamInterruptWhen extends App {
+object App03StreamInterruptWhen extends hutil.App {
 
-  println("\n-----")
-
-  val ec: ExecutionContext = ExecutionContext.global
+  val ec: ExecutionContext          = ExecutionContext.global
   implicit val cs: ContextShift[IO] = IO.contextShift(ec)
-  implicit val timer: Timer[IO] = IO.timer(ec)
+  implicit val timer: Timer[IO]     = IO.timer(ec)
 
   val stream: Stream[IO, Int] =
-    Stream.range(1, 100)
+    Stream
+      .range(1, 100)
       .zipLeft(Stream.awakeEvery[IO](250.milliseconds))
       .evalTap(i => IO(println(i)))
 
@@ -25,7 +24,5 @@ object App03StreamInterruptWhen extends App {
   val interruptedStream: Stream[IO, Int] =
     stream.interruptWhen(interrupterStream)
 
-  interruptedStream.compile.drain.unsafeRunSync()
-
-  println("-----\n")
+  interruptedStream.compile.drain.unsafeRunSync
 }
