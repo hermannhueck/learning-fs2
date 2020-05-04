@@ -6,16 +6,17 @@ import fs2.{Pipe, Stream}
 
 import scala.concurrent.ExecutionContext
 
-object App13BalanceThrough extends App {
-
-  println("\n-----")
+object App13BalanceThrough extends hutil.App {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
-  val stream: Stream[IO, Int] = Stream.range(1, 11).covary[IO]
+  val stream: Stream[IO, Int] =
+    Stream.range(1, 11).covary[IO]
 
-  def pipe(num: Int): Pipe[IO, Int, Unit] = worker =>
-    worker.evalMap { o => IO(println(s">> $num: " + o.toString)) }
+  def pipe(num: Int): Pipe[IO, Int, Unit] =
+    worker =>
+      worker
+        .evalMap { o => IO(println(s">> $num: ${o.toString}")) }
 
   val pipes = Seq(pipe(1), pipe(2), pipe(3))
 
@@ -23,6 +24,4 @@ object App13BalanceThrough extends App {
 
   val joined: Stream[IO, Unit] = stream.through(pipeOfPipes)
   joined.compile.drain.unsafeRunSync
-
-  println("-----\n")
 }

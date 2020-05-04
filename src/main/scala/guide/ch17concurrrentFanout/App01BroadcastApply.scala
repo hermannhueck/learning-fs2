@@ -6,21 +6,25 @@ import fs2.concurrent.Broadcast
 
 import scala.concurrent.ExecutionContext
 
-object App01BroadcastApply extends App {
-
-  println("\n-----")
+object App01BroadcastApply extends hutil.App {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
-  val stream: Stream[IO, Int] = Stream(1, 2, 3, 4).covary[IO]
+  val stream: Stream[IO, Int] =
+    Stream(1, 2, 3, 4).covary[IO]
 
   val streamOfStreams: Stream[IO, Stream[IO, Unit]] =
-    stream.through(Broadcast(minReady = 3)).map { worker: Stream[IO, Int] =>
-      worker.evalMap { o => IO(println(">> ?: " + o.toString)) }
-    }
+    stream
+      .through(Broadcast(minReady = 3))
+      .map { worker: Stream[IO, Int] =>
+        worker
+          .evalMap { o => IO(println(s">> ?: ${o.toString}")) }
+      }
 
-  val joined: Stream[IO, Unit] = streamOfStreams.take(3).parJoinUnbounded
-  joined.compile.drain.unsafeRunSync
-
-  println("-----\n")
+  streamOfStreams
+    .take(3)
+    .parJoinUnbounded
+    .compile
+    .drain
+    .unsafeRunSync
 }
