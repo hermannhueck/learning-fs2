@@ -5,11 +5,8 @@ import fs2.Stream
 import fs2.concurrent.Queue
 
 import scala.concurrent.ExecutionContext
-import scala.language.higherKinds
 
-object App03AsyncEffectsCallbackMultipleTimes extends App {
-
-  println("\n-----")
+object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
 
   type Row = List[String]
 
@@ -17,6 +14,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends App {
     def withRows(cb: Either[Throwable, Row] => Unit): Unit
   }
 
+  @scala.annotation.nowarn("cat=unused-params&msg=never used")
   def rows[F[_]](handle: CSVHandle)(implicit F: ConcurrentEffect[F], cs: ContextShift[F]): Stream[F, Row] =
     for {
       q   <- Stream.eval(Queue.unbounded[F, Either[Throwable, Row]])
@@ -36,9 +34,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends App {
   val stream: Stream[IO, Row] = rows[IO](csvHandle)
 
   val io: IO[List[Row]] = stream.compile.toList
-  val res: List[Row]    = io.unsafeRunSync()
+  val res: List[Row]    = io.unsafeRunSync
 
   println(res)
-
-  println("-----\n")
 }

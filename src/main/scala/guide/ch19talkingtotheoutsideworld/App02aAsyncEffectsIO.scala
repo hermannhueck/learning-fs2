@@ -2,12 +2,9 @@ package guide.ch19talkingtotheoutsideworld
 
 import cats.effect.IO
 import fs2.Stream
+import hutil.stringformat._
 
-import scala.language.higherKinds
-
-object App02aAsyncEffectsIO extends App {
-
-  println("\n-----")
+object App02aAsyncEffectsIO extends hutil.App {
 
   trait Connection {
 
@@ -31,15 +28,23 @@ object App02aAsyncEffectsIO extends App {
   }
   // ioBytes: cats.effect.IO[Array[Byte]] = IO$425428304
 
-  println("\n>>> Evaluate IO directly ...")
-  val ioRes = ioBytes.unsafeRunSync().toList
+  ">>> Evaluate IO directly ...".magenta.println
+  val ioRes =
+    ioBytes
+      .unsafeRunSync
+      .toList
   // ioRes: List[Byte] = List(0, 1, 2)
   println(ioRes)
 
-  println("\n>>> Evaluate IO in a Stream ...")
-  val streamRes = Stream.eval(ioBytes).map(_.toList).compile.toVector.unsafeRunSync()
-  // res: Vector[List[Byte]] = Vector(List(0, 1, 2))
+  ">>> Evaluate IO in a Stream ...".magenta.println
+  val streamRes =
+    Stream
+      .eval(ioBytes)
+      .map(_.toList)
+      .compile
+      .toVector
+      .unsafeRunSync
+  // streamRes: Vector[List[Byte]] = Vector(List(0, 1, 2))
   println(streamRes)
-
-  println("-----\n")
+  println(streamRes.toList.flatten)
 }
