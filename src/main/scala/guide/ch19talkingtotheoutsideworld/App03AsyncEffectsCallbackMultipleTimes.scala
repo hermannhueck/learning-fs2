@@ -15,7 +15,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
   }
 
   @scala.annotation.nowarn("cat=unused-params&msg=never used")
-  def rows[F[_]](handle: CSVHandle)(implicit F: ConcurrentEffect[F], cs: ContextShift[F]): Stream[F, Row] =
+  def rows[F[_]](handle: CSVHandle)(implicit F: ConcurrentEffect[F]): Stream[F, Row] =
     for {
       q   <- Stream.eval(Queue.unbounded[F, Either[Throwable, Row]])
       _   <- Stream.eval { F.delay(handle.withRows(e => F.runAsync(q.enqueue1(e))(_ => IO.unit).unsafeRunSync)) }
@@ -24,8 +24,9 @@ object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
 
   val csvHandle: CSVHandle = new CSVHandle {
     override def withRows(cb: Either[Throwable, Row] => Unit): Unit = {
-      val row = Right(List("these", "are", "the", "cells", "of", "a", "CSV", "row"))
-      println(row)
+      // val row = Right(List("these", "are", "the", "cells", "of", "a", "CSV", "row"))
+      // println(row)
+      ()
     }
   }
 

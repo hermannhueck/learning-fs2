@@ -5,11 +5,8 @@ import fs2.Stream
 import fs2.interop.reactivestreams._
 
 import scala.concurrent.ExecutionContext
-import scala.language.higherKinds
 
-object App01ReactiveStreams extends App {
-
-  println("\n-----")
+object App01ReactiveStreams extends hutil.App {
 
   implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
@@ -20,7 +17,5 @@ object App01ReactiveStreams extends App {
 
   val stream2: Stream[IO, Int] = publisher.toStream[IO]
 
-  stream2.compile.toList.map(println).unsafeRunSync()
-
-  println("-----\n")
+  stream2.compile.toList.map(println).unsafeRunSync
 }

@@ -9,10 +9,12 @@ import scala.concurrent.duration._
 
 sealed trait Event
 case class Text(value: String) extends Event
-case object Quit extends Event
+case object Quit               extends Event
 
 class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRef[F, Boolean])(
-  implicit F: Concurrent[F], timer: Timer[F]) {
+    implicit F: Concurrent[F],
+    timer: Timer[F]
+) {
 
   // Publishing 15 text events, then single Quit event, and still publishing text events
   def startPublisher: Stream[F, Unit] = {
@@ -28,23 +30,27 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
         .zipRight(currentTime)
         .through(eventsTopic.publish)
 
-    val quitEvent: Stream[F, Unit] = Stream.eval(eventsTopic.publish1(Quit))
+    val quitEvent: Stream[F, Unit] =
+      Stream.eval(eventsTopic.publish1(Quit))
 
-    (textEvents.take(15) ++ quitEvent ++ textEvents).interruptWhen(interrupter)
+    (textEvents.take(15) ++ quitEvent ++ textEvents)
+      .interruptWhen(interrupter)
   }
 
   // Creating 3 subscribers in a different period of time and join them to run concurrently
   def startSubscribers: Stream[F, Unit] = {
 
-    def processEvent(subscriberNumber: Int): Pipe[F, Event, Unit] = eventStream =>
-      eventStream.flatMap {
-        case e @ Text(_) =>
-          Stream.eval(F.delay(println(s"Subscriber #$subscriberNumber processing event: $e")))
-        case Quit =>
-          Stream.eval(interrupter.set(true))
-      }
+    def processEvent(subscriberNumber: Int): Pipe[F, Event, Unit] =
+      eventStream =>
+        eventStream.flatMap {
+          case e @ Text(_) =>
+            Stream.eval(F.delay(println(s"Subscriber #$subscriberNumber processing event: $e")))
+          case Quit =>
+            Stream.eval(interrupter.set(true))
+        }
 
-    val events: Stream[F, Event] = eventsTopic.subscribe(10)
+    val events: Stream[F, Event] =
+      eventsTopic.subscribe(10)
 
     Stream(
       events.delayBy(0.seconds).through(processEvent(1)),
@@ -54,15 +60,15 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
   }
 }
 
-object App02PubSub extends IOApp {
+object App02PubSub extends hutil.IOApp {
 
   val program: Stream[IO, Unit] = for {
-    topic <- Stream.eval(Topic[IO, Event](Text("Initial Event")))
-    signal <- Stream.eval(SignallingRef[IO, Boolean](false))
+    topic   <- Stream.eval(Topic[IO, Event](Text("Initial Event")))
+    signal  <- Stream.eval(SignallingRef[IO, Boolean](false))
     service = new EventService[IO](topic, signal)
-    _ <- service.startPublisher concurrently service.startSubscribers
+    _       <- service.startPublisher concurrently service.startSubscribers
   } yield ()
 
-  override def run(args: List[String]): IO[ExitCode] =
+  override def ioRun(args: List[String]): IO[ExitCode] =
     program.compile.drain.as(ExitCode.Success)
 }

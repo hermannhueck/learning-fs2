@@ -21,16 +21,18 @@ class PreciousResource[F[_]: Concurrent: Timer](name: String, s: Semaphore[F]) {
   }
 }
 
-object App03Resources extends IOApp {
+object App03Resources extends hutil.IOApp {
 
-  override def run(args: List[String]): IO[ExitCode] = {
-    val stream = for {
-      s   <- Stream.eval(Semaphore[IO](1))
-      r1  = new PreciousResource[IO]("R1", s)
-      r2  = new PreciousResource[IO]("R2", s)
-      r3  = new PreciousResource[IO]("R3", s)
-      _   <- Stream(r1.use, r2.use, r3.use).parJoin(3).drain
-    } yield ()
+  @scala.annotation.nowarn("cat=w-flag-dead-code&msg=dead code following this construct:ws")
+  val stream = for {
+    s  <- Stream.eval(Semaphore[IO](1))
+    r1 = new PreciousResource[IO]("R1", s)
+    r2 = new PreciousResource[IO]("R2", s)
+    r3 = new PreciousResource[IO]("R3", s)
+    _  <- Stream(r1.use, r2.use, r3.use).parJoin(3).drain
+  } yield ()
+
+  override def ioRun(args: List[String]): IO[ExitCode] = {
     stream.compile.drain.as(ExitCode.Success)
   }
 }

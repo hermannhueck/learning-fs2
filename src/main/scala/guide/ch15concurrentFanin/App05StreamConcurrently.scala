@@ -12,13 +12,17 @@ object App05StreamConcurrently extends hutil.App {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
-  val data: Stream[IO, Int] = Stream.range(1, 10).covary[IO]
+  val data: Stream[IO, Int] =
+    Stream.range(1, 10).covary[IO]
 
-  val signal: IO[SignallingRef[IO, Int]] = fs2.concurrent.SignallingRef[IO, Int](0)
+  val signal: IO[SignallingRef[IO, Int]] =
+    fs2.concurrent.SignallingRef[IO, Int](0)
 
   val intStream: Stream[IO, Int] = Stream
     .eval(signal)
-    .flatMap { sigRef => Stream(sigRef) concurrently data.evalMap(value => sigRef.set(value)) }
+    .flatMap { sigRef =>
+      Stream(sigRef) concurrently data.evalMap(value => sigRef.set(value)) // concurrent streams
+    }
     .flatMap { sig =>
       sig.discrete // stream of the updates to this signal
     }

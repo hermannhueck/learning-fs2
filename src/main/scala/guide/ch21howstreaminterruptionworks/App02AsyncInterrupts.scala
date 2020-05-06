@@ -4,24 +4,30 @@ import cats.effect.{ContextShift, IO}
 import fs2.{INothing, Stream}
 
 import scala.concurrent.ExecutionContext
-import scala.language.higherKinds
+import scala.util.chaining._
 
-object App02AsyncInterrupts extends App {
+object App02AsyncInterrupts extends hutil.App {
 
-  println("\n-----")
-
-  implicit val contextShift: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+  implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
   case object Err extends Throwable
 
-  val s1: Stream[IO, Int] = (Stream(1) ++ Stream(2)).covary[IO]
+  val s1: Stream[IO, Int] =
+    (Stream(1) ++ Stream(2)).covary[IO]
 
-  val s2: Stream[IO, INothing] = (Stream.empty ++ Stream.raiseError[IO](Err)).handleErrorWith { e => println(e); Stream.raiseError[IO](e) }
+  val s2: Stream[IO, INothing] =
+    (Stream.empty ++ Stream.raiseError[IO](Err))
+      .handleErrorWith { e => println(e); Stream.raiseError[IO](e) }
 
-  val merged: Stream[IO, Int] = s1 merge s2 take 1
+  val merged: Stream[IO, Int] =
+    s1 merge s2 take 1
 
-  val res03: Vector[Int] = merged.compile.toVector.unsafeRunSync()
-  println(res03)
+  val res03: Vector[Int] =
+    merged
+      .compile
+      .toVector
+      .unsafeRunSync()
+      .tap(println)
 
   // The result is highly nondeterministic. Here are a few ways it can play out:
   //
@@ -34,6 +40,4 @@ object App02AsyncInterrupts extends App {
   //
   // The correctness of your program should not depend on how different streams interleave, and once again,
   // you should not use handleErrorWith or other interruptible functions for resource cleanup. Use bracket or onFinalize for this purpose.
-  
-  println("-----\n")
 }

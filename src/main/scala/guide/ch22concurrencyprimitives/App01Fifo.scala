@@ -21,15 +21,16 @@ class Buffering[F[_]](q1: Queue[F, Int], q2: Queue[F, Int])(implicit F: Concurre
     ).parJoin(3)
 }
 
-object App01Fifo extends IOApp {
+object App01Fifo extends hutil.IOApp {
 
-  override def run(args: List[String]): IO[ExitCode] = {
-    val stream: Stream[IO, Unit] = for {
-      q1 <- Stream.eval(Queue.bounded[IO, Int](1))
-      q2 <- Stream.eval(Queue.bounded[IO, Int](100))
-      buffering = new Buffering[IO](q1, q2)
-      _  <- Stream.sleep_[IO](5.seconds) concurrently buffering.start.drain
-    } yield ()
+  @scala.annotation.nowarn("cat=w-flag-dead-code&msg=dead code following this construct:ws")
+  val stream: Stream[IO, Unit] = for {
+    q1        <- Stream.eval(Queue.bounded[IO, Int](1))
+    q2        <- Stream.eval(Queue.bounded[IO, Int](100))
+    buffering = new Buffering[IO](q1, q2)
+    _         <- Stream.sleep_[IO](5.seconds) concurrently buffering.start.drain
+  } yield ()
+
+  override def ioRun(args: List[String]): IO[ExitCode] =
     stream.compile.drain.as(ExitCode.Success)
-  }
 }
