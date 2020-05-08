@@ -1,7 +1,8 @@
 package guide.ch11statefultransformation
 
-import fs2.{Pipe, Pull, Stream}
-
+import fs2.Pipe
+import fs2.Pull
+import fs2.Stream
 import munit.Assertions._
 
 object App02StreamTakeWithPull extends hutil.App {

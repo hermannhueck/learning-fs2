@@ -1,11 +1,11 @@
 package guide.ch22concurrencyprimitives
 
-import cats.effect.concurrent.Semaphore
+import scala.concurrent.duration._
+
 import cats.effect._
+import cats.effect.concurrent.Semaphore
 import cats.syntax.functor._
 import fs2.Stream
-
-import scala.concurrent.duration._
 
 class PreciousResource[F[_]: Concurrent: Timer](name: String, s: Semaphore[F]) {
 

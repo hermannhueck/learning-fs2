@@ -1,11 +1,13 @@
 package guide.ch22concurrencyprimitives
 
+import scala.concurrent.duration._
+
 import cats.effect._
 import cats.syntax.all._
-import fs2.concurrent.{SignallingRef, Topic}
-import fs2.{Pipe, Stream}
-
-import scala.concurrent.duration._
+import fs2.Pipe
+import fs2.Stream
+import fs2.concurrent.SignallingRef
+import fs2.concurrent.Topic
 
 sealed trait Event
 case class Text(value: String) extends Event

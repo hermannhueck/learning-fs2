@@ -1,9 +1,10 @@
 package guide.ch17concurrrentFanout
 
-import cats.effect.{ContextShift, IO}
-import fs2.Stream
-
 import scala.concurrent.ExecutionContext
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Stream
 
 object App12bStreamBalance extends hutil.App {
 

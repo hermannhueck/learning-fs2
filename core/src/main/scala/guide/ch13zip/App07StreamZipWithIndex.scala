@@ -1,7 +1,7 @@
 package guide.ch13zip
 
-import munit.Assertions._
 import fs2.Stream
+import munit.Assertions._
 
 object App07StreamZipWithIndex extends hutil.App {
 

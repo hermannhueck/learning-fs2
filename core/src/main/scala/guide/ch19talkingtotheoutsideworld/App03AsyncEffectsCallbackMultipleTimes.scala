@@ -1,10 +1,12 @@
 package guide.ch19talkingtotheoutsideworld
 
-import cats.effect.{ConcurrentEffect, ContextShift, IO}
+import scala.concurrent.ExecutionContext
+
+import cats.effect.ConcurrentEffect
+import cats.effect.ContextShift
+import cats.effect.IO
 import fs2.Stream
 import fs2.concurrent.Queue
-
-import scala.concurrent.ExecutionContext
 
 object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
 

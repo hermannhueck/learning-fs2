@@ -1,7 +1,10 @@
 package guide.ch12exercise2pull
 
-import fs2.{Chunk, INothing, Pipe, Pull, Stream}
-
+import fs2.Chunk
+import fs2.INothing
+import fs2.Pipe
+import fs2.Pull
+import fs2.Stream
 import munit.Assertions._
 
 object App03StreamScan extends hutil.App {

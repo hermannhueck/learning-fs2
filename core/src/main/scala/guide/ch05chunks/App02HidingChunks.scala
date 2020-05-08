@@ -1,7 +1,8 @@
 package guide.ch05chunks
 
 import cats.effect.IO
-import fs2.{Chunk, Stream}
+import fs2.Chunk
+import fs2.Stream
 
 object App02HidingChunks extends hutil.App {
 

@@ -1,10 +1,11 @@
 package guide.ch17concurrrentFanout
 
-import cats.effect.{ContextShift, IO}
-import fs2.concurrent.Broadcast
-import fs2.{Pipe, Stream}
-
 import scala.concurrent.ExecutionContext
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Pipe
+import fs2.Stream
 
 object App04StreamBroadcastThrough extends hutil.App {
 

@@ -1,12 +1,14 @@
 package guide.ch15concurrentFanin
 
-import munit.Assertions._
-import cats.effect.{ContextShift, IO, Timer}
-import fs2.Stream
-
-import scala.util.chaining._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import scala.util.chaining._
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import cats.effect.Timer
+import fs2.Stream
+import munit.Assertions._
 
 object App03StreamEither extends hutil.App {
 

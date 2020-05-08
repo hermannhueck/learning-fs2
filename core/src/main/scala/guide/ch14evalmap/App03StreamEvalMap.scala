@@ -1,10 +1,11 @@
 package guide.ch14evalmap
 
 import scala.util.chaining._
+
+import cats.effect.IO
+import fs2.Stream
 import hutil.stringformat._
 import munit.Assertions._
-import cats.effect.IO
-import fs2.{Pure, Stream}
 
 object App03StreamEvalMap extends hutil.App {
 

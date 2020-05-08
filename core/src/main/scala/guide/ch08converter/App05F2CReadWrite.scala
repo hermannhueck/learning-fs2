@@ -1,14 +1,18 @@
 package guide.ch08converter
 
-import java.nio.file.{Path, Paths}
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.concurrent.Executors
 
-import cats.effect.{ExitCode, IO, IOApp, Resource}
-import cats.implicits._
-import fs2.{io, text, Stream}
+import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContextExecutorService
 
-import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import cats.effect.Blocker
+import cats.effect.ExitCode
+import cats.effect.IO
+import fs2.Stream
+import fs2.io
+import fs2.text
 
 object App05F2CReadWrite extends hutil.IOApp {
 

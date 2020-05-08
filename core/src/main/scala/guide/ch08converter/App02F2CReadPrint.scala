@@ -1,14 +1,18 @@
 package guide.ch08converter
 
-import java.nio.file.{Path, Paths}
-
-import cats.effect.{ContextShift, IO}
-import fs2.{io, text, Stream}
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.concurrent.Executors
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContextExecutorService
-import java.util.concurrent.Executors
+
 import cats.effect.Blocker
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Stream
+import fs2.io
+import fs2.text
 
 object App02F2CReadPrint extends hutil.App {
 

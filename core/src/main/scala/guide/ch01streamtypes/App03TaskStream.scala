@@ -1,11 +1,11 @@
 package guide.ch01streamtypes
 
-import fs2.Stream
-
-import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
-
 import scala.concurrent.duration._
+
+import fs2.Stream
+import monix.eval.Task
+
+import monix.execution.Scheduler.Implicits.global
 
 object App03TaskStream extends hutil.App {
 

@@ -1,7 +1,8 @@
 package guide.ch10pipe
 
-import fs2.{Chunk, Pipe, Stream}
-
+import fs2.Chunk
+import fs2.Pipe
+import fs2.Stream
 import munit.Assertions._
 
 object App01Map extends hutil.App {

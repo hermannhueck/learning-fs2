@@ -1,13 +1,18 @@
 package guide.ch07resource
 
-import java.io.{BufferedInputStream, FileInputStream, InputStream}
+import java.io.BufferedInputStream
+import java.io.FileInputStream
+import java.io.InputStream
 import java.util.concurrent.Executors
 
-import cats.effect.{ContextShift, IO}
-import fs2.{text, Stream}
+import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContextExecutorService
 
-import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 import cats.effect.Blocker
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Stream
+import fs2.text
 
 object App03ExecutionContextResource extends hutil.App {
 

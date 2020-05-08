@@ -1,11 +1,12 @@
 package guide.ch22concurrencyprimitives
 
-import cats.implicits._
-import cats.effect.{Concurrent, ExitCode, IO, IOApp, Timer}
-import fs2.concurrent.Queue
-import fs2.Stream
-
 import scala.concurrent.duration._
+
+import cats.effect.Concurrent
+import cats.effect.ExitCode
+import cats.effect.IO
+import fs2.Stream
+import fs2.concurrent.Queue
 
 class Buffering[F[_]](q1: Queue[F, Int], q2: Queue[F, Int])(implicit F: Concurrent[F]) {
 

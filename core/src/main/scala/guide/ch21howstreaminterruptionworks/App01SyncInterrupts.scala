@@ -1,8 +1,9 @@
 package guide.ch21howstreaminterruptionworks
 
+import scala.util.chaining._
+
 import cats.effect.IO
 import fs2.Stream
-import scala.util.chaining._
 
 object App01SyncInterrupts extends hutil.App {
 

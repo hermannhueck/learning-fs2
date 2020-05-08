@@ -1,13 +1,13 @@
 package guide.ch18interruption
 
-import cats.effect.concurrent.Deferred
-import cats.effect.{ContextShift, IO, Timer}
-import cats.syntax.flatMap._
-import fs2.Stream
-import cats.syntax.either._
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import cats.effect.Timer
+import cats.effect.concurrent.Deferred
+import fs2.Stream
 
 object App06Switcher1 extends hutil.App {
 

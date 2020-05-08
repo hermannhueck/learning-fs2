@@ -1,10 +1,10 @@
 package guide.ch06errors
 
+import scala.util.chaining._
+
 import cats.effect.IO
 import cats.syntax.applicativeError._
-import cats.syntax.flatMap._
 import fs2.Stream
-import scala.util.chaining._
 
 object App02HandlingErrors extends hutil.App {
 

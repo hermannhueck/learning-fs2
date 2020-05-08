@@ -1,12 +1,14 @@
 package guide.ch01streamtypes
 
-import cats.effect.{IO, Sync}
+import scala.concurrent.duration._
+
+import cats.effect.IO
+import cats.effect.Sync
 import fs2.Stream
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
 import myio.MyIO
 
-import scala.concurrent.duration._
+import monix.execution.Scheduler.Implicits.global
 
 object App05FStream extends hutil.App {
 

@@ -1,10 +1,11 @@
 package guide.ch20reactivestreams
 
-import cats.effect.{ContextShift, IO}
+import scala.concurrent.ExecutionContext
+
+import cats.effect.ContextShift
+import cats.effect.IO
 import fs2.Stream
 import fs2.interop.reactivestreams._
-
-import scala.concurrent.ExecutionContext
 
 object App01ReactiveStreams extends hutil.App {
 

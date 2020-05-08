@@ -1,9 +1,11 @@
 package guide.ch15concurrentFanin
 
-import cats.effect.{ContextShift, IO}
-import fs2.Stream
 import scala.concurrent.ExecutionContext
 import scala.util.chaining._
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Stream
 import munit.Assertions._
 
 object App01StreamMerge extends hutil.App {

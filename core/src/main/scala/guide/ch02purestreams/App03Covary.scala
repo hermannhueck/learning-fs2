@@ -1,9 +1,12 @@
 package guide.ch02purestreams
 
-import cats.effect.{IO, Sync}
-import fs2.{Pure, Stream}
-import myio.MyIO
+import cats.effect.IO
+import cats.effect.Sync
+import fs2.Pure
+import fs2.Stream
 import monix.eval.Task
+import myio.MyIO
+
 import monix.execution.Scheduler.Implicits.global
 
 object App03Covary extends hutil.App {

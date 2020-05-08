@@ -1,11 +1,13 @@
 package guide.ch14evalmap
 
+import scala.concurrent.ExecutionContext
 import scala.util.chaining._
+
+import cats.effect.ContextShift
+import cats.effect.IO
+import fs2.Stream
 import hutil.stringformat._
 import munit.Assertions._
-import cats.effect.{ContextShift, IO}
-import fs2.Stream
-import scala.concurrent.ExecutionContext
 
 object App04StreamParEvalMap extends hutil.App {
 

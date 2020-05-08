@@ -1,10 +1,9 @@
 package guide.ch07resource
 
+import scala.util.chaining._
+
 import cats.effect.IO
 import fs2.Stream
-import scala.util.chaining._
-import scala.util.control.NonFatal
-import cats.syntax.TryOps
 
 object App01aResourceAcquisition extends hutil.App {
 

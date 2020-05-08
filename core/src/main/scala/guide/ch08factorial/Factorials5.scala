@@ -1,14 +1,14 @@
 package guide.ch08factorial
 
-import java.nio.file.{Paths, StandardOpenOption}
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 
-import cats.effect.{ContextShift, ExitCode, IO, IOApp}
-import fs2.{io, text, Stream}
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutorService
-import java.util.concurrent.Executors
 import cats.effect.Blocker
+import cats.effect.ExitCode
+import cats.effect.IO
+import fs2.Stream
+import fs2.io
+import fs2.text
 
 object Factorials5 extends hutil.IOApp {
 

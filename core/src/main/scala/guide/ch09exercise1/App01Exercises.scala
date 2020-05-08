@@ -1,9 +1,10 @@
 package guide.ch09exercise1
 
-import cats.effect.IO
-import fs2.{INothing, Stream}
-
 import scala.util.chaining._
+
+import cats.effect.IO
+import fs2.INothing
+import fs2.Stream
 import munit.Assertions._
 
 object App01Exercises extends hutil.App {

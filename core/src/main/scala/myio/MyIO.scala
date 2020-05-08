@@ -1,10 +1,13 @@
 package myio
 
-import cats.effect.{ExitCase, Sync}
-
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.Try
+
+import cats.effect.ExitCase
+import cats.effect.Sync
 
 sealed trait MyIO[+A] extends Product with Serializable {
 
