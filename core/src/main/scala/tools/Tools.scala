@@ -30,7 +30,7 @@ trait Tools {
         fac(n2 - 1, n2 * acc)
 
     if (n < 0)
-      throw new IllegalArgumentException("factorial of $n not defined") // scalafix:ok DisableSyntax.throw
+      throw new IllegalArgumentException(s"factorial of $n not defined") // scalafix:ok DisableSyntax.throw
     else
       fac(n, BigInt(1))
   }

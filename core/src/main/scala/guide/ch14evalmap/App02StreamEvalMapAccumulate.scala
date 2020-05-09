@@ -11,14 +11,14 @@ object App02StreamEvalMapAccumulate extends hutil.App {
   // ----- evalMapAccumulate - Like mapAccumulate, but accepts a function returning an F[_]
 
   val stream: Stream[IO, String]           = Stream("Hello", "World").covary[IO]
-  val accumulated: Stream[IO, (Int, Char)] = stream.evalMapAccumulate(0)((l, s) => IO(l + s.length, s.head))
+  val accumulated: Stream[IO, (Int, Char)] = stream.evalMapAccumulate(0)((l, s) => IO((l + s.length, s.head)))
   val vector: Vector[(Int, Char)]          = accumulated.compile.toVector.unsafeRunSync
   println(vector)
   assertEquals(vector, Vector((5, 'H'), (10, 'W')))
 
   Stream("Hello", "World")
     .covary[IO]
-    .evalMapAccumulate(0)((l, s) => IO(l + s.length, s.head))
+    .evalMapAccumulate(0)((l, s) => IO((l + s.length, s.head)))
     .compile
     .toVector
     .unsafeRunSync

@@ -12,7 +12,7 @@ object App01ImplMergeHaltBoth extends hutil.App {
   // type Pipe2[F[_], -I, -I2, +O] = (Stream[F, I], Stream[F, I2]) => Stream[F, O]
 
   /** Like `merge`, but halts as soon as _either_ branch halts. */
-  @scala.annotation.nowarn("cat=unused-params")
+  // @scala.annotation.nowarn("cat=unused-params")
   def mergeHaltBoth[F[_]: Concurrent, O]: Pipe2[F, O, O, O] = { (s1, s2) =>
     /*
       How to implement ???

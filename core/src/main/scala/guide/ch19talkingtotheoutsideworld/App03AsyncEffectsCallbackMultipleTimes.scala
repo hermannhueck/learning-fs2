@@ -14,7 +14,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
     def withRows(cb: Either[Throwable, Row] => Unit): Unit
   }
 
-  @scala.annotation.nowarn("cat=unused-params&msg=never used")
+  // @scala.annotation.nowarn("cat=unused-params&msg=never used")
   def rows[F[_]](handle: CSVHandle)(implicit F: ConcurrentEffect[F]): Stream[F, Row] =
     for {
       q   <- Stream.eval(Queue.unbounded[F, Either[Throwable, Row]])
