@@ -15,14 +15,12 @@ inThisBuild(
     scalacOptions ++= defaultScalacOptions,
     semanticdbEnabled := true,
     semanticdbVersion := "4.3.10", // scalafixSemanticdb.revision,
-    // addCompilerPlugin(scalafixSemanticdb),
-    // scalacOptions += "-Yrangepos",
-    // scalacOptions -= "-Wconf:any:warning-verbose",
     scalafixDependencies ++= Seq("com.github.liancheng" %% "organize-imports" % "0.3.0"),
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
-      collectionCompat,
+      shapeless,
+      fs2Core,
       munit,
       kindProjectorPlugin,
       betterMonadicForPlugin
@@ -50,7 +48,8 @@ lazy val root = (project in file("."))
   .aggregate(core)
   .settings(
     name := "root",
-    description := "root project"
+    description := "root project",
+    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole
   )
 
 lazy val core = (project in file("core"))
@@ -58,10 +57,8 @@ lazy val core = (project in file("core"))
   .settings(
     name := projectName,
     description := projectDescription,
-    Compile / console / scalacOptions -= "-Ywarn-unused:imports",
+    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole,
     libraryDependencies ++= Seq(
-      shapeless,
-      fs2Core,
       fs2Io,
       fs2ReactiveStreams,
       monixEval
@@ -72,10 +69,7 @@ lazy val hutil = (project in file("hutil"))
   .settings(
     name := "hutil",
     description := "Hermann's Utilities",
-    Compile / console / scalacOptions -= "-Ywarn-unused:imports",
-    libraryDependencies ++= Seq(
-      fs2Core
-    )
+    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole
   )
 
 // GraphBuddy support
