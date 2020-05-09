@@ -13,6 +13,12 @@ inThisBuild(
     scalaVersion := scala213,
     publish / skip := true,
     scalacOptions ++= defaultScalacOptions,
+    semanticdbEnabled := true,
+    semanticdbVersion := "4.3.10", // scalafixSemanticdb.revision,
+    // addCompilerPlugin(scalafixSemanticdb),
+    // scalacOptions += "-Yrangepos",
+    // scalacOptions -= "-Wconf:any:warning-verbose",
+    scalafixDependencies ++= Seq("com.github.liancheng" %% "organize-imports" % "0.3.0"),
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
