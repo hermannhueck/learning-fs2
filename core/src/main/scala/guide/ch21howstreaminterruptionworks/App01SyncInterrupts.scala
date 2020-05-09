@@ -10,7 +10,7 @@ object App01SyncInterrupts extends hutil.App {
   case object Err extends Throwable
 
   val res01: List[Int] =
-    (Stream(1) ++ Stream(2).map(_ => throw Err))
+    (Stream(1) ++ Stream(2).map(_ => throw Err)) // scalafix:ok DisableSyntax.throw
       .take(1)
       .toList
       .tap(println)

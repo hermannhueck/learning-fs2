@@ -9,7 +9,6 @@ import scala.language.reflectiveCalls
 
 trait Tools {
 
-
   final def sumOfRange(from: Int, to: Int): Int =
     (from until to).toList.sum
 
@@ -31,7 +30,7 @@ trait Tools {
         fac(n2 - 1, n2 * acc)
 
     if (n < 0)
-      throw new IllegalArgumentException("factorial of $n not defined")
+      throw new IllegalArgumentException("factorial of $n not defined") // scalafix:ok DisableSyntax.throw
     else
       fac(n, BigInt(1))
   }
@@ -40,10 +39,10 @@ trait Tools {
 
   def printCurrentThread(): Unit = println(currentThread)
 
-
   def wordCount(limit: Int): List[String] => List[(String, Int)] = { lines =>
     // println("-->> wordCount")
-    lines.mkString
+    lines
+      .mkString
       .toLowerCase
       .split("\\W+")
       .toList
@@ -51,14 +50,14 @@ trait Tools {
       .filter(_.length > 3)
       .groupBy(s => s)
       //.mapValues(_.length) // deprecated in 2.13
-      .view.mapValues(_.length) // gives us a MapView[K, V] // Scala 2.13
+      .view
+      .mapValues(_.length) // gives us a MapView[K, V] // Scala 2.13
       .toList
       .filter(_._2 > limit) // return only words with occurences > limit
       .sortWith(_._2 > _._2)
   }
 
-
-  def using[A, CL <: {def close(): Unit}] (closeable: CL) (f: CL => A): A =
+  def using[A, CL <: { def close(): Unit }](closeable: CL)(f: CL => A): A =
     try {
       f(closeable)
     } finally {

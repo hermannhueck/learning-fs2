@@ -10,9 +10,11 @@ object App01RaisingAndCatchingErrors extends hutil.App {
   val err0: Stream[IO, INothing] = Stream.raiseError[IO](new Exception("oh noes!"))
   // err0: fs2.Stream[cats.effect.IO,fs2.INothing] = Stream(..)
 
+  @SuppressWarnings(Array("scalafix:DisableSyntax.throw"))
   val err1: Stream[Pure, Int] = Stream(1, 2, 3) ++ (throw new Exception("!@#$"))
   // err1: fs2.Stream[[x]fs2.Pure[x],Int] = Stream(..)
 
+  @SuppressWarnings(Array("scalafix:DisableSyntax.throw"))
   val err2: Stream[IO, Nothing] = Stream.eval(IO(throw new Exception("error in effect!!!")))
   // err2: fs2.Stream[cats.effect.IO,Nothing] = Stream(..)
 

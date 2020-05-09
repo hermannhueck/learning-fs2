@@ -78,7 +78,7 @@ sealed trait MyIO[+A] extends Product with Serializable {
     onErrorHandleWith { t => pf.applyOrElse(t, raiseError) }
 
   def onErrorRecover[AA >: A](pf: PartialFunction[Throwable, AA]): MyIO[AA] =
-    onErrorHandle { t => pf.applyOrElse(t, throw _: Throwable) }
+    onErrorHandle { t => pf.applyOrElse(t, throw _: Throwable) } // scalafix:ok DisableSyntax.throw
 
   def onErrorRestartIf(p: Throwable => Boolean): MyIO[A] =
     onErrorHandleWith { t =>
@@ -127,7 +127,7 @@ sealed trait MyIO[+A] extends Product with Serializable {
         } catch {
           case t: Throwable =>
             release(resource, ExitCase.error(t))
-            throw t
+            throw t // scalafix:ok DisableSyntax.throw
         }
       }
     }.flatten
@@ -142,15 +142,15 @@ object MyIO {
     override def run(): A = thunk()
   }
   private case class Error[A](exception: Throwable) extends MyIO[A] {
-    override def run(): A = throw exception
+    override def run(): A = throw exception // scalafix:ok DisableSyntax.throw
   }
   private case class Failed[A](io: MyIO[A]) extends MyIO[Throwable] {
     override def run(): Throwable =
       try {
         io.run()
-        throw new NoSuchElementException("failed")
+        throw new NoSuchElementException("failed") // scalafix:ok DisableSyntax.throw
       } catch {
-        case nse: NoSuchElementException if nse.getMessage == "failed" => throw nse
+        case nse: NoSuchElementException if nse.getMessage == "failed" => throw nse // scalafix:ok DisableSyntax.throw
         case throwable: Throwable                                      => throwable
       }
   }

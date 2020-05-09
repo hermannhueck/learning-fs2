@@ -31,7 +31,7 @@ object App02HandlingErrors extends hutil.App {
   errStream
     .handleError {
       case _: IllegalStateException => -1
-      case t: Throwable             => throw t
+      case t: Throwable             => throw t // scalafix:ok DisableSyntax.throw
     }
     .compile
     .toList
