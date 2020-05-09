@@ -2,8 +2,7 @@ package guide.ch17concurrrentFanout
 
 import scala.concurrent.ExecutionContext
 
-import cats.effect.ContextShift
-import cats.effect.IO
+import cats.effect.{ContextShift, IO}
 import fs2.Stream
 import fs2.concurrent.Balance
 

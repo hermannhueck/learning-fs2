@@ -3,10 +3,8 @@ package guide.ch21howstreaminterruptionworks
 import scala.concurrent.ExecutionContext
 import scala.util.chaining._
 
-import cats.effect.ContextShift
-import cats.effect.IO
-import fs2.INothing
-import fs2.Stream
+import cats.effect.{ContextShift, IO}
+import fs2.{INothing, Stream}
 
 object App02AsyncInterrupts extends hutil.App {
 

@@ -3,11 +3,8 @@ package guide.ch16exercise3
 import scala.concurrent.ExecutionContext
 import scala.util.chaining._
 
-import cats.effect.Concurrent
-import cats.effect.ContextShift
-import cats.effect.IO
-import fs2.Pipe2
-import fs2.Stream
+import cats.effect.{Concurrent, ContextShift, IO}
+import fs2.{Pipe2, Stream}
 import munit.Assertions._
 
 object App01ImplMergeHaltBoth extends hutil.App {

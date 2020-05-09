@@ -1,8 +1,6 @@
 package guide.ch02purestreams
 
-import fs2.INothing
-import fs2.Pure
-import fs2.Stream
+import fs2.{INothing, Pure, Stream}
 
 object App01PureStreams extends hutil.App {
 

@@ -3,8 +3,7 @@ package guide.ch08factorial
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-import cats.effect.IO
-import cats.effect.Timer
+import cats.effect.{IO, Timer}
 import fs2.Stream
 
 object Factorials2 extends hutil.App {

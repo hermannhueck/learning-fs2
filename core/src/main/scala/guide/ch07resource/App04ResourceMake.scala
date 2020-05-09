@@ -1,19 +1,12 @@
 package guide.ch07resource
 
-import java.io.BufferedInputStream
-import java.io.FileInputStream
-import java.io.InputStream
+import java.io.{BufferedInputStream, FileInputStream, InputStream}
 import java.util.concurrent.Executors
 
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutorService
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
-import cats.effect.Blocker
-import cats.effect.ContextShift
-import cats.effect.IO
-import cats.effect.Resource
-import fs2.Stream
-import fs2.text
+import cats.effect.{Blocker, ContextShift, IO, Resource}
+import fs2.{Stream, text}
 
 object App04ResourceMake extends hutil.App {
 

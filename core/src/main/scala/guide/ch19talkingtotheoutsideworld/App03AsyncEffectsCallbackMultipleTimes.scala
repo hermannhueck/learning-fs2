@@ -2,9 +2,7 @@ package guide.ch19talkingtotheoutsideworld
 
 import scala.concurrent.ExecutionContext
 
-import cats.effect.ConcurrentEffect
-import cats.effect.ContextShift
-import cats.effect.IO
+import cats.effect.{ConcurrentEffect, ContextShift, IO}
 import fs2.Stream
 import fs2.concurrent.Queue
 

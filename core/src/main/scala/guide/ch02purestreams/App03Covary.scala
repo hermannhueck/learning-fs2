@@ -1,9 +1,7 @@
 package guide.ch02purestreams
 
-import cats.effect.IO
-import cats.effect.Sync
-import fs2.Pure
-import fs2.Stream
+import cats.effect.{IO, Sync}
+import fs2.{Pure, Stream}
 import monix.eval.Task
 import myio.MyIO
 

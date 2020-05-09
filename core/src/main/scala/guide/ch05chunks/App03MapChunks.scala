@@ -1,7 +1,6 @@
 package guide.ch05chunks
 
-import fs2.Chunk
-import fs2.Stream
+import fs2.{Chunk, Stream}
 
 object App03MapChunks extends hutil.App {
 

@@ -1,9 +1,7 @@
 package guide.ch06errors
 
 import cats.effect.IO
-import fs2.INothing
-import fs2.Pure
-import fs2.Stream
+import fs2.{INothing, Pure, Stream}
 
 object App01RaisingAndCatchingErrors extends hutil.App {
 

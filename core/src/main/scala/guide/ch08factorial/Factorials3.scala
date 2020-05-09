@@ -1,18 +1,12 @@
 package guide.ch08factorial
 
-import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
+import java.nio.file.{Paths, StandardOpenOption}
 import java.util.concurrent.Executors
 
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContextExecutorService
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
-import cats.effect.Blocker
-import cats.effect.ContextShift
-import cats.effect.IO
-import fs2.Stream
-import fs2.io
-import fs2.text
+import cats.effect.{Blocker, ContextShift, IO}
+import fs2.{Stream, io, text}
 
 object Factorials3 extends hutil.App {
 

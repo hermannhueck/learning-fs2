@@ -2,8 +2,7 @@ package guide.ch01streamtypes
 
 import scala.concurrent.duration._
 
-import cats.effect.IO
-import cats.effect.Sync
+import cats.effect.{IO, Sync}
 import fs2.Stream
 import monix.eval.Task
 import myio.MyIO

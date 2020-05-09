@@ -1,7 +1,6 @@
 package guide.ch19talkingtotheoutsideworld
 
-import cats.effect.Async
-import cats.effect.IO
+import cats.effect.{Async, IO}
 import fs2.Stream
 import hutil.stringformat._
 

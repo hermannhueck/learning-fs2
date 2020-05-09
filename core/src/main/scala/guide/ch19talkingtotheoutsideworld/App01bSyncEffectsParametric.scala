@@ -1,7 +1,6 @@
 package guide.ch19talkingtotheoutsideworld
 
-import cats.effect.IO
-import cats.effect.Sync
+import cats.effect.{IO, Sync}
 import fs2.Stream
 
 object App01bSyncEffectsParametric extends hutil.App {

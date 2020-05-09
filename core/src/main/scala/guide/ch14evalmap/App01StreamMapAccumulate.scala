@@ -2,8 +2,7 @@ package guide.ch14evalmap
 
 import scala.util.chaining._
 
-import fs2.Pure
-import fs2.Stream
+import fs2.{Pure, Stream}
 import munit.Assertions._
 
 object App01StreamMapAccumulate extends hutil.App {

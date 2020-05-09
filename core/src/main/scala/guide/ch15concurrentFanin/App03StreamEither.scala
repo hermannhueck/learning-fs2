@@ -4,9 +4,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.chaining._
 
-import cats.effect.ContextShift
-import cats.effect.IO
-import cats.effect.Timer
+import cats.effect.{ContextShift, IO, Timer}
 import fs2.Stream
 import munit.Assertions._
 

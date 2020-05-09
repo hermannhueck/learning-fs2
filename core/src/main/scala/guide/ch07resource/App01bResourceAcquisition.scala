@@ -2,8 +2,7 @@ package guide.ch07resource
 
 import scala.util.chaining._
 
-import cats.effect.IO
-import cats.effect.Resource
+import cats.effect.{IO, Resource}
 import fs2.Stream
 
 object App01bResourceAcquisition extends hutil.App {

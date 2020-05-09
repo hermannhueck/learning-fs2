@@ -1,8 +1,7 @@
 package guide.ch02purestreams
 
-import fs2.Pure
-import fs2.Stream
 import fs2.Stream.PureTo
+import fs2.{Pure, Stream}
 
 object App02StreamToCollection extends hutil.App {
 

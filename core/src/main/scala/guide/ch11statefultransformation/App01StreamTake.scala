@@ -1,8 +1,6 @@
 package guide.ch11statefultransformation
 
-import fs2.Chunk
-import fs2.Pipe
-import fs2.Stream
+import fs2.{Chunk, Pipe, Stream}
 import munit.Assertions._
 
 object App01StreamTake extends hutil.App {

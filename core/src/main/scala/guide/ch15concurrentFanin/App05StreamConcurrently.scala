@@ -3,8 +3,7 @@ package guide.ch15concurrentFanin
 import scala.concurrent.ExecutionContext
 import scala.util.chaining._
 
-import cats.effect.ContextShift
-import cats.effect.IO
+import cats.effect.{ContextShift, IO}
 import fs2.Stream
 import fs2.concurrent.SignallingRef
 import munit.Assertions._

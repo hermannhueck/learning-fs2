@@ -1,8 +1,7 @@
 package guide.ch01streamtypes
 
 import cats.Id
-import fs2.Pure
-import fs2.Stream
+import fs2.{Pure, Stream}
 
 object App04PureStream extends hutil.App {
 

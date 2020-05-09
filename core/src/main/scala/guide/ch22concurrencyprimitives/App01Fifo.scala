@@ -2,9 +2,7 @@ package guide.ch22concurrencyprimitives
 
 import scala.concurrent.duration._
 
-import cats.effect.Concurrent
-import cats.effect.ExitCode
-import cats.effect.IO
+import cats.effect.{Concurrent, ExitCode, IO}
 import fs2.Stream
 import fs2.concurrent.Queue
 

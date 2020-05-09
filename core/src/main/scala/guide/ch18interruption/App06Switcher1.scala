@@ -3,10 +3,8 @@ package guide.ch18interruption
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-import cats.effect.ContextShift
-import cats.effect.IO
-import cats.effect.Timer
 import cats.effect.concurrent.Deferred
+import cats.effect.{ContextShift, IO, Timer}
 import fs2.Stream
 
 object App06Switcher1 extends hutil.App {

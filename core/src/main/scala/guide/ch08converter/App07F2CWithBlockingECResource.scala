@@ -1,14 +1,9 @@
 package guide.ch08converter
 
-import java.nio.file.Path
-import java.nio.file.Paths
+import java.nio.file.{Path, Paths}
 
-import cats.effect.Blocker
-import cats.effect.ExitCode
-import cats.effect.IO
-import fs2.Stream
-import fs2.io
-import fs2.text
+import cats.effect.{Blocker, ExitCode, IO}
+import fs2.{Stream, io, text}
 
 /*
   Step-by-step explanation at:

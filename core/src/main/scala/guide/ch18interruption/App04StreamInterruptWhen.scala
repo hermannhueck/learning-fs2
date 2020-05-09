@@ -3,13 +3,10 @@ package guide.ch18interruption
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-import cats.effect.ContextShift
-import cats.effect.IO
-import cats.effect.Timer
+import cats.effect.{ContextShift, IO, Timer}
 import cats.syntax.flatMap._
 import fs2.Stream
-import fs2.concurrent.Signal
-import fs2.concurrent.SignallingRef
+import fs2.concurrent.{Signal, SignallingRef}
 
 object App04StreamInterruptWhen extends hutil.App {
 
