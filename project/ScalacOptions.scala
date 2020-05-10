@@ -41,10 +41,12 @@ object ScalacOptions {
     "-Ymacro-annotations"                        // Enable support for macro annotations, formerly in macro paradise.
   )
 
-  lazy val scalcOptionsToRemoveForConsole = Seq(
+  lazy val scalacOptionsToRemoveForConsole = Seq(
     "-Werror", // new for -Xfatal-warnings
     "-Xfatal-warnings",
     "-Wunused:imports", // new for -Ywarn-unused:imports
     "-Ywarn-unused:imports"
   )
+
+  lazy val consoleScalacOptions = defaultScalacOptions.diff(scalacOptionsToRemoveForConsole)
 }

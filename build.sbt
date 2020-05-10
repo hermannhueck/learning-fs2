@@ -49,7 +49,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "root",
     description := "root project",
-    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole,
+    Compile / console / scalacOptions := consoleScalacOptions,
     sourceDirectories := Seq.empty
   )
 
@@ -58,7 +58,7 @@ lazy val core = (project in file("core"))
   .settings(
     name := projectName,
     description := projectDescription,
-    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole,
+    Compile / console / scalacOptions := consoleScalacOptions,
     libraryDependencies ++= Seq(
       fs2Io,
       fs2ReactiveStreams,
@@ -70,7 +70,7 @@ lazy val hutil = (project in file("hutil"))
   .settings(
     name := "hutil",
     description := "Hermann's Utilities",
-    Compile / console / scalacOptions --= scalcOptionsToRemoveForConsole
+    Compile / console / scalacOptions := consoleScalacOptions
   )
 
 // GraphBuddy support
