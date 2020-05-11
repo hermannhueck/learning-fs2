@@ -3,9 +3,11 @@ package guide.ch08factorial
 import java.nio.file.{Paths, StandardOpenOption}
 
 import cats.effect.{Blocker, ExitCode, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 object Factorials5 extends hutil.IOApp {
+
+  val outputFile = "output/factorials-fs2.txt"
 
   val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
@@ -20,7 +22,7 @@ object Factorials5 extends hutil.IOApp {
         .through(
           io.file
             .writeAll(
-              Paths.get("output/factorials-fs2.txt"),
+              Paths.get(outputFile),
               blocker,
               flags = List(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
             )
@@ -29,8 +31,7 @@ object Factorials5 extends hutil.IOApp {
 
   def ioRun(args: List[String]): IO[ExitCode] =
     for {
-      _ <- IO(println("\n====="))
       _ <- stream.compile.drain
-      _ <- IO(println("=====\n"))
+      _ <- IO(println(s"Factorals written to $outputFile"))
     } yield ExitCode.Success
 }
