@@ -18,5 +18,4 @@ project/metals.sbt
 
 # hidden files
 .history
-.dotty-ide-disabled
 .DS_Store
