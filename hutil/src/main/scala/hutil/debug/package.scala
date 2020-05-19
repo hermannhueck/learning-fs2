@@ -9,10 +9,25 @@ import scala.reflect.macros.blackbox
  */
 package object debug {
 
+  /*
+    macro debug1, debugging a single expression
+   */
+  def debug1(param: Any): Unit = macro debug1_impl
+
+  def debug1_impl(c: blackbox.Context)(param: c.Expr[Any]): c.Expr[Unit] = {
+    import c.universe._
+    val paramRep     = show(param.tree)
+    val paramRepTree = Literal(Constant(paramRep))
+    val paramRepExpr = c.Expr[String](paramRepTree)
+    reify {
+      println(paramRepExpr.splice + " = " + param.splice)
+    }
+  }
+
   def debug(params: Any*): Unit = macro debug_impl
 
   /*
-    macro debug
+    macro debug, debugging a Seq of expressions
    */
   def debug_impl(c: blackbox.Context)(params: c.Expr[Any]*): c.Expr[Unit] = {
 
@@ -40,6 +55,7 @@ package object debug {
     // Inserting ", " between trees, and a println at the end.
     val separators = (1 until trees.size)
       .map(_ => reify { print(", ") }.tree) :+ reify { println() }.tree
+
     val treesWithSeparators =
       trees.zip(separators).flatMap(p => List(p._1, p._2))
 
