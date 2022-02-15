@@ -23,7 +23,7 @@ object App01SyncInterrupts extends hutil.App {
       .take(1)
       .compile
       .toList
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
 
   // The reason is simple: the consumer (the take(1)) terminates as soon as it has an element. Once it has that element,
@@ -41,7 +41,7 @@ object App01SyncInterrupts extends hutil.App {
       .take(1)
       .compile
       .toVector
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
   // finalized!
   // res03: Vector[Int] = Vector(1)

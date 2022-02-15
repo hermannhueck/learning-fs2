@@ -42,10 +42,10 @@ object App01Exercises extends hutil.App {
     Stream(1, 2).covary[IO] ++ Stream.raiseError[IO](new Exception("nooo!!!"))
 
   val attempted: List[Either[Throwable, Int]] =
-    errStream.attempt.compile.toList.unsafeRunSync tap println
+    errStream.attempt.compile.toList.unsafeRunSync() tap println
 
   val exAttempted: List[Either[Throwable, Int]] =
-    errStream.attemptIt.compile.toList.unsafeRunSync tap println
+    errStream.attemptIt().compile.toList.unsafeRunSync() tap println
 
   assertEquals(exAttempted, attempted)
 }

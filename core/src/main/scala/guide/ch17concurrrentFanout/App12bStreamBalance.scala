@@ -19,5 +19,5 @@ object App12bStreamBalance extends hutil.App {
       .take(10)
       .parJoin(10)
 
-  balancedStream.compile.drain.unsafeRunSync
+  balancedStream.compile.drain.unsafeRunSync()
 }

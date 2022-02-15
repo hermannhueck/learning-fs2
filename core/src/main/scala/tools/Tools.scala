@@ -68,6 +68,6 @@ trait Tools {
     using {
       Source.fromURL(url)
     } {
-      _.getLines.toList
+      _.getLines().toList
     }
 }

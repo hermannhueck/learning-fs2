@@ -22,7 +22,7 @@ class Buffering[F[_]](q1: Queue[F, Int], q2: Queue[F, Int])(implicit F: Concurre
 
 object App01Fifo extends hutil.IOApp {
 
-  @scala.annotation.nowarn("cat=w-flag-dead-code&msg=dead code following this construct:ws")
+  @scala.annotation.nowarn("cat=w-flag-dead-code")
   val stream: Stream[IO, Unit] = for {
     q1        <- Stream.eval(Queue.bounded[IO, Int](1))
     q2        <- Stream.eval(Queue.bounded[IO, Int](100))

@@ -24,7 +24,7 @@ object App02StreamMergeHaltBoth extends hutil.App {
   merged
     .compile
     .toVector
-    .unsafeRunSync
+    .unsafeRunSync()
     .tap(println)
     .pipe(assertEquals(_, Vector(1, 2, 3)))
   // res0: Vector[Int] = Vector(1, 2, 3)

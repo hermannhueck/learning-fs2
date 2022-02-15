@@ -27,5 +27,5 @@ object App12cStreamBalanceAvailable extends hutil.App {
       }
 
   val joined: Stream[IO, Unit] = streamOfStreams.take(3).parJoinUnbounded
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }

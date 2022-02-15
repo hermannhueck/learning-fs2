@@ -6,7 +6,7 @@ import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
 import cats.effect.{Blocker, ContextShift, IO, Resource}
-import fs2.{Stream, text}
+import fs2.{text, Stream}
 
 object App04ResourceMake extends hutil.App {
 

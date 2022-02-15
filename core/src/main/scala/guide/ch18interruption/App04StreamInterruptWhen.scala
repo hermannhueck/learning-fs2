@@ -35,5 +35,5 @@ object App04StreamInterruptWhen extends hutil.App {
       int         <- streamToInterrupt(interrupter) concurrently interrupterStream(interrupter)
     } yield int
 
-  interruptedStream.compile.drain.unsafeRunSync
+  interruptedStream.compile.drain.unsafeRunSync()
 }

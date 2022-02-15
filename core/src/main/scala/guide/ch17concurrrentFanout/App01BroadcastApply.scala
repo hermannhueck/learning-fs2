@@ -26,5 +26,5 @@ object App01BroadcastApply extends hutil.App {
     .parJoinUnbounded
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 }

@@ -23,5 +23,5 @@ object App13BalanceThrough extends hutil.App {
   val pipeOfPipes: Pipe[IO, Int, Unit] = Balance.through(chunkSize = 2)(pipes: _*)
 
   val joined: Stream[IO, Unit] = stream.through(pipeOfPipes)
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }

@@ -17,5 +17,5 @@ object App01ReactiveStreams extends hutil.App {
 
   val stream2: Stream[IO, Int] = publisher.toStream[IO]
 
-  stream2.compile.toList.map(println).unsafeRunSync
+  stream2.compile.toList.map(println).unsafeRunSync()
 }

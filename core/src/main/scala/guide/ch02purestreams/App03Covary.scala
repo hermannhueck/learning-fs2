@@ -1,6 +1,7 @@
 package guide.ch02purestreams
 
-import cats.effect.{IO, Sync}
+// import cats.effect.{IO, Sync}
+import cats.effect.IO
 import fs2.{Pure, Stream}
 import monix.eval.Task
 import myio.MyIO
@@ -26,9 +27,9 @@ object App03Covary extends hutil.App {
   println(taskStream.compile.toVector.runSyncUnsafe())
 
   println("\n>>> covary pure Stream to F[_]: Sync")
-  def fStream[F[_]: Sync]: Stream[F, Int] = pureStream.covary[F]
-  def effect[F[_]: Sync]: F[Vector[Int]]  = fStream.compile.toVector
-  println(effect[IO].unsafeRunSync())
-  println(effect[MyIO].unsafeRunSync())
-  println(effect[Task].runSyncUnsafe())
+  // def fStream[F[_]: Sync]: Stream[F, Int] = pureStream.covary[F]
+  // def effect[F[_]: Sync]: F[Vector[Int]]  = fStream.compile.toVector
+  // println(effect[IO].unsafeRunSync())
+  // println(effect[MyIO].unsafeRunSync())
+  // println(effect[Task].runSyncUnsafe())
 }

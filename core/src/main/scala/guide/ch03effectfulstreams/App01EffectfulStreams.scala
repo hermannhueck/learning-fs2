@@ -32,19 +32,19 @@ object App01EffectfulStreams extends hutil.App {
   // res1: Vector[Int] = Vector(2)
   println(res1)
 
-  println
+  println()
   val res2: Unit = io2.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res2: Unit = ()
   println(res2)
 
-  println
+  println()
   val res3a = io3.unsafeRunSync()
   //=> TASK BEING RUN!!
   // res3a: Int = 2
   println(res3a)
 
-  println
+  println()
   println("// No memoization!")
   println("// The 2nd run produces the side effect and the result again.")
   val res3b = io3.unsafeRunSync()

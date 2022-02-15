@@ -5,7 +5,7 @@ import java.nio.file.{Paths, StandardOpenOption}
 import scala.concurrent.ExecutionContext
 
 import cats.effect.{Blocker, ContextShift, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 object Factorials4 extends hutil.App {
 

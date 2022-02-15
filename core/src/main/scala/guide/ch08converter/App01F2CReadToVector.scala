@@ -6,7 +6,7 @@ import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
 import cats.effect.{Blocker, ContextShift, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 object App01F2CReadToVector extends hutil.App {
 

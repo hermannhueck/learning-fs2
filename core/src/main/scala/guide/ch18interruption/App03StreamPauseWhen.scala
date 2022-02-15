@@ -27,5 +27,5 @@ object App03StreamPauseWhen extends hutil.App {
   val pausedStream: Stream[IO, Int] =
     stream.pauseWhen(pauserStream) // !!!!! Doesn't resume! Don't know why!
 
-  pausedStream.compile.drain.unsafeRunSync
+  pausedStream.compile.drain.unsafeRunSync()
 }

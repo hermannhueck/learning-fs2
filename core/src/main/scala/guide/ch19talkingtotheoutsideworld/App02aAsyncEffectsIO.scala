@@ -28,22 +28,22 @@ object App02aAsyncEffectsIO extends hutil.App {
   }
   // ioBytes: cats.effect.IO[Array[Byte]] = IO$425428304
 
-  ">>> Evaluate IO directly ...".magenta.println
+  ">>> Evaluate IO directly ...".magenta.println()
   val ioRes =
     ioBytes
-      .unsafeRunSync
+      .unsafeRunSync()
       .toList
   // ioRes: List[Byte] = List(0, 1, 2)
   println(ioRes)
 
-  ">>> Evaluate IO in a Stream ...".magenta.println
+  ">>> Evaluate IO in a Stream ...".magenta.println()
   val streamRes =
     Stream
       .eval(ioBytes)
       .map(_.toList)
       .compile
       .toVector
-      .unsafeRunSync
+      .unsafeRunSync()
   // streamRes: Vector[List[Byte]] = Vector(List(0, 1, 2))
   println(streamRes)
   println(streamRes.toList.flatten)

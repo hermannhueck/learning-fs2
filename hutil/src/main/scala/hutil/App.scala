@@ -5,7 +5,7 @@ import scala.collection.mutable.ListBuffer
 
 import hutil.classname._
 import hutil.stringformat._
-@scala.annotation.nowarn("cat=deprecation&since=2.11.0&msg=trait DelayedInit:ws")
+@scala.annotation.nowarn("cat=deprecation")
 trait App extends DelayedInit {
 
   final val executionStart: Long = currentTime
@@ -18,12 +18,12 @@ trait App extends DelayedInit {
 
   def execBody(body: => Unit): Unit =
     try {
-      runtimeInfo.blue.boxed.println
-      objectName(this).blue.boxed.println
+      runtimeInfo.blue.boxed.println()
+      objectName(this).blue.boxed.println()
       body
     } finally {
       val total = currentTime - executionStart
-      s"[total: $total ms]".blue.boxed.println
+      s"[total: $total ms]".blue.boxed.println()
     }
 
   override def delayedInit(body: => Unit): Unit = {

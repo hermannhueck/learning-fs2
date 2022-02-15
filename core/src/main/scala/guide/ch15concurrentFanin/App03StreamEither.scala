@@ -18,7 +18,7 @@ object App03StreamEither extends hutil.App {
   s1.either(s2)
     .compile
     .toVector
-    .unsafeRunSync
+    .unsafeRunSync()
     .tap(println)
     .pipe(assertEquals(_, Vector(Left(1), Left(2), Left(3), Right(4))))
   // res0: Vector[Int] = Vector(Left(1), Left(2), Left(3), Left(4))
@@ -26,7 +26,7 @@ object App03StreamEither extends hutil.App {
   s2.either(s1)
     .compile
     .toVector
-    .unsafeRunSync
+    .unsafeRunSync()
     .tap(println)
     .pipe(assertEquals(_, Vector(Right(1), Right(2), Right(3), Left(4))))
   // res1: Vector[Int] = Vector(Right(1), Right(2), Right(3), Left(4))
@@ -47,7 +47,7 @@ object App03StreamEither extends hutil.App {
     s5.take(count)
       .compile
       .toVector
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
       .tap(assertEquals(_, expected))
 }

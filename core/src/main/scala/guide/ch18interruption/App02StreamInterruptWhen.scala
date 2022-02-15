@@ -29,5 +29,5 @@ object App02StreamInterruptWhen extends hutil.App {
       .interruptWhen(interruptOnTermination)
       .handleErrorWith { _ /*throwable*/ => Stream(-1000) } // prevents the exeption being thrown
 
-  interruptedStream.compile.drain.unsafeRunSync
+  interruptedStream.compile.drain.unsafeRunSync()
 }

@@ -26,5 +26,5 @@ object App06Switcher1 extends hutil.App {
         .concurrently(switcher)
     }
 
-  program.compile.drain.unsafeRunSync
+  program.compile.drain.unsafeRunSync()
 }

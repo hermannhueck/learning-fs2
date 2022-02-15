@@ -15,7 +15,7 @@ object App01bSyncEffectsParametric extends hutil.App {
       Stream("...moving on")
   // def s[F[_]: Sync]: Stream[F, String] = Stream.eval_(Sync[F].delay { destroyUniverse() }) ++ Stream("...moving on")
 
-  val res = s[IO].compile.toVector.unsafeRunSync
+  val res = s[IO].compile.toVector.unsafeRunSync()
   // BOOOOM!!!
   // res: Vector[String] = Vector(...moving on)
 

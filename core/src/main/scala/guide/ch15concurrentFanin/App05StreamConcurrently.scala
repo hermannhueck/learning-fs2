@@ -31,7 +31,7 @@ object App05StreamConcurrently extends hutil.App {
   val result: Option[Int] = intStream
     .compile
     .last
-    .unsafeRunSync
+    .unsafeRunSync()
     .tap(println)
     .tap(assertEquals(_, Some(9)))
 }

@@ -17,7 +17,7 @@ object TestDebugMacro extends hutil.App {
 
     def f2(p: Int) = p + 1
 
-    s"$dash10 Macro debug1 $dash10".magenta.println
+    s"$dash10 Macro debug1 $dash10".magenta.println()
 
     val y = 10
 
@@ -25,7 +25,7 @@ object TestDebugMacro extends hutil.App {
     debug1(y * 2)
     debug1(f1(y))
 
-    s"$dash10 Macro debug $dash10".magenta.println
+    s"$dash10 Macro debug $dash10".magenta.println()
 
     val b = 20
     val c = 30

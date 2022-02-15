@@ -15,7 +15,7 @@ object App01aSyncEffectsIO extends hutil.App {
       Stream("...moving on")
   // s: fs2.Stream[[x]cats.effect.IO[x],String] = Stream(..)
 
-  val res = s.compile.toVector.unsafeRunSync
+  val res = s.compile.toVector.unsafeRunSync()
   // BOOOOM!!!
   // res: Vector[String] = Vector(...moving on)
 

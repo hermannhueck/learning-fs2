@@ -18,35 +18,35 @@ object App04StreamParEvalMap extends hutil.App {
 
   val s: Stream[IO, Int] = Stream(1, 2, 3, 4).covary[IO]
 
-  s"$dash10 parEvalMap".magenta.println
+  s"$dash10 parEvalMap".magenta.println()
   s.parEvalMap(maxConcurrent = 2)(i => IO(println(i)))
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 
-  dash10.magenta.println
+  dash10.magenta.println()
   val list =
     s.parEvalMap(maxConcurrent = 2)(i => IO { println(i); i * i })
       .compile
       .toList
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
       .tap(assertEquals(_, List(1, 4, 9, 16)))
 
   // ----- mapAsync is an alias for parEvalMap
 
-  s"$dash10 mapAsync".magenta.println
+  s"$dash10 mapAsync".magenta.println()
   s.mapAsync(maxConcurrent = 2)(i => IO(println(i)))
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 
-  dash10.magenta.println
+  dash10.magenta.println()
   val list2 =
     s.mapAsync(maxConcurrent = 2)(i => IO { println(i); i * i })
       .compile
       .toList
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
       .tap(assertEquals(_, List(1, 4, 9, 16)))
 }

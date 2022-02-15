@@ -15,5 +15,5 @@ object App07Switcher2 extends hutil.App {
   val program =
     Stream.repeatEval(IO(println(java.time.LocalTime.now))).metered(1.second).interruptAfter(5.seconds)
 
-  program.compile.drain.unsafeRunSync
+  program.compile.drain.unsafeRunSync()
 }

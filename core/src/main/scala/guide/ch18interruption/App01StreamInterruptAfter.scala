@@ -22,5 +22,5 @@ object App01StreamInterruptAfter extends hutil.App {
     .interruptAfter(2600.milliseconds)
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 }

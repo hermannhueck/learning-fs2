@@ -23,5 +23,5 @@ object App03BroadcastThrough extends hutil.App {
   val pipeOfPipes: Pipe[IO, Int, Unit] = Broadcast.through(pipes: _*)
 
   val joined: Stream[IO, Unit] = stream.through(pipeOfPipes)
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }

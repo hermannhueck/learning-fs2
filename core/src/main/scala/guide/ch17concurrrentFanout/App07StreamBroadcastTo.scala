@@ -18,5 +18,5 @@ object App07StreamBroadcastTo extends hutil.App {
         .evalMap { o => IO(println(s">> ?: ${o.toString}")) }
 
   val joined: Stream[IO, Unit] = stream.broadcastTo(maxConcurrent = 3)(pipe)
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }

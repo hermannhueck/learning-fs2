@@ -24,5 +24,5 @@ object App03StreamInterruptWhen extends hutil.App {
   val interruptedStream: Stream[IO, Int] =
     stream.interruptWhen(interrupterStream)
 
-  interruptedStream.compile.drain.unsafeRunSync
+  interruptedStream.compile.drain.unsafeRunSync()
 }

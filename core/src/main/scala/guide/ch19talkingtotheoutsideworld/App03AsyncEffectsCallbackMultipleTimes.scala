@@ -18,7 +18,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
   def rows[F[_]](handle: CSVHandle)(implicit F: ConcurrentEffect[F]): Stream[F, Row] =
     for {
       q   <- Stream.eval(Queue.unbounded[F, Either[Throwable, Row]])
-      _   <- Stream.eval { F.delay(handle.withRows(e => F.runAsync(q.enqueue1(e))(_ => IO.unit).unsafeRunSync)) }
+      _   <- Stream.eval { F.delay(handle.withRows(e => F.runAsync(q.enqueue1(e))(_ => IO.unit).unsafeRunSync())) }
       row <- q.dequeue.rethrow
     } yield row
 
@@ -35,7 +35,7 @@ object App03AsyncEffectsCallbackMultipleTimes extends hutil.App {
   val stream: Stream[IO, Row] = rows[IO](csvHandle)
 
   val io: IO[List[Row]] = stream.compile.toList
-  val res: List[Row]    = io.unsafeRunSync
+  val res: List[Row]    = io.unsafeRunSync()
 
   println(res)
 }

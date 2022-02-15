@@ -18,5 +18,5 @@ object App15StreamBalanceThrough extends hutil.App {
         .evalMap { o => IO(println(s">> ?: ${o.toString}")) }
 
   val joined: Stream[IO, Unit] = stream.balanceThrough(chunkSize = 2, maxConcurrent = 3)(pipe)
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }

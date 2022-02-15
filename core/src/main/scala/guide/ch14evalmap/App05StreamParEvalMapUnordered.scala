@@ -15,35 +15,35 @@ object App05StreamParEvalMapUnordered extends hutil.App {
 
   val s: Stream[IO, Int] = Stream(1, 2, 3, 4).covary[IO]
 
-  s"$dash10 parEvalMapUnordered (resulting order of elements is NOT guaranteed)".magenta.println
+  s"$dash10 parEvalMapUnordered (resulting order of elements is NOT guaranteed)".magenta.println()
   s.parEvalMapUnordered(maxConcurrent = 2)(i => IO(println(i)))
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 
-  dash10.magenta.println
+  dash10.magenta.println()
   val list =
     s.parEvalMapUnordered(maxConcurrent = 2)(i => IO { println(i); i * i })
       .compile
       .toList
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
       .tap(l => assertEquals(l.sorted, List(1, 4, 9, 16)))
 
   // ----- mapAsyncUnordered is an alias for parEvalMapUnordered
 
-  s"$dash10 mapAsyncUnordered (resulting order of elements is NOT guaranteed)".magenta.println
+  s"$dash10 mapAsyncUnordered (resulting order of elements is NOT guaranteed)".magenta.println()
   s.mapAsyncUnordered(maxConcurrent = 2)(i => IO(println(i)))
     .compile
     .drain
-    .unsafeRunSync
+    .unsafeRunSync()
 
-  dash10.magenta.println
+  dash10.magenta.println()
   val list2 =
     s.mapAsyncUnordered(maxConcurrent = 2)(i => IO { println(i); i * i })
       .compile
       .toList
-      .unsafeRunSync
+      .unsafeRunSync()
       .tap(println)
       .tap(l => assertEquals(l.sorted, List(1, 4, 9, 16)))
 }

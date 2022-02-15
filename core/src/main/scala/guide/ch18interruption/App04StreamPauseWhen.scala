@@ -37,5 +37,5 @@ object App04StreamPauseWhen extends hutil.App {
       int         <- streamToPause(interrupter) concurrently pauserStream(interrupter)
     } yield int
 
-  pausedStream.compile.drain.unsafeRunSync
+  pausedStream.compile.drain.unsafeRunSync()
 }

@@ -23,7 +23,7 @@ class PreciousResource[F[_]: Concurrent: Timer](name: String, s: Semaphore[F]) {
 
 object App03Resources extends hutil.IOApp {
 
-  @scala.annotation.nowarn("cat=w-flag-dead-code&msg=dead code following this construct:ws")
+  @scala.annotation.nowarn("cat=w-flag-dead-code")
   val stream = for {
     s  <- Stream.eval(Semaphore[IO](1))
     r1 = new PreciousResource[IO]("R1", s)

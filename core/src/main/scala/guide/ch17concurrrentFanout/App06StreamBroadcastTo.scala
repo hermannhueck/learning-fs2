@@ -20,5 +20,5 @@ object App06StreamBroadcastTo extends hutil.App {
   val pipes = Seq(pipe(1), pipe(2), pipe(3))
 
   val joined: Stream[IO, Unit] = stream.broadcastTo(pipes: _*)
-  joined.compile.drain.unsafeRunSync
+  joined.compile.drain.unsafeRunSync()
 }
