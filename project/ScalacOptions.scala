@@ -20,16 +20,17 @@ object ScalacOptions {
     "-Wdead-code",                // Warn when dead code is identified.
     "-Wextra-implicit",           // Warn when more than one implicit parameter section is defined.
     "-Wnumeric-widen",            // Warn when numerics are widened.
-    "-Wself-implicit",            // Warn when an implicit resolves to an enclosing self-definition.
-    "-Wunused:imports",           // Warn if an import selector is not referenced.
-    "-Wunused:patvars",           // Warn if a variable bound in a pattern is unused.
-    "-Wunused:privates",          // Warn if a private member is unused.
-    "-Wunused:locals",            // Warn if a local definition is unused.
-    "-Wunused:explicits",         // Warn if an explicit parameter is unused.
-    "-Wunused:implicits",         // Warn if an implicit parameter is unused.
-    "-Wunused:params",            // Enable -Wunused:explicits,implicits.
-    "-Wunused:linted",            // -Xlint:unused.
-    "-Wvalue-discard",            // Warn when non-Unit expression results are unused.
+    // "-Wself-implicit",            // Warn when an implicit resolves to an enclosing self-definition.
+    "-Xlint:implicit-recursion",
+    "-Wunused:imports",   // Warn if an import selector is not referenced.
+    "-Wunused:patvars",   // Warn if a variable bound in a pattern is unused.
+    "-Wunused:privates",  // Warn if a private member is unused.
+    "-Wunused:locals",    // Warn if a local definition is unused.
+    "-Wunused:explicits", // Warn if an explicit parameter is unused.
+    "-Wunused:implicits", // Warn if an implicit parameter is unused.
+    "-Wunused:params",    // Enable -Wunused:explicits,implicits.
+    "-Wunused:linted",    // -Xlint:unused.
+    "-Wvalue-discard",    // Warn when non-Unit expression results are unused.
     // "-Woctal-literal",            // Warn on obsolete octal syntax.
     // "-Wunused:noWarn",            // Warn if a @nowarn annotation does not suppress any warnings.
     // "-Wmacros:<mode>",            // Enable lint warnings on macro expansions. Default: `before`, `help` to list choices.

@@ -5,7 +5,7 @@ val projectName        = "learning-fs2"
 val projectDescription = "Learning functional streaming using fs2"
 val projectVersion     = "0.1.0"
 
-val scala213 = "2.13.2"
+val scala213 = "2.13.8"
 
 inThisBuild(
   Seq(
@@ -14,7 +14,7 @@ inThisBuild(
     publish / skip := true,
     scalacOptions ++= defaultScalacOptions,
     semanticdbEnabled := true,
-    semanticdbVersion := "4.3.10", // scalafixSemanticdb.revision,
+    semanticdbVersion := scalafixSemanticdb.revision,
     scalafixDependencies ++= Seq("com.github.liancheng" %% "organize-imports" % "0.3.0"),
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
@@ -49,8 +49,8 @@ lazy val root = (project in file("."))
   .settings(
     name := "root",
     description := "root project",
-    Compile / console / scalacOptions := consoleScalacOptions,
-    sourceDirectories := Seq.empty
+    Compile / console / scalacOptions := consoleScalacOptions
+    // sourceDirectories := Seq.empty
   )
 
 lazy val core = (project in file("core"))
