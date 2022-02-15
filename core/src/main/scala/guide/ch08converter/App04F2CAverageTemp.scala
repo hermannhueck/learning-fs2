@@ -12,7 +12,7 @@ object App04F2CAverageTemp extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
+  val blocker                                     = Blocker.liftExecutionContext(blockingEC)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
 
@@ -26,11 +26,11 @@ object App04F2CAverageTemp extends hutil.IOApp {
       .through(text.lines)
       .filter(s => !s.trim.isEmpty && !s.startsWith("//"))
       .map(line => fahrenheitToCelsius(line.toDouble))
-      .fold((0.0: Double, 0L: Long)) {
-        case (accTemp -> accCount) -> temp => (accTemp + temp, accCount + 1)
+      .fold((0.0: Double, 0L: Long)) { case (accTemp -> accCount) -> temp =>
+        (accTemp + temp, accCount + 1)
       }
-      .map {
-        case temp -> count => if (count == 0L) None else Some(temp / count)
+      .map { case temp -> count =>
+        if (count == 0L) None else Some(temp / count)
       }
 
   def ioRun(args: List[String]): IO[ExitCode] = {

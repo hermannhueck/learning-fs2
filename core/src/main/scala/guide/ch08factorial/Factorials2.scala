@@ -10,7 +10,7 @@ object Factorials2 extends hutil.App {
 
   implicit val timer: Timer[IO] = IO.timer(ExecutionContext.global)
 
-  val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
+  val ints: Stream[IO, Int]          = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
     ints.scan(BigInt(1))((acc, next) => acc * next)
 

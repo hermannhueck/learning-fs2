@@ -14,31 +14,28 @@ object App02StreamIntersperseWithoutPull extends hutil.App {
   def intersperseImpl01[F[_], O](separator: O): Pipe[F, O, O] = { in: Stream[F, O] =>
     type State = O
     in.scanChunksOpt(separator) { sep: State =>
-        val function: Chunk[O] => (State, Chunk[O]) =
-          chunk => (sep, chunk.flatMap(o => Chunk(sep, o)))
-        Some(function)
-      }
-      .tail // remove leading separator
+      val function: Chunk[O] => (State, Chunk[O]) =
+        chunk => (sep, chunk.flatMap(o => Chunk(sep, o)))
+      Some(function)
+    }.tail // remove leading separator
   }
 
   def intersperseImpl02[F[_], O](separator: O): Pipe[F, O, O] = { in: Stream[F, O] =>
     type State = Unit // we don't really need a state for intersperse
     in.scanChunksOpt(()) { _: State =>
-        val function: Chunk[O] => (State, Chunk[O]) =
-          chunk => ((), chunk.flatMap(o => Chunk(separator, o)))
-        Some(function)
-      }
-      .tail // remove leading separator
+      val function: Chunk[O] => (State, Chunk[O]) =
+        chunk => ((), chunk.flatMap(o => Chunk(separator, o)))
+      Some(function)
+    }.tail // remove leading separator
   }
 
   def intersperseImpl03[F[_], O](separator: O): Pipe[F, O, O] = { in: Stream[F, O] =>
     type State = Unit // we don't really need a state for intersperse
     in.scanChunks(()) { // scanChunks is sufficient, as we scan all Chunks
-        val function: (State, Chunk[O]) => (State, Chunk[O]) =
-          (_, chunk) => ((), chunk.flatMap(o => Chunk(separator, o)))
-        function
-      }
-      .tail // remove leading separator
+      val function: (State, Chunk[O]) => (State, Chunk[O]) =
+        (_, chunk) => ((), chunk.flatMap(o => Chunk(separator, o)))
+      function
+    }.tail // remove leading separator
   }
 
   def intersperseImpl04[F[_], O](separator: O): Pipe[F, O, O] =

@@ -17,21 +17,21 @@ object App01Exercises extends hutil.App {
   def exEval_[F[_], O](fa: F[O]): Stream[F, INothing] = Stream.eval(fa) >> Stream.empty
 
   println("\n>>> repeat:")
-  val repeated: List[Int] = Stream(1, 0).repeat.take(6).toList
+  val repeated: List[Int]   = Stream(1, 0).repeat.take(6).toList
   println(repeated)
   val exRepeated: List[Int] = Stream(1, 0).repeatIt().take(6).toList
   println(exRepeated)
   assertEquals(repeated, exRepeated)
 
   println("\n>>> drain:")
-  val drained: List[INothing] = Stream(1, 2, 3).drain.toList
+  val drained: List[INothing]   = Stream(1, 2, 3).drain.toList
   println(drained)
   val exDrained: List[INothing] = Stream(1, 2, 3).drainIt().toList
   println(exDrained)
   assertEquals(exDrained, drained)
 
   println("\n>>> eval_:")
-  val evaluated: Vector[INothing] = Stream.eval_(IO(println("!!"))).compile.toVector.unsafeRunSync()
+  val evaluated: Vector[INothing]   = Stream.eval_(IO(println("!!"))).compile.toVector.unsafeRunSync()
   println(evaluated)
   val exEvaluated: Vector[INothing] = exEval_(IO(println("!!"))).compile.toVector.unsafeRunSync()
   println(exEvaluated)

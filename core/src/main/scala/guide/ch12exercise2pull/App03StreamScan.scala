@@ -16,12 +16,12 @@ object App03StreamScan extends hutil.App {
       val pull: Pull[F, INothing, Option[(Chunk[O], Stream[F, O])]] = stream.pull.uncons
 
       pull.flatMap {
-        case None => Pull.done
+        case None                          => Pull.done
         case Some((headChunk, tailStream)) =>
           def lastOf[E](chunk: Chunk[E]): E =
             chunk.drop(chunk.size - 1).head.get
-          val ch: Chunk[O2] = headChunk.scanLeft(z)(f)
-          val chTail        = if (count == 0) ch else ch.drop(1)
+          val ch: Chunk[O2]                 = headChunk.scanLeft(z)(f)
+          val chTail                        = if (count == 0) ch else ch.drop(1)
           Pull.output(chTail) >> go(tailStream, lastOf(ch), count + 1)
       }
     }

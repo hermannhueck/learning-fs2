@@ -9,7 +9,7 @@ object Factorials5 extends hutil.IOApp {
 
   val outputFile = "output/factorials-fs2.txt"
 
-  val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
+  val ints: Stream[IO, Int]          = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
     ints.scan(BigInt(1))((acc, next) => acc * next)
 

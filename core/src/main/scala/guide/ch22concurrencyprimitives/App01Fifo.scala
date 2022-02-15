@@ -15,7 +15,7 @@ class Buffering[F[_]](q1: Queue[F, Int], q2: Queue[F, Int])(implicit F: Concurre
       // dequeues from q1 and enques into q2
       q1.dequeue.through(q2.enqueue),
       // dequeues from q2 and performs side effect for each value dequeued
-      //.map won't work here as you're trying to map a pure value with a side effect. Use `evalMap` instead.
+      // .map won't work here as you're trying to map a pure value with a side effect. Use `evalMap` instead.
       q2.dequeue.evalMap(n => F.delay(println(s"Pulling out $n from Queue #2")))
     ).parJoin(3)
 }
@@ -24,10 +24,10 @@ object App01Fifo extends hutil.IOApp {
 
   @scala.annotation.nowarn("cat=w-flag-dead-code")
   val stream: Stream[IO, Unit] = for {
-    q1        <- Stream.eval(Queue.bounded[IO, Int](1))
-    q2        <- Stream.eval(Queue.bounded[IO, Int](100))
+    q1       <- Stream.eval(Queue.bounded[IO, Int](1))
+    q2       <- Stream.eval(Queue.bounded[IO, Int](100))
     buffering = new Buffering[IO](q1, q2)
-    _         <- Stream.sleep_[IO](5.seconds) concurrently buffering.start.drain
+    _        <- Stream.sleep_[IO](5.seconds) concurrently buffering.start.drain
   } yield ()
 
   override def ioRun(args: List[String]): IO[ExitCode] =

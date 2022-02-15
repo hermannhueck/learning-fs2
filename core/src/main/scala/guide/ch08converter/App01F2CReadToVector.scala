@@ -12,7 +12,7 @@ object App01F2CReadToVector extends hutil.App {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
+  val blocker                                     = Blocker.liftExecutionContext(blockingEC)
 
   implicit private val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 

@@ -13,12 +13,12 @@ object App02StreamTakeWithPull extends hutil.App {
 
     def go(s: Stream[F, O], toTake: Long): Pull[F, O, Unit] = {
       s.pull.uncons.flatMap {
-        case None => Pull.done
+        case None               => Pull.done
         case Some((head, tail)) =>
           head.size match {
             case size if size <= toTake =>
               Pull.output(head) >> go(tail, toTake - size)
-            case _ =>
+            case _                      =>
               Pull.output(head.take(toTake.toInt)) >> Pull.done
           }
       }

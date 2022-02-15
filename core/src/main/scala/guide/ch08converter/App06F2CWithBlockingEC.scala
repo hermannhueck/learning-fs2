@@ -6,7 +6,7 @@ import java.util.concurrent.Executors
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
 import cats.effect.{Blocker, ExitCode, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 /*
   Step-by-step explanation at:
@@ -18,7 +18,7 @@ object App06F2CWithBlockingEC extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
+  val blocker                                     = Blocker.liftExecutionContext(blockingEC)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
   private val output      = Paths.get("testdata/celsius.txt")

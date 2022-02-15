@@ -16,7 +16,7 @@ object App01StreamTakeWhile extends hutil.App {
       val pull: Pull[F, INothing, Option[(Chunk[O], Stream[F, O])]] = stream.pull.uncons
 
       pull.flatMap {
-        case None => Pull.done
+        case None                          => Pull.done
         case Some((headChunk, tailStream)) =>
           val vec: Vector[O] = headChunk.toVector.takeWhile(p)
           if (headChunk.size - vec.size > 0)

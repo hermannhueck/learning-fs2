@@ -35,7 +35,7 @@ object App05FStream extends hutil.App {
 
   println("\n>>> reify F with monix.eval.Task:")
   val taskEffect: Task[Vector[Int]] = effect[Task]
-  val taskResult
-      : Vector[Int] = taskEffect.runSyncUnsafe(3.seconds) // produces side effects (println) and returns the result
+  val taskResult: Vector[Int]       =
+    taskEffect.runSyncUnsafe(3.seconds) // produces side effects (println) and returns the result
   println(taskResult)
 }

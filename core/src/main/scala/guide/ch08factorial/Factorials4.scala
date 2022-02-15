@@ -11,7 +11,7 @@ object Factorials4 extends hutil.App {
 
   implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
 
-  val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
+  val ints: Stream[IO, Int]          = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
     ints.scan(BigInt(1))((acc, next) => acc * next)
 

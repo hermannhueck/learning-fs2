@@ -23,17 +23,17 @@ object App01RaisingAndCatchingErrors extends hutil.App {
   val res0 =
     try err0.compile.toList.unsafeRunSync()
     catch { case e: Exception => println(e) }
-  //=> java.lang.Exception: oh noes!
-  //res0: Any = ()
+  // => java.lang.Exception: oh noes!
+  // res0: Any = ()
 
   val res1 =
     try err1.toList
     catch { case e: Exception => println(e) }
-  //=> java.lang.Exception: !@#$
+  // => java.lang.Exception: !@#$
   // res1: Any = ()
 
   val res2: Unit =
     try err2.compile.drain.unsafeRunSync()
     catch { case e: Exception => println(e) }
-  //=> java.lang.Exception: error in effect!!!
+  // => java.lang.Exception: error in effect!!!
 }

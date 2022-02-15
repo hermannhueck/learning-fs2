@@ -3,7 +3,7 @@ package guide.ch08converter
 import java.nio.file.{Path, Paths}
 
 import cats.effect.{Blocker, ExitCode, IO}
-import fs2.{Stream, io, text}
+import fs2.{io, text, Stream}
 
 /*
   Step-by-step explanation at:

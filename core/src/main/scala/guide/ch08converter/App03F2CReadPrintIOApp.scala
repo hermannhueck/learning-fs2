@@ -12,7 +12,7 @@ object App03F2CReadPrintIOApp extends hutil.IOApp {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
+  val blocker                                     = Blocker.liftExecutionContext(blockingEC)
 
   private val input: Path = Paths.get("testdata/fahrenheit.txt")
 

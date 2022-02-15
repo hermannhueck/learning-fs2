@@ -13,7 +13,7 @@ object App01StreamTakeWhileWithoutPull extends hutil.App {
     type State = Boolean
     in.scanChunksOpt(true) {
       case false => None
-      case true =>
+      case true  =>
         val function: Chunk[O] => (State, Chunk[O]) = chunk => {
           val newChunk: Chunk[O] = Chunk.vector(chunk.toVector.takeWhile(predicate))
           (newChunk.size == chunk.size, newChunk)

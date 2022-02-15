@@ -42,8 +42,8 @@ object App02HandlingErrors extends hutil.App {
   //
   println("\n>>> errStream.recoverWith")
   errStream
-    .recoverWith {
-      case _: IllegalStateException => Stream.emit(-1)
+    .recoverWith { case _: IllegalStateException =>
+      Stream.emit(-1)
     }
     .compile
     .toList
@@ -54,8 +54,8 @@ object App02HandlingErrors extends hutil.App {
   //
   println("\n>>> errStream.recover")
   errStream
-    .recover {
-      case _: IllegalStateException => -1
+    .recover { case _: IllegalStateException =>
+      -1
     }
     .compile
     .toList

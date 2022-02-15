@@ -11,7 +11,7 @@ object App03MapChunks extends hutil.App {
   println(source.toList)
 
   val mapped = source.mapChunks { chunk: Chunk[Double] =>
-    val doubles: Chunk.Doubles = chunk.toDoubles
+    val doubles: Chunk.Doubles     = chunk.toDoubles
     /* do things unboxed (directly on the Array[Double] using doubles.{values,size} */
     val values: Array[Double]      = doubles.values
     def square(x: Double): Double  = x * x

@@ -5,7 +5,7 @@ import fs2.Stream
 
 object Factorials1 extends hutil.App {
 
-  val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
+  val ints: Stream[IO, Int]          = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
     ints.scan(BigInt(1))((acc, next) => acc * next)
 

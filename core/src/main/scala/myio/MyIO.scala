@@ -135,16 +135,16 @@ sealed trait MyIO[+A] extends Product with Serializable {
 
 object MyIO {
 
-  private case class Pure[A](thunk: () => A) extends MyIO[A] {
+  private case class Pure[A](thunk: () => A)                      extends MyIO[A]         {
     override def run(): A = thunk()
   }
-  private case class Eval[A](thunk: () => A) extends MyIO[A] {
+  private case class Eval[A](thunk: () => A)                      extends MyIO[A]         {
     override def run(): A = thunk()
   }
-  private case class Error[A](exception: Throwable) extends MyIO[A] {
+  private case class Error[A](exception: Throwable)               extends MyIO[A]         {
     override def run(): A = throw exception // scalafix:ok DisableSyntax.throw
   }
-  private case class Failed[A](io: MyIO[A]) extends MyIO[Throwable] {
+  private case class Failed[A](io: MyIO[A])                       extends MyIO[Throwable] {
     override def run(): Throwable =
       try {
         io.run()
@@ -154,13 +154,13 @@ object MyIO {
         case throwable: Throwable                                      => throwable
       }
   }
-  private case class Suspend[A](thunk: () => MyIO[A]) extends MyIO[A] {
+  private case class Suspend[A](thunk: () => MyIO[A])             extends MyIO[A]         {
     override def run(): A = thunk().run()
   }
-  private case class FlatMap[A, B](src: MyIO[A], f: A => MyIO[B]) extends MyIO[B] {
+  private case class FlatMap[A, B](src: MyIO[A], f: A => MyIO[B]) extends MyIO[B]         {
     override def run(): B = f(src.run()).run()
   }
-  private case class FromFuture[A](fa: Future[A]) extends MyIO[A] {
+  private case class FromFuture[A](fa: Future[A])                 extends MyIO[A]         {
     override def run(): A = Await.result(fa, Duration.Inf) // BLOCKING!!!
     // A solution of this problem would require a redesign of this simple IO Monod, which doesn't really support async computations.
   }

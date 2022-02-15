@@ -28,19 +28,19 @@ object App01EffectfulStreams extends hutil.App {
   // rc: cats.effect.IO[Int] = <function1>
 
   val res1 = io1.unsafeRunSync()
-  //=> TASK BEING RUN!!
+  // => TASK BEING RUN!!
   // res1: Vector[Int] = Vector(2)
   println(res1)
 
   println()
   val res2: Unit = io2.unsafeRunSync()
-  //=> TASK BEING RUN!!
+  // => TASK BEING RUN!!
   // res2: Unit = ()
   println(res2)
 
   println()
   val res3a = io3.unsafeRunSync()
-  //=> TASK BEING RUN!!
+  // => TASK BEING RUN!!
   // res3a: Int = 2
   println(res3a)
 
@@ -48,7 +48,7 @@ object App01EffectfulStreams extends hutil.App {
   println("// No memoization!")
   println("// The 2nd run produces the side effect and the result again.")
   val res3b = io3.unsafeRunSync()
-  //=> TASK BEING RUN!!
+  // => TASK BEING RUN!!
   // res3b: Int = 2
   println(res3b)
 }

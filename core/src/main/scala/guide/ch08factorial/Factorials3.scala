@@ -12,12 +12,12 @@ object Factorials3 extends hutil.App {
 
   val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker = Blocker.liftExecutionContext(blockingEC)
+  val blocker                                     = Blocker.liftExecutionContext(blockingEC)
 
   val ec: ExecutionContext          = ExecutionContext.global
   implicit val cs: ContextShift[IO] = IO.contextShift(ec)
 
-  val ints: Stream[IO, Int] = Stream.range(1, 31).covary[IO]
+  val ints: Stream[IO, Int]          = Stream.range(1, 31).covary[IO]
   val factorials: Stream[IO, BigInt] =
     ints.scan(BigInt(1))((acc, next) => acc * next)
 

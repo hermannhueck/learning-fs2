@@ -11,8 +11,8 @@ sealed trait Event
 case class Text(value: String) extends Event
 case object Quit               extends Event
 
-class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRef[F, Boolean])(
-    implicit F: Concurrent[F],
+class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRef[F, Boolean])(implicit
+    F: Concurrent[F],
     timer: Timer[F]
 ) {
 
@@ -45,7 +45,7 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
         eventStream.flatMap {
           case e @ Text(_) =>
             Stream.eval(F.delay(println(s"Subscriber #$subscriberNumber processing event: $e")))
-          case Quit =>
+          case Quit        =>
             Stream.eval(interrupter.set(true))
         }
 
@@ -63,10 +63,10 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
 object App02PubSub extends hutil.IOApp {
 
   val program: Stream[IO, Unit] = for {
-    topic   <- Stream.eval(Topic[IO, Event](Text("Initial Event")))
-    signal  <- Stream.eval(SignallingRef[IO, Boolean](false))
+    topic  <- Stream.eval(Topic[IO, Event](Text("Initial Event")))
+    signal <- Stream.eval(SignallingRef[IO, Boolean](false))
     service = new EventService[IO](topic, signal)
-    _       <- service.startPublisher concurrently service.startSubscribers
+    _      <- service.startPublisher concurrently service.startSubscribers
   } yield ()
 
   override def ioRun(args: List[String]): IO[ExitCode] =

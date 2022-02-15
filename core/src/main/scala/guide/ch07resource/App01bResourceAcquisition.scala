@@ -30,9 +30,9 @@ object App01bResourceAcquisition extends hutil.App {
   Try(
     io.unsafeRunSync()
   ).fold(_.toString, _.toString) pipe println
-  //=> incremented: 1
-  //=> decremented: 0
-  //=> java.lang.Exception: oh noes!
+  // => incremented: 1
+  // => decremented: 0
+  // => java.lang.Exception: oh noes!
 
   // The inner stream fails, but notice the release action is still run:
 

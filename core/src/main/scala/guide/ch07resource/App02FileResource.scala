@@ -12,8 +12,8 @@ object App02FileResource extends hutil.App {
 
   implicit val blockingEC: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newCachedThreadPool)
-  val blocker                       = Blocker.liftExecutionContext(blockingEC)
-  implicit val cs: ContextShift[IO] = IO.contextShift(ExecutionContext.global)
+  val blocker                                              = Blocker.liftExecutionContext(blockingEC)
+  implicit val cs: ContextShift[IO]                        = IO.contextShift(ExecutionContext.global)
 
   val acquire: IO[InputStream] = IO {
     println("========>>>>> opening file ...")
@@ -27,10 +27,10 @@ object App02FileResource extends hutil.App {
     }
 
   val readerStream: Stream[IO, InputStream] = Stream.bracket(acquire)(release)
-  val byteStream: Stream[IO, Byte] = readerStream.flatMap { in: InputStream =>
+  val byteStream: Stream[IO, Byte]          = readerStream.flatMap { in: InputStream =>
     fs2.io.readInputStream(IO(in), 64, blocker)
   }
-  val linesStream: Stream[IO, String] =
+  val linesStream: Stream[IO, String]       =
     byteStream
       .through(text.utf8Decode)
       .through(text.lines) // ++ Stream.eval[IO, Byte](IO(throw new RuntimeException("byte stream error")))
