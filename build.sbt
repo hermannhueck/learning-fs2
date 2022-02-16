@@ -1,16 +1,14 @@
+import Versions._
 import Dependencies._
 import ScalacOptions._
 
 val projectName        = "learning-fs2"
 val projectDescription = "Learning functional streaming using fs2"
-val projectVersion     = "0.1.0"
-
-val scala213 = "2.13.8"
 
 inThisBuild(
   Seq(
     version                  := projectVersion,
-    scalaVersion             := scala213,
+    scalaVersion             := scala2Version,
     publish / skip           := true,
     scalacOptions ++= defaultScalacOptions,
     semanticdbEnabled        := true,

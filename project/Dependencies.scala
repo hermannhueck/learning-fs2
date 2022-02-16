@@ -2,12 +2,7 @@ import sbt._
 
 object Dependencies {
 
-  lazy val collectionCompatVersion = "2.1.6"
-  lazy val shapelessVersion        = "2.3.8"
-  lazy val fs2Version              = "2.5.10"
-  lazy val monixVersion            = "3.2.2"
-  lazy val munitVersion            = "0.7.29"
-  lazy val scalaCheckVersion       = "1.15.4"
+  import Versions._
 
   lazy val collectionCompat   = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatVersion
   lazy val shapeless          = "com.chuusai"            %% "shapeless"               % shapelessVersion
@@ -22,7 +17,7 @@ object Dependencies {
   lazy val betterMonadicForVersion = "0.3.1"
 
   // https://github.com/typelevel/kind-projector
-  lazy val kindProjectorPlugin = compilerPlugin(
+  lazy val kindProjectorPlugin    = compilerPlugin(
     compilerPlugin("org.typelevel" % "kind-projector" % kindProjectorVersion cross CrossVersion.full)
   )
   // https://github.com/oleg-py/better-monadic-for
