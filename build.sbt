@@ -32,33 +32,12 @@ inThisBuild(
 
 lazy val root = (project in file("."))
   .aggregate(coreCE2)
+  .aggregate(coreCE3)
   .settings(
     name                              := "root",
     description                       := "root project",
     Compile / console / scalacOptions := consoleScalacOptions
     // sourceDirectories := Seq.empty
-  )
-
-lazy val coreCE2 = (project in file("coreCE2"))
-  .dependsOn(hutil)
-  .settings(
-    name                              := projectName,
-    description                       := projectDescription,
-    Compile / console / scalacOptions := consoleScalacOptions,
-    libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
-      shapeless,
-      fs2withCE2Core,
-      fs2withCE2Io,
-      fs2withCE2ReactiveStreams,
-      monixEval,
-      munit,
-      kindProjectorPlugin,
-      betterMonadicForPlugin
-    ) ++ Seq(
-      scalaCheck
-    ).map(_            % Test)
   )
 
 lazy val hutil = (project in file("hutil"))
@@ -72,6 +51,49 @@ lazy val hutil = (project in file("hutil"))
       kindProjectorPlugin,
       betterMonadicForPlugin
     )
+  )
+
+lazy val coreCE2 = (project in file("coreCE2"))
+  .dependsOn(hutil)
+  .settings(
+    name                              := projectName,
+    description                       := projectDescription,
+    Compile / console / scalacOptions := consoleScalacOptions,
+    libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
+      shapeless,
+      fs2WithCE2Core,
+      fs2WithCE2Io,
+      fs2WithCE2ReactiveStreams,
+      monixWithCE2Eval,
+      munit,
+      kindProjectorPlugin,
+      betterMonadicForPlugin
+    ) ++ Seq(
+      scalaCheck
+    ).map(_            % Test)
+  )
+
+lazy val coreCE3 = (project in file("coreCE3"))
+  .dependsOn(hutil)
+  .settings(
+    name                              := projectName,
+    description                       := projectDescription,
+    Compile / console / scalacOptions := consoleScalacOptions,
+    libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
+      shapeless,
+      fs2WithCE3Core,
+      fs2WithCE3Io,
+      fs2WithCE3ReactiveStreams,
+      munit,
+      kindProjectorPlugin,
+      betterMonadicForPlugin
+    ) ++ Seq(
+      scalaCheck
+    ).map(_            % Test)
   )
 
 // GraphBuddy support
