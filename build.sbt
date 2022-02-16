@@ -9,29 +9,17 @@ val scala213 = "2.13.8"
 
 inThisBuild(
   Seq(
-    version := projectVersion,
-    scalaVersion := scala213,
-    publish / skip := true,
+    version                  := projectVersion,
+    scalaVersion             := scala213,
+    publish / skip           := true,
     scalacOptions ++= defaultScalacOptions,
-    semanticdbEnabled := true,
-    semanticdbVersion := scalafixSemanticdb.revision,
+    semanticdbEnabled        := true,
+    semanticdbVersion        := scalafixSemanticdb.revision,
     scalafixDependencies ++= Seq("com.github.liancheng" %% "organize-imports" % "0.3.0"),
-    libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
-      shapeless,
-      fs2Core,
-      munit,
-      kindProjectorPlugin,
-      betterMonadicForPlugin
-    ) ++ Seq(
-      scalaCheck
-    ).map(_ % Test),
     Test / parallelExecution := false,
     // run 100 tests for each property // -s = -minSuccessfulTests
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaCheck, "-s", "100"),
-    testFrameworks += new TestFramework("munit.Framework"),
-    initialCommands :=
+    initialCommands          :=
       s"""|
           |import scala.util.chaining._
           |import fs2._, cats.effect._, cats.effect.implicits._, cats.implicits._
@@ -47,8 +35,8 @@ inThisBuild(
 lazy val root = (project in file("."))
   .aggregate(core)
   .settings(
-    name := "root",
-    description := "root project",
+    name                              := "root",
+    description                       := "root project",
     Compile / console / scalacOptions := consoleScalacOptions
     // sourceDirectories := Seq.empty
   )
@@ -56,21 +44,36 @@ lazy val root = (project in file("."))
 lazy val core = (project in file("core"))
   .dependsOn(hutil)
   .settings(
-    name := projectName,
-    description := projectDescription,
+    name                              := projectName,
+    description                       := projectDescription,
     Compile / console / scalacOptions := consoleScalacOptions,
     libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
+      shapeless,
+      fs2Core,
+      munit,
       fs2Io,
       fs2ReactiveStreams,
-      monixEval
-    )
+      monixEval,
+      kindProjectorPlugin,
+      betterMonadicForPlugin
+    ) ++ Seq(
+      scalaCheck
+    ).map(_            % Test)
   )
 
 lazy val hutil = (project in file("hutil"))
   .settings(
-    name := "hutil",
-    description := "Hermann's Utilities",
-    Compile / console / scalacOptions := consoleScalacOptions
+    name                              := "hutil",
+    description                       := "Hermann's Utilities",
+    Compile / console / scalacOptions := consoleScalacOptions,
+    libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
+      kindProjectorPlugin,
+      betterMonadicForPlugin
+    )
   )
 
 // GraphBuddy support
