@@ -5,6 +5,11 @@ import ScalacOptions._
 val projectName        = "learning-fs2"
 val projectDescription = "Learning functional streaming using fs2"
 
+ThisBuild / fork                   := true
+ThisBuild / turbo                  := true // default: false
+ThisBuild / includePluginResolvers := true // default: false
+Global / onChangedBuildSource      := ReloadOnSourceChanges
+
 inThisBuild(
   Seq(
     version                  := projectVersion,
