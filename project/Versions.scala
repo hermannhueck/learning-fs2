@@ -9,7 +9,7 @@ object Versions {
   // 3rd party libraries
   val collectionCompatVersion = "2.1.6"
   val shapelessVersion        = "2.3.8"
-  val fs2Version              = "2.5.10"
+  val fs2WithCE2Version       = "2.5.10"
   val monixVersion            = "3.2.2"
   val munitVersion            = "0.7.29"
   val scalaCheckVersion       = "1.15.4"

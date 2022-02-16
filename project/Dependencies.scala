@@ -4,14 +4,14 @@ object Dependencies {
 
   import Versions._
 
-  lazy val collectionCompat   = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatVersion
-  lazy val shapeless          = "com.chuusai"            %% "shapeless"               % shapelessVersion
-  lazy val fs2Core            = "co.fs2"                 %% "fs2-core"                % fs2Version
-  lazy val fs2Io              = "co.fs2"                 %% "fs2-io"                  % fs2Version
-  lazy val fs2ReactiveStreams = "co.fs2"                 %% "fs2-reactive-streams"    % fs2Version
-  lazy val monixEval          = "io.monix"               %% "monix-eval"              % monixVersion
-  lazy val munit              = "org.scalameta"          %% "munit"                   % munitVersion
-  lazy val scalaCheck         = "org.scalacheck"         %% "scalacheck"              % scalaCheckVersion
+  lazy val collectionCompat          = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatVersion
+  lazy val shapeless                 = "com.chuusai"            %% "shapeless"               % shapelessVersion
+  lazy val fs2withCE2Core            = "co.fs2"                 %% "fs2-core"                % fs2WithCE2Version
+  lazy val fs2withCE2Io              = "co.fs2"                 %% "fs2-io"                  % fs2WithCE2Version
+  lazy val fs2withCE2ReactiveStreams = "co.fs2"                 %% "fs2-reactive-streams"    % fs2WithCE2Version
+  lazy val monixEval                 = "io.monix"               %% "monix-eval"              % monixVersion
+  lazy val munit                     = "org.scalameta"          %% "munit"                   % munitVersion
+  lazy val scalaCheck                = "org.scalacheck"         %% "scalacheck"              % scalaCheckVersion
 
   lazy val kindProjectorVersion    = "0.13.2"
   lazy val betterMonadicForVersion = "0.3.1"

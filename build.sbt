@@ -31,7 +31,7 @@ inThisBuild(
 )
 
 lazy val root = (project in file("."))
-  .aggregate(core)
+  .aggregate(coreCE2)
   .settings(
     name                              := "root",
     description                       := "root project",
@@ -39,7 +39,7 @@ lazy val root = (project in file("."))
     // sourceDirectories := Seq.empty
   )
 
-lazy val core = (project in file("core"))
+lazy val coreCE2 = (project in file("coreCE2"))
   .dependsOn(hutil)
   .settings(
     name                              := projectName,
@@ -49,11 +49,11 @@ lazy val core = (project in file("core"))
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect"  % scalaVersion.value,
       shapeless,
-      fs2Core,
-      munit,
-      fs2Io,
-      fs2ReactiveStreams,
+      fs2withCE2Core,
+      fs2withCE2Io,
+      fs2withCE2ReactiveStreams,
       monixEval,
+      munit,
       kindProjectorPlugin,
       betterMonadicForPlugin
     ) ++ Seq(
