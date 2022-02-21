@@ -10,7 +10,7 @@ object Versions {
   val collectionCompatVersion = "2.1.6"
   val shapelessVersion        = "2.3.8"
   val fs2WithCE2Version       = "2.5.10"
-  val fs2WithCE3Version       = "3.2.4"
+  val fs2WithCE3Version       = "3.2.5"
   val monixWithCE2Version     = "3.4.0"
   val monixWithCE3Version     = "not-yet-released"
   val munitVersion            = "0.7.29"
