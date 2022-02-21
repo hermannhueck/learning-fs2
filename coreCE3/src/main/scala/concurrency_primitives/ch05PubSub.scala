@@ -3,11 +3,12 @@
 package concurrency_primitives
 
 import scala.concurrent.duration._
-import cats.effect.{Clock, IO, IOApp, Temporal}
+
 import cats.effect.std.Console
+import cats.effect.{Clock, IO, IOApp, Temporal}
 import cats.syntax.all._
-import fs2.{INothing, Pipe, Stream}
 import fs2.concurrent.{SignallingRef, Topic}
+import fs2.{Pipe, Stream}
 
 sealed trait Event
 case class Text(value: String) extends Event
@@ -34,7 +35,7 @@ class EventService[F[_]](eventsTopic: Topic[F, Event], interrupter: SignallingRe
 
   // Creating 3 subscribers in a different period of time and join them to run concurrently
   def startSubscribers: Stream[F, Unit] = {
-    def processEvent(subscriberNumber: Int): Pipe[F, Event, INothing] =
+    def processEvent(subscriberNumber: Int): Pipe[F, Event, Nothing] =
       _.foreach {
         case e @ Text(_) =>
           console.println(s"Subscriber #$subscriberNumber processing event: $e")

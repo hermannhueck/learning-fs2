@@ -2,11 +2,11 @@
 
 package concurrency_primitives
 
-import cats.effect.{Concurrent, IO, IOApp}
-import cats.effect.std.{Console, Queue}
-import fs2.Stream
-
 import scala.concurrent.duration._
+
+import cats.effect.std.{Console, Queue}
+import cats.effect.{Concurrent, IO, IOApp}
+import fs2.Stream
 
 class Buffering[F[_]: Concurrent: Console](q1: Queue[F, Int], q2: Queue[F, Int]) {
 

@@ -2,12 +2,12 @@
 
 package concurrency_primitives
 
-import cats.effect.{IO, IOApp, Temporal}
+import scala.concurrent.duration._
+
 import cats.effect.std.Semaphore
+import cats.effect.{IO, IOApp, Temporal}
 import cats.syntax.all._
 import fs2.Stream
-
-import scala.concurrent.duration._
 
 class PreciousResource[F[_]: Temporal](name: String, s: Semaphore[F]) {
 
