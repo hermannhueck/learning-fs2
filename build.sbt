@@ -91,6 +91,7 @@ lazy val coreCE3 = (project in file("coreCE3"))
       fs2WithCE3Core,
       fs2WithCE3Io,
       fs2WithCE3ReactiveStreams,
+      ip4s,
       munit,
       kindProjectorPlugin,
       betterMonadicForPlugin

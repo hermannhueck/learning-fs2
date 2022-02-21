@@ -13,6 +13,7 @@ object Versions {
   val fs2WithCE3Version       = "3.2.5"
   val monixWithCE2Version     = "3.4.0"
   val monixWithCE3Version     = "not-yet-released"
+  val ip4sVersion             = "3.1.2"
   val munitVersion            = "0.7.29"
   val scalaCheckVersion       = "1.15.4"
 
