@@ -16,6 +16,7 @@ object ScalacOptions {
     "-Xcheckinit",                               // wrap field accessors to throw an exception on uninitialized access
     // "-Xlint",                                    // enable handy linter warnings
     "-Wconf:any:warning-verbose",                // Configure reporting of compiler warnings; use `help` for details.
+    "-Wconf:cat=deprecation&msg=any2stringadd:ws",
     // "-Werror",                                   // Fail the compilation if there are any warnings. // previously: -Xfatal-warnings
     "-Wdead-code",                               // Warn when dead code is identified.
     "-Wextra-implicit",                          // Warn when more than one implicit parameter section is defined.
