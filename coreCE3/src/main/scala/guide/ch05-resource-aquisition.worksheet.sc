@@ -1,4 +1,4 @@
-// see: https://fs2.io/#/guide - Error Handling
+// see: https://fs2.io/#/guide - Resource Aquisition
 
 import fs2.Stream
 import cats.effect.IO

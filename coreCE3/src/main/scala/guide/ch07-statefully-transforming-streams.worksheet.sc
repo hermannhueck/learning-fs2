@@ -1,9 +1,6 @@
-// see: https://fs2.io/#/guide - Error Handling
+// see: https://fs2.io/#/guide - Statefully Transforming Streams
 
 import fs2._
-// import cats.effect.IO
-// import cats.effect.unsafe.implicits.global
-// import munit.Assertions._
 
 //----- using Stream#scanChunksOpt(n: Long)
 
