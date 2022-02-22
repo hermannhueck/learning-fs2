@@ -12,6 +12,7 @@ object Dependencies {
   lazy val fs2WithCE3Core            = "co.fs2"                 %% "fs2-core"                % fs2WithCE3Version
   lazy val fs2WithCE3Io              = "co.fs2"                 %% "fs2-io"                  % fs2WithCE3Version
   lazy val fs2WithCE3ReactiveStreams = "co.fs2"                 %% "fs2-reactive-streams"    % fs2WithCE3Version
+  lazy val fs2WithCE3Scodec          = "co.fs2"                 %% "fs2-scodec"              % fs2WithCE3Version
   lazy val monixWithCE2Eval          = "io.monix"               %% "monix-eval"              % monixWithCE2Version
   lazy val monixWithCE3Eval          = "io.monix"               %% "monix-eval"              % monixWithCE3Version
   lazy val ip4s                      = "com.comcast"            %% "ip4s-core"               % ip4sVersion
