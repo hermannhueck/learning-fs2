@@ -61,19 +61,29 @@ trait CSVHandle {
 
 def rows[F[_]](h: CSVHandle)(implicit F: Async[F]): Stream[F, Row] = {
   for {
-    dispatcher <- Stream.resource(Dispatcher[F])
-    q          <- Stream.eval(Queue.unbounded[F, Option[RowOrError]])
-    _          <- Stream.eval {
-                    F.delay {
-                      def enqueue(v: Option[RowOrError]): Unit = dispatcher.unsafeRunAndForget(q.offer(v))
+    dispatcher: Dispatcher[F]       <- Stream.resource(Dispatcher[F])
+    q: Queue[F, Option[RowOrError]] <- Stream.eval(Queue.unbounded[F, Option[RowOrError]])
+    _: F[Option[Unit]]              <- Stream.eval {
+                                         F.delay {
+                                           def enqueue(v: Option[RowOrError]): Unit = dispatcher.unsafeRunAndForget(q.offer(v))
 
-                      // Fill the data - withRows blocks while reading the file, asynchronously invoking the callback we pass to it on every row
-                      h.withRows(e => enqueue(Some(e)))
-                      // Upon returning from withRows, signal that our stream has ended.
-                      enqueue(None)
-                    }
-                  }
+                                           // Fill the data - withRows blocks while reading the file, asynchronously invoking the callback we pass to it on every row
+                                           h.withRows(e => enqueue(Some(e)))
+                                           // Upon returning from withRows, signal that our stream has ended.
+                                           enqueue(None)
+                                         }
+                                       }
     // Due to `fromQueueNoneTerminated`, the stream will terminate when it encounters a `None` value
-    row        <- Stream.fromQueueNoneTerminated(q).rethrow
+    row: F[Row]                     <- Stream.fromQueueNoneTerminated(q).rethrow
   } yield row
 }
+
+val handle = new CSVHandle {
+  def withRows(cb: RowOrError => Unit): Unit = {
+    Thread.sleep(200)
+    cb(Right(List("a", "b", "c")))
+    cb(Left(new Exception("boom")))
+  }
+}
+
+rows(handle).compile.toVector.unsafeRunSync()

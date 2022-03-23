@@ -1,4 +1,4 @@
-// see: https://fs2.io/#/guide - single Publisher, Multiple Subscribers
+// see: https://fs2.io/#/concurrency-primitives - single Publisher, Multiple Subscribers
 
 package concurrency_primitives
 
@@ -61,7 +61,7 @@ object PubSub extends IOApp.Simple {
     topic  <- Stream.eval(Topic[IO, Event])
     signal <- Stream.eval(SignallingRef[IO, Boolean](false))
     service = new EventService[IO](topic, signal)
-    _      <- service.startPublisher.concurrently(service.startSubscribers)
+    _      <- service.startPublisher concurrently service.startSubscribers
   } yield ()
 
   def run: IO[Unit] = program.compile.drain

@@ -1,4 +1,4 @@
-// see: https://fs2.io/#/guide - Shared Resopurce
+// see: https://fs2.io/#/concurrency-primitives - Shared Resopurce
 
 package concurrency_primitives
 
@@ -15,10 +15,11 @@ class PreciousResource[F[_]: Temporal](name: String, s: Semaphore[F]) {
     for {
       _ <- Stream.eval(s.available.map(a => println(s"$name >> Availability: $a")))
       _ <- Stream.eval(s.acquire)
-      _ <- Stream.eval(s.available.map(a => println(s"$name >> Started | Availability: $a")))
-      _ <- Stream.sleep(3.seconds)
+      _ <- Stream.eval(s.available.map(a => println(s"$name >> Resource acquired | Availability: $a")))
+      _ <- Stream.sleep(5.seconds)
+      _ <- Stream.eval(s.available.map(a => println(s"$name >> Releasing resource ... | Availability: $a")))
       _ <- Stream.eval(s.release)
-      _ <- Stream.eval(s.available.map(a => println(s"$name >> Done | Availability: $a")))
+      _ <- Stream.eval(s.available.map(a => println(s"$name >> Done (Resource released) | Availability: $a")))
     } yield ()
   }
 }

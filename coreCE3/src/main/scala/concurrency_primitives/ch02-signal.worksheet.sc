@@ -1,4 +1,4 @@
-// see: https://fs2.io/#/guide - Signal
+// see: https://fs2.io/#/concurrency-primitives - Signal
 
 import cats.effect._
 import cats.effect.unsafe.implicits.global

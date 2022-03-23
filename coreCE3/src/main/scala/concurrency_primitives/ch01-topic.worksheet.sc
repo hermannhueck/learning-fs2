@@ -1,4 +1,4 @@
-// see: https://fs2.io/#/guide - Topic
+// see: https://fs2.io/#/concurrency-primitives - Topic
 
 import cats.effect._
 import cats.effect.unsafe.implicits.global
